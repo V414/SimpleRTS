@@ -1,5 +1,8 @@
 package com.dinasgames.objects;
 
+import java.awt.Color;
+import java.awt.Shape;
+
 public class GameObject{
   
   protected float mX;
@@ -7,13 +10,45 @@ public class GameObject{
   protected int objectWidth;
   protected int objectHeight;
   protected int id;
+  protected int team;
+  protected float angle;
+  protected String objectType;
+  protected Shape[] drawShapes;
+  protected Color[] drawShapeColor;
+  protected String[] drawShapeType;
+  protected float cameraX;
+  protected float cameraY;
   
   public GameObject(){
     
   }
   
+  public void onTick(float cameraX, float cameraY){
+    this.cameraX = cameraX;
+    this.cameraY = cameraY;
+  }
   
   //Getters
+  
+  public int getTeam(){
+    return team;
+  }
+  
+  public Color[] getDrawShapeColor(){
+    return drawShapeColor;
+  }
+  
+  public String[] getDrawShapeType(){
+    return drawShapeType;
+  }
+  
+  public Shape[] getDrawShapes(){
+    return drawShapes;
+  }
+  
+  public float getAngle(){
+    return angle;
+  }
   
   public int getID(){
     return id;
@@ -45,6 +80,10 @@ public class GameObject{
   
   
   //Setters
+  
+  public void setAngle(float angle){
+    this.angle = angle;
+  }
   
   public void setID(int id){
     this.id = id;
