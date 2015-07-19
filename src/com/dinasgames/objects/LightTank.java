@@ -16,11 +16,12 @@ public class LightTank extends Vehicle{
     objectType = "Rifleman";
     healthMax = 100;
     healthNow = 100;
+    velocity = 6;
     createDrawShapes();
   }
   
   @Override
-  public void onTick(float cameraX, float cameraY){
+  public void onTick(double delta, float cameraX, float cameraY){
     this.cameraX = cameraX;
     this.cameraY = cameraY;
     

@@ -18,6 +18,7 @@ import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import javax.swing.SwingUtilities;
 
 public class Game extends JPanel{
   
@@ -56,9 +57,11 @@ public class Game extends JPanel{
 
       @Override
       public void mouseDragged(MouseEvent e) {
-        if(selectingUsingRectangle == true){
-          rectEndX = e.getX();
-          rectEndY = e.getY();
+        if(SwingUtilities.isLeftMouseButton(e)){
+          if(selectingUsingRectangle == true){
+            rectEndX = e.getX();
+            rectEndY = e.getY();
+          }
         }
       }
 
@@ -72,34 +75,40 @@ public class Game extends JPanel{
 
       @Override
       public void mouseClicked(MouseEvent e) {
-        synchronized (objects){
-        for (GameObject gameObject : objects) {
-          Unit unit = (Unit) gameObject;
-          unit.setIsSelected(false);
-          if((e.getX() > unit.getX()-cameraX && 
-                  e.getX() < unit.getX()-cameraX+unit.getObjectWidth()) &&
-              (e.getY() > unit.getY()-cameraY && 
-                  e.getY() < unit.getY()-cameraY+unit.getObjectHeight())){
-            
-            unit.setIsSelected(true);
+        if(SwingUtilities.isLeftMouseButton(e)){
+          synchronized (objects){
+          for (GameObject gameObject : objects) {
+            Unit unit = (Unit) gameObject;
+            unit.setIsSelected(false);
+            if((e.getX() > unit.getX()-cameraX && 
+                    e.getX() < unit.getX()-cameraX+unit.getObjectWidth()) &&
+                (e.getY() > unit.getY()-cameraY && 
+                    e.getY() < unit.getY()-cameraY+unit.getObjectHeight())){
+
+              unit.setIsSelected(true);
+            }
           }
-        }
+          }
         }
       }
 
       @Override
       public void mousePressed(MouseEvent e) {
-        selectingUsingRectangle = true;
-        rectStartX = e.getX();
-        rectStartY = e.getY();
-        rectEndX = e.getX();
-        rectEndY = e.getY();
+        if(SwingUtilities.isLeftMouseButton(e)){
+          selectingUsingRectangle = true;
+          rectStartX = e.getX();
+          rectStartY = e.getY();
+          rectEndX = e.getX();
+          rectEndY = e.getY();
+        }
       }
 
       @Override
       public void mouseReleased(MouseEvent e) {
-        selectingUsingRectangle = false;
-        isInSelectionRectangle();
+        if(SwingUtilities.isLeftMouseButton(e)){
+          selectingUsingRectangle = false;
+          isInSelectionRectangle();
+        }
       }
 
       @Override
@@ -147,7 +156,7 @@ public class Game extends JPanel{
       unit.setIsSelected(false);
 
       Rectangle unitRect = new Rectangle();
-      unitRect.setBounds((int) unit.getX(), (int) unit.getY(), 
+      unitRect.setBounds((int) unit.getX()-cameraX, (int) unit.getY()-cameraY, 
               unit.getObjectWidth(), unit.getObjectHeight());
 
       if(selectionRect.intersects(unitRect)){
@@ -165,7 +174,7 @@ public class Game extends JPanel{
     
     synchronized (objects){
       for (GameObject gameObject : objects) {
-        gameObject.onTick(cameraX, cameraY);
+        gameObject.onTick(delta, cameraX, cameraY);
       }
     }
     

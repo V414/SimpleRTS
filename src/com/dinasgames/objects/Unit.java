@@ -7,15 +7,33 @@ public class Unit extends GameObject{
   
   protected int healthMax;
   protected int healthNow;
-  
   protected int ammoMax;
   protected int ammoNow;
+  protected float velocity;
+  
   
   protected boolean isSelected;
   protected DrawShapes[] unitStatusBars;
   
   public Unit(){
     
+  }
+  
+  private void moveToDestination(double delta, float targetX, float targetY){
+    double a = targetX - getOriginX();
+    double b = targetY - getOriginY();
+
+    angle = Math.round(Math.toDegrees(Math.atan2(b, a)));
+
+    if(angle < 0){
+      angle += 360;
+    }
+
+    float nX = mX + (Math.round((velocity*delta) * Math.cos(Math.toRadians(angle))));
+    float nY = mY + (Math.round((velocity*delta) * Math.sin(Math.toRadians(angle))));
+
+    mX = nX;
+    mY = nY;
   }
   
   protected void drawUnitStatusBars(){
