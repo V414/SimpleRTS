@@ -10,7 +10,8 @@ public class Unit extends GameObject{
   protected int ammoMax;
   protected int ammoNow;
   protected float velocity;
-  
+  protected float targetX;
+  protected float targetY;
   
   protected boolean isSelected;
   protected DrawShapes[] unitStatusBars;
@@ -19,7 +20,8 @@ public class Unit extends GameObject{
     
   }
   
-  private void moveToDestination(double delta, float targetX, float targetY){
+  protected void moveToDestination(){
+    if(isAtDestination() == false){
     double a = targetX - getOriginX();
     double b = targetY - getOriginY();
 
@@ -28,12 +30,26 @@ public class Unit extends GameObject{
     if(angle < 0){
       angle += 360;
     }
+    
+      System.out.println("MX: " +getOriginX());
+      System.out.println("TX: " +targetX);
+      float nX = mX + (Math.round((velocity*delta) * Math.cos(Math.toRadians(angle))));
+      float nY = mY + (Math.round((velocity*delta) * Math.sin(Math.toRadians(angle))));
 
-    float nX = mX + (Math.round((velocity*delta) * Math.cos(Math.toRadians(angle))));
-    float nY = mY + (Math.round((velocity*delta) * Math.sin(Math.toRadians(angle))));
-
-    mX = nX;
-    mY = nY;
+    
+      mX = nX;
+      mY = nY;
+    }
+  }
+  
+  private boolean isAtDestination(){
+    if(((Math.round(getOriginX()) < Math.round(targetX)+velocity && 
+            Math.round(getOriginX()) > Math.round(targetX)-velocity)) && 
+            (Math.round(getOriginY()) < Math.round(targetY)+velocity && 
+            Math.round(getOriginY()) > Math.round(targetY)-velocity)){
+      return true;
+    }
+    return false;
   }
   
   protected void drawUnitStatusBars(){
@@ -117,5 +133,13 @@ public class Unit extends GameObject{
   
   public void setHealthNow(int healthNow){
     this.healthNow = healthNow;
+  }
+  
+  public void setTargetX(float targetX){
+    this.targetX = targetX;
+  }
+  
+  public void setTargetY(float targetY){
+    this.targetY = targetY;
   }
 }
