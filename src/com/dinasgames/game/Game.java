@@ -178,6 +178,24 @@ public class Game extends JPanel{
           g2d.setTransform(oldRotation);
         }
       }
+      
+      for (GameObject gameObject : objects) {
+        Unit unit = (Unit) gameObject;
+        
+        DrawShapes[] statusBars = unit.getStatusBars();
+        
+        for (int i = 0; i < statusBars.length; i++) {
+          //Setting Colour
+          g2d.setColor(statusBars[i].getColor());
+          
+          //Choosing Draw Type
+          if(statusBars[i].drawType().equals("draw")){
+            g2d.draw(statusBars[i].getShape());
+          }else if(statusBars[i].drawType().equals("fill")){
+            g2d.fill(statusBars[i].getShape());
+          }
+        }
+      }
     }
     
   }

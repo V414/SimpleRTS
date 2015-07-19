@@ -1,8 +1,5 @@
 package com.dinasgames.objects;
 
-import java.awt.Color;
-import java.awt.Shape;
-
 public class GameObject{
   
   protected float mX;

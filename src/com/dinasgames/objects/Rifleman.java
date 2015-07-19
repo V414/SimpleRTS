@@ -1,9 +1,7 @@
 package com.dinasgames.objects;
 
 import java.awt.Color;
-import java.awt.Shape;
 import java.awt.geom.Ellipse2D;
-import java.awt.geom.Line2D;
 import java.awt.geom.Rectangle2D;
 
 public class Rifleman extends Infantry{
@@ -17,6 +15,8 @@ public class Rifleman extends Infantry{
     objectWidth = 10;
     objectHeight = 10;
     objectType = "Rifleman";
+    healthMax = 100;
+    healthNow = 50;
     createDrawShapes();
   }
   
@@ -26,6 +26,7 @@ public class Rifleman extends Infantry{
     this.cameraY = cameraY;
     
     createDrawShapes();
+    drawUnitStatusBars();
   }
   
   //Creates array for the paint method in the game class to paint.

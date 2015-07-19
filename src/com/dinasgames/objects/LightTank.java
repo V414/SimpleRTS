@@ -1,8 +1,6 @@
 package com.dinasgames.objects;
 
 import java.awt.Color;
-import java.awt.Shape;
-import java.awt.geom.Ellipse2D;
 import java.awt.geom.Rectangle2D;
 
 public class LightTank extends Vehicle{
@@ -16,6 +14,8 @@ public class LightTank extends Vehicle{
     objectWidth = 35;
     objectHeight = 20;
     objectType = "Rifleman";
+    healthMax = 100;
+    healthNow = 100;
     createDrawShapes();
   }
   
@@ -25,6 +25,7 @@ public class LightTank extends Vehicle{
     this.cameraY = cameraY;
     
     createDrawShapes();
+    drawUnitStatusBars();
   }
   
   //Creates array for the paint method in the game class to paint.
