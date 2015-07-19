@@ -10,8 +10,8 @@ import javax.swing.JPanel;
 import com.dinasgames.objects.*;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
-import java.awt.Shape;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
@@ -20,21 +20,23 @@ import java.util.List;
 
 public class Game extends JPanel{
   
-  private final List<GameObject> objects = Collections.synchronizedList(new ArrayList<>());
+  private final List<GameObject> objects = 
+          Collections.synchronizedList(new ArrayList<>());
   private boolean isGamePaused = true;
-  private int mapWidth = 10000;
-  private int mapHeight = 10000;
+  private final int mapWidth = 10000;
+  private final int mapHeight = 10000;
   private int cameraX = 0;
   private int cameraY = 0;
-  private int screenWidth;
-  private int screenHeight;
+  private final int screenWidth;
+  private final int screenHeight;
   private boolean moveCameraUp = false;
   private boolean moveCameraDown = false;
   private boolean moveCameraLeft = false;
   private boolean moveCameraRight = false;
   
   public Game(JFrame mainWindow){
-    GraphicsDevice gd = GraphicsEnvironment.getLocalGraphicsEnvironment().getDefaultScreenDevice();
+    GraphicsDevice gd = GraphicsEnvironment
+            .getLocalGraphicsEnvironment().getDefaultScreenDevice();
     screenWidth = gd.getDisplayMode().getWidth();
     screenHeight = gd.getDisplayMode().getHeight();
     setBackground(new Color(50, 125, 0));
@@ -52,6 +54,38 @@ public class Game extends JPanel{
       public void mouseMoved(MouseEvent e) {
         moveCamera(e);
       }
+      
+    });
+    addMouseListener(new MouseListener(){
+
+      @Override
+      public void mouseClicked(MouseEvent e) {
+        synchronized (objects){
+        for (GameObject gameObject : objects) {
+          Unit unit = (Unit) gameObject;
+          unit.setIsSelected(false);
+          if((e.getX() > unit.getX()-cameraX && 
+                  e.getX() < unit.getX()-cameraX+unit.getObjectWidth()) &&
+              (e.getY() > unit.getY()-cameraY && 
+                  e.getY() < unit.getY()-cameraY+unit.getObjectHeight())){
+            
+            unit.setIsSelected(true);
+          }
+        }
+        }
+      }
+
+      @Override
+      public void mousePressed(MouseEvent e) {}
+
+      @Override
+      public void mouseReleased(MouseEvent e) {}
+
+      @Override
+      public void mouseEntered(MouseEvent e) {}
+
+      @Override
+      public void mouseExited(MouseEvent e) {}
       
     });
     
@@ -182,17 +216,19 @@ public class Game extends JPanel{
       for (GameObject gameObject : objects) {
         Unit unit = (Unit) gameObject;
         
-        DrawShapes[] statusBars = unit.getStatusBars();
-        
-        for (int i = 0; i < statusBars.length; i++) {
-          //Setting Colour
-          g2d.setColor(statusBars[i].getColor());
-          
-          //Choosing Draw Type
-          if(statusBars[i].drawType().equals("draw")){
-            g2d.draw(statusBars[i].getShape());
-          }else if(statusBars[i].drawType().equals("fill")){
-            g2d.fill(statusBars[i].getShape());
+        if(unit.getIsSelected() == true){
+          DrawShapes[] statusBars = unit.getStatusBars();
+
+          for (int i = 0; i < statusBars.length; i++) {
+            //Setting Colour
+            g2d.setColor(statusBars[i].getColor());
+
+            //Choosing Draw Type
+            if(statusBars[i].drawType().equals("draw")){
+              g2d.draw(statusBars[i].getShape());
+            }else if(statusBars[i].drawType().equals("fill")){
+              g2d.fill(statusBars[i].getShape());
+            }
           }
         }
       }
