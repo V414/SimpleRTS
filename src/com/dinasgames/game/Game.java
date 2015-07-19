@@ -10,6 +10,7 @@ import javax.swing.JPanel;
 import com.dinasgames.objects.*;
 import java.awt.GraphicsDevice;
 import java.awt.GraphicsEnvironment;
+import java.awt.Rectangle;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
@@ -33,6 +34,12 @@ public class Game extends JPanel{
   private boolean moveCameraDown = false;
   private boolean moveCameraLeft = false;
   private boolean moveCameraRight = false;
+  private boolean selectingUsingRectangle = false;
+  private int rectStartX;
+  private int rectStartY;
+  private int rectEndX;
+  private int rectEndY;
+  private Rectangle selectionRect = new Rectangle();
   
   public Game(JFrame mainWindow){
     GraphicsDevice gd = GraphicsEnvironment
@@ -48,7 +55,12 @@ public class Game extends JPanel{
     addMouseMotionListener(new MouseMotionListener(){
 
       @Override
-      public void mouseDragged(MouseEvent e) {}
+      public void mouseDragged(MouseEvent e) {
+        if(selectingUsingRectangle == true){
+          rectEndX = e.getX();
+          rectEndY = e.getY();
+        }
+      }
 
       @Override
       public void mouseMoved(MouseEvent e) {
@@ -76,10 +88,19 @@ public class Game extends JPanel{
       }
 
       @Override
-      public void mousePressed(MouseEvent e) {}
+      public void mousePressed(MouseEvent e) {
+        selectingUsingRectangle = true;
+        rectStartX = e.getX();
+        rectStartY = e.getY();
+        rectEndX = e.getX();
+        rectEndY = e.getY();
+      }
 
       @Override
-      public void mouseReleased(MouseEvent e) {}
+      public void mouseReleased(MouseEvent e) {
+        selectingUsingRectangle = false;
+        isInSelectionRectangle();
+      }
 
       @Override
       public void mouseEntered(MouseEvent e) {}
@@ -116,6 +137,23 @@ public class Game extends JPanel{
       moveCameraDown = true; moveCameraUp = false;
     }else{
       moveCameraDown = false;
+    }
+  }
+  
+  private void isInSelectionRectangle(){
+    synchronized (objects){
+    for (GameObject gameObject : objects) {
+      Unit unit = (Unit) gameObject;
+      unit.setIsSelected(false);
+
+      Rectangle unitRect = new Rectangle();
+      unitRect.setBounds((int) unit.getX(), (int) unit.getY(), 
+              unit.getObjectWidth(), unit.getObjectHeight());
+
+      if(selectionRect.intersects(unitRect)){
+        unit.setIsSelected(true);
+      }
+    }
     }
   }
   
@@ -231,6 +269,12 @@ public class Game extends JPanel{
             }
           }
         }
+      }
+      
+      if(selectingUsingRectangle == true){
+        g2d.setColor(Color.red);
+        selectionRect.setFrameFromDiagonal(rectStartX, rectStartY, rectEndX, rectEndY);
+        g2d.draw(selectionRect);
       }
     }
     
