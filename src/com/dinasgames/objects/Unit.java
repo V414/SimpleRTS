@@ -19,25 +19,45 @@ public class Unit extends GameObject{
   }
   
   protected void drawUnitStatusBars(){
-    unitStatusBars = new DrawShapes[3];
+    unitStatusBars = new DrawShapes[6];
     
     Rectangle2D fillHealthBar = new Rectangle2D.Float(
-            mX-cameraX, mY-cameraY-8, 
-            getObjectWidth(), 4);
+            mX-cameraX, mY-cameraY-13 ,
+            getObjectWidth(), 3);
     unitStatusBars[0] = new DrawShapes(fillHealthBar, Color.black, "fill");
     
-    float percentPlayerHealth = (float) healthNow/healthMax;
+    float percentUnitHealth = (float) healthNow/healthMax;
     
     Rectangle2D fillHealthBarHealth = new Rectangle2D.Float(
-            mX-cameraX, mY-cameraY-8, 
-            percentPlayerHealth*getObjectWidth(), 4);
+            mX-cameraX, mY-cameraY-13, 
+            percentUnitHealth*getObjectWidth(), 3);
     unitStatusBars[1] = new DrawShapes(fillHealthBarHealth, Color.red, "fill");
     
     
-    Rectangle2D drawBody = new Rectangle2D.Float(
-            mX-cameraX, mY-cameraY-8, 
-            getObjectWidth(), 4);
-    unitStatusBars[2] = new DrawShapes(drawBody, Color.black, "draw");
+    Rectangle2D drawHealthBarEdge = new Rectangle2D.Float(
+            mX-cameraX, mY-cameraY-13, 
+            getObjectWidth(), 3);
+    unitStatusBars[2] = new DrawShapes(drawHealthBarEdge, Color.black, "draw");
+    
+    
+    
+    Rectangle2D fillAmmoBar = new Rectangle2D.Float(
+            mX-cameraX, mY-cameraY-7, 
+            getObjectWidth(), 3);
+    unitStatusBars[3] = new DrawShapes(fillAmmoBar, Color.black, "fill");
+    
+    float percentUnitAmmo = (float) healthNow/healthMax;
+    
+    Rectangle2D fillAmmoBarAmmo = new Rectangle2D.Float(
+            mX-cameraX, mY-cameraY-7, 
+            percentUnitAmmo*getObjectWidth(), 3);
+    unitStatusBars[4] = new DrawShapes(fillAmmoBarAmmo, Color.blue, "fill");
+    
+    
+    Rectangle2D drawAmmoBarEdge = new Rectangle2D.Float(
+            mX-cameraX, mY-cameraY-7, 
+            getObjectWidth(), 3);
+    unitStatusBars[5] = new DrawShapes(drawAmmoBarEdge, Color.black, "draw");
   }
 
   //Getters
