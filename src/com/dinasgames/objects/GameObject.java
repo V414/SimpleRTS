@@ -13,9 +13,7 @@ public class GameObject{
   protected int team;
   protected float angle;
   protected String objectType;
-  protected Shape[] drawShapes;
-  protected Color[] drawShapeColor;
-  protected String[] drawShapeType;
+  protected DrawShapes[] drawShapes;
   protected float cameraX;
   protected float cameraY;
   
@@ -23,6 +21,7 @@ public class GameObject{
     
   }
   
+  //Main OnTick method - checked every tick.
   public void onTick(float cameraX, float cameraY){
     this.cameraX = cameraX;
     this.cameraY = cameraY;
@@ -34,15 +33,7 @@ public class GameObject{
     return team;
   }
   
-  public Color[] getDrawShapeColor(){
-    return drawShapeColor;
-  }
-  
-  public String[] getDrawShapeType(){
-    return drawShapeType;
-  }
-  
-  public Shape[] getDrawShapes(){
+  public DrawShapes[] getDrawShapes(){
     return drawShapes;
   }
   

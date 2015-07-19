@@ -29,29 +29,25 @@ public class Rifleman extends Infantry{
   }
   
   //Creates array for the paint method in the game class to paint.
+  //Fill must come before draw
   private void createDrawShapes(){
-    drawShapes = new Shape[3];
-    drawShapeType = new String[3];
-    drawShapeColor = new Color[3];
-    System.out.println(cameraX);
+    drawShapes = new DrawShapes[3];
     
-    drawShapes[0] = new Ellipse2D.Float(mX-cameraX, mY-cameraY, 
+    Ellipse2D fillBody = new Ellipse2D.Float(mX-cameraX, mY-cameraY, 
             getObjectWidth(), getObjectHeight());
-    drawShapeType[0] = "draw";
-    drawShapeColor[0] = Color.black;
+    drawShapes[0] = new DrawShapes(fillBody, Color.blue, "fill");
     
-    drawShapes[1] = new Ellipse2D.Float(mX-cameraX, mY-cameraY, 
+    
+    Ellipse2D drawBody = new Ellipse2D.Float(mX-cameraX, mY-cameraY, 
             getObjectWidth(), getObjectHeight());
-    drawShapeType[1] = "fill";
-    drawShapeColor[1] = Color.blue;
+    drawShapes[1] = new DrawShapes(drawBody, Color.black, "draw");
     
     float gunWidth = 2;
     float gunStartX = getOriginX()-cameraX;
     float gunStartY = getOriginY()-cameraY+getObjectHeight()/4-gunWidth;
     
-    drawShapes[2] = new Rectangle2D.Float(gunStartX, gunStartY, getObjectWidth(), gunWidth);
-    drawShapeType[2] = "fill";
-    drawShapeColor[2] = Color.black;
+    Rectangle2D fillGun = new Rectangle2D.Float(gunStartX, gunStartY, getObjectWidth(), gunWidth);
+    drawShapes[2] = new DrawShapes(fillGun, Color.black, "fill");
   }
   
 }

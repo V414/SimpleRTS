@@ -13,6 +13,7 @@ import java.awt.GraphicsEnvironment;
 import java.awt.Shape;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -38,9 +39,9 @@ public class Game extends JPanel{
     screenHeight = gd.getDisplayMode().getHeight();
     setBackground(new Color(50, 125, 0));
     
-    objects.add(0, new Rifleman(100, 100, 0, 0));
+    objects.add(0, new Rifleman(300, 300, 0, 0));
     
-    objects.add(1, new LightTank(200, 200, 0, 0));
+    objects.add(1, new LightTank(400, 400, 0, 0));
     
     addMouseMotionListener(new MouseMotionListener(){
 
@@ -152,19 +153,29 @@ public class Game extends JPanel{
     
     synchronized (objects){
       for (GameObject gameObject : objects) {
-        Shape[] drawObjects = gameObject.getDrawShapes();
-        String[] drawObjectType = gameObject.getDrawShapeType();
-        Color[] drawObjectColor = gameObject.getDrawShapeColor();
+        //Importing shapes, method of drawing shape, and colour
+        DrawShapes[] drawShapes = gameObject.getDrawShapes();
         
-        for (int i = 0; i < drawObjects.length; i++) {
-          g2d.setColor(drawObjectColor[i]);
+        //Looping through shapes to draw
+        for (int i = 0; i < drawShapes.length; i++) {
+          //Setting Colour
+          g2d.setColor(drawShapes[i].getColor());
           
-          if(drawObjectType[i].equals("draw")){
-            g2d.draw(drawObjects[i]);
-          }else if(drawObjectType[i].equals("fill")){
-            g2d.fill(drawObjects[i]);
+          //Setting old transformation, so that we can reset the angle
+          AffineTransform oldRotation = g2d.getTransform();
+          g2d.rotate(Math.toRadians(gameObject.getAngle()), 
+                  gameObject.getOriginX()-cameraX, 
+                  gameObject.getOriginY()-cameraY);
+          
+          //Choosing Draw Type
+          if(drawShapes[i].drawType().equals("draw")){
+            g2d.draw(drawShapes[i].getShape());
+          }else if(drawShapes[i].drawType().equals("fill")){
+            g2d.fill(drawShapes[i].getShape());
           }
           
+          //Resetting to old transformation
+          g2d.setTransform(oldRotation);
         }
       }
     }

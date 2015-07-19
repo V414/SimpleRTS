@@ -28,39 +28,35 @@ public class LightTank extends Vehicle{
   }
   
   //Creates array for the paint method in the game class to paint.
+  //Fill must come before draw
   private void createDrawShapes(){
-    drawShapes = new Shape[5];
-    drawShapeType = new String[5];
-    drawShapeColor = new Color[5];
+    drawShapes = new DrawShapes[5];
     
-    drawShapes[0] = new Rectangle2D.Float(mX-cameraX, mY-cameraY, 
+    Rectangle2D tankFill = new Rectangle2D.Float(mX-cameraX, mY-cameraY, 
             getObjectWidth(), getObjectHeight());
-    drawShapeType[0] = "draw";
-    drawShapeColor[0] = Color.black;
+    drawShapes[0] = new DrawShapes(tankFill, Color.red, "fill");
     
-    drawShapes[1] = new Rectangle2D.Float(mX+1-cameraX, mY+1-cameraY, 
-            getObjectWidth()-1, getObjectHeight()-1);
-    drawShapeType[1] = "fill";
-    drawShapeColor[1] = Color.red;
+    Rectangle2D tankDraw = new Rectangle2D.Float(mX-cameraX, mY-cameraY, 
+            getObjectWidth(), getObjectHeight());
+    drawShapes[1] = new DrawShapes(tankDraw, Color.black, "draw");
+    
     
     float turretWidth = 12;
     float turretHeight = 12;
     
-    drawShapes[2] = new Rectangle2D.Float(getOriginX()-cameraX, getOriginY()-cameraY-turretHeight/2, turretWidth, turretHeight);
-    drawShapeType[2] = "draw";
-    drawShapeColor[2] = Color.black;
+    Rectangle2D turretFill = new Rectangle2D.Float(getOriginX()-cameraX, getOriginY()-cameraY-turretHeight/2, turretWidth, turretHeight);
+    drawShapes[2] = new DrawShapes(turretFill, Color.red, "fill");
     
-    drawShapes[3] = new Rectangle2D.Float(getOriginX()+1-cameraX, getOriginY()-cameraY-turretHeight/2+1, turretWidth-1, turretHeight-1);
-    drawShapeType[3] = "fill";
-    drawShapeColor[3] = Color.red;
+    Rectangle2D turretDraw = new Rectangle2D.Float(getOriginX()-cameraX, getOriginY()-cameraY-turretHeight/2, turretWidth, turretHeight);
+    drawShapes[3] = new DrawShapes(turretDraw, Color.black, "draw");
+    
     
     float gunWidth = 3;
     float gunStartX = getOriginX()-cameraX+turretWidth/2;
     float gunStartY = getOriginY()-cameraY-(gunWidth/2);
     
-    drawShapes[4] = new Rectangle2D.Float(gunStartX, gunStartY, getObjectWidth()/1.5f, gunWidth);
-    drawShapeType[4] = "fill";
-    drawShapeColor[4] = Color.black;
+    Rectangle2D gunDraw = new Rectangle2D.Float(gunStartX, gunStartY, getObjectWidth()/1.5f, gunWidth);
+    drawShapes[4] = new DrawShapes(gunDraw, Color.black, "fill");
   }
   
 }
