@@ -9,6 +9,7 @@ import com.dinasgames.main.Camera;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Objects.GameObject;
+import com.dinasgames.main.Objects.GameObjectType;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Collections;
@@ -20,7 +21,7 @@ import java.util.Iterator;
  */
 public class Scene {
     
-    public final int MAX_OBJECTS = 1024;
+    public static final int MAX_OBJECTS = 1024;
     
     protected Camera mCamera;
     protected GameObject[] mObjects;
@@ -54,7 +55,24 @@ public class Scene {
         }
     }
     
-    
+    public static <T extends GameObject> List<T> findObjects() {
+        List<T> list = new ArrayList();
+        for(int i = 0; i < MAX_OBJECTS; i++) {
+            if(getCurrent().mObjects[i] != null) {
+                T cast = null;
+                try {
+                    cast = (T)getCurrent().mObjects[i];
+                }
+                catch(Exception e) {
+                    continue;
+                }
+                if(cast != null) {
+                    list.add(cast);
+                }
+            }
+        }
+        return list;
+    }
     
     public int add(GameObject obj) {
         for(int i = 0; i < MAX_OBJECTS; i ++) {

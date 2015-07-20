@@ -111,4 +111,11 @@ public class Renderable {
         
     }
     
+    public Renderable getReference() {
+        Renderable r = new Renderable();
+        r.makeReference();
+        r.setID(mID);
+        return r;
+    }
+    
 }

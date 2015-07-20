@@ -8,7 +8,7 @@ import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
 import java.awt.Color;
 
-public class Rifleman extends Infantry{
+public class Rifleman extends Infantry {
   
   CircleShape mShapeBody;
   RectangleShape mShapeGun;
@@ -45,7 +45,7 @@ public class Rifleman extends Infantry{
         
         mShapeBody = CircleShape.create();
         
-        mShapeBody.setFillColor(Color.red);
+        mShapeBody.setFillColor(Color.white);
         mShapeBody.setOutlineColor(Color.black);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
@@ -60,6 +60,13 @@ public class Rifleman extends Infantry{
         mShapeGun.setSize(mGunSize);
         mShapeGun.setRotation(RandomNumber.between(0.f,360.f));
         mShapeGun.setOriginCenter();
+        
+    }
+    
+    @Override
+    public void onNewOwner() {
+        
+        mShapeBody.setFillColor(mOwner.getColor());
         
     }
     

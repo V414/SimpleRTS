@@ -6,8 +6,16 @@
 package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.Controller;
+import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.Utils.EntitySelection;
+import com.dinasgames.main.System.Mouse;
+import java.awt.Color;
+import java.util.List;
 
 /**
  *
@@ -15,13 +23,40 @@ import com.dinasgames.main.Math.Vector2f;
  */
 public class Player {
     
+    public final int GROUP_COUNT = 10;
+    
+    // Player colors
+    public final Color[] PLAYER_COLORS = {
+        
+        Color.red,
+        Color.blue,
+        Color.yellow,
+        Color.pink,
+        Color.cyan,
+        Color.orange,
+        Color.green,
+        Color.magenta
+        
+    };
+    
     protected int mID;
     protected boolean mIsReference;
     protected Controller mController;
     
+    // Attributes
+    
+    // Selection
+    protected EntitySelection mEntitySelection;
+    protected EntitySelection[] mEntitySelectionGroups;
+    
     // Selction box
-    protected RectangleShape mSelectionBox;
-    protected Vector2f mSelectionBoxStart;
+    protected RectangleShape mSelectionShape;
+    protected BoundingBox mSelectionBox;
+    protected Vector2f mSelectionStart;
+    
+    public static Player getLocalPlayer() {
+        return ((SimpleGame)Game.current).getPlayer();
+    }
     
     protected Player() {
         
@@ -30,14 +65,44 @@ public class Player {
         mIsReference = false;
         
         // Setup selection box
-        mSelectionBox = RectangleShape.create();
-        mSelectionBox.setDepth(-1000);
-        mSelectionBox.setPosition(0.f,0.f);
-        mSelectionBox.setSize(0.f,0.f);
-        mSelectionBox.hide();
+        mSelectionShape = RectangleShape.create();
+        mSelectionShape.setDepth(-1000);
+        mSelectionShape.setPosition(0.f,0.f);
+        mSelectionShape.setSize(0.f,0.f);
+        mSelectionShape.hide();
         
-        mSelectionBoxStart = new Vector2f(0.f,0.f);
+        mSelectionBox = new BoundingBox();
+        mSelectionStart = new Vector2f();
         
+        // Setup selections
+        mEntitySelection = new EntitySelection();
+        mEntitySelectionGroups = new EntitySelection[GROUP_COUNT];
+        
+        // Create selection groups
+        for(int i = 0; i < GROUP_COUNT; i++) {
+            mEntitySelectionGroups[i] = new EntitySelection();
+        }
+        
+    }
+    
+    // Events
+    public void onSelectObjects(BoundingBox selectionArea) {
+        
+    }
+    
+    public void clearSelection() {
+        mEntitySelection.clear();
+    }
+    
+    public void selectObjects() {
+        
+        // Call selection event
+        onSelectObjects(mSelectionBox);
+        
+    }
+    
+    public void selectObjects(List<Entity>list) {
+        mEntitySelection.select(list);
     }
     
     public boolean isReference() {
@@ -49,8 +114,8 @@ public class Player {
         mIsReference = true;
         
         // Remove selection box
-        mSelectionBox.remove();
-        mSelectionBox = null;
+        mSelectionShape.remove();
+        mSelectionShape = null;
         
     }
     
@@ -58,14 +123,24 @@ public class Player {
         if(isReference()) {
             return ref().isSelectionBoxShowing();
         }
-        return mSelectionBox.isVisible();
+        return mSelectionShape.isVisible();
     }
     
-    public RectangleShape getSelectionBox() {
+    public BoundingBox getSelectionBox() {
         if(isReference()) {
             return ref().getSelectionBox();
         }
         return mSelectionBox;
+    }
+    
+    public Color getColor() {
+        if(isReference()) {
+            return ref().getColor();
+        }
+        if(mID < 0) {
+            return Color.white;
+        }
+        return PLAYER_COLORS[mID];
     }
     
     protected boolean hasValidReference() {
@@ -96,7 +171,7 @@ public class Player {
     public void onRemove() {
         
         if(mSelectionBox != null) {
-            mSelectionBox.remove();
+            mSelectionShape.remove();
         }
         
     }
@@ -108,6 +183,11 @@ public class Player {
         return mController;
     }
     
+    protected void updateSelectionShape() {
+        mSelectionShape.setPosition(mSelectionBox.left, mSelectionBox.top);
+        mSelectionShape.setSize(mSelectionBox.width, mSelectionBox.height);
+    }
+    
     protected void startSelection(Vector2f mousePosition) {
         
         if(isReference()) {
@@ -115,10 +195,12 @@ public class Player {
             return;
         }
         
-        mSelectionBoxStart = new Vector2f(mousePosition);
+        mSelectionStart = new Vector2f(mousePosition);
         mSelectionBox.setPosition(mousePosition);
-        mSelectionBox.setSize(0.f,0.f);
-        mSelectionBox.show();
+        mSelectionBox.setSize(0.f, 0.f);
+        
+        updateSelectionShape();
+        mSelectionShape.show();
         
     }
     
@@ -129,18 +211,15 @@ public class Player {
             return;
         }
         
-        // Get the start position
-        Vector2f startPosition = new Vector2f(mSelectionBoxStart);
-        
         // Ensure the selection box doesn't have a negative size
-        float minX = Math.min( startPosition.x, mousePosition.x );
-        float minY = Math.min( startPosition.y, mousePosition.y );
-        float maxX = Math.max( startPosition.x, mousePosition.x );
-        float maxY = Math.max( startPosition.y, mousePosition.y );
+        float minX = Math.min( mSelectionStart.x, mousePosition.x );
+        float minY = Math.min( mSelectionStart.y, mousePosition.y );
+        float maxX = Math.max( mSelectionStart.x, mousePosition.x );
+        float maxY = Math.max( mSelectionStart.y, mousePosition.y );
         
-        // Update the selection box
-        mSelectionBox.setPosition(minX, minY);
-        mSelectionBox.setSize(maxX - minX, maxY - minY);
+        mSelectionBox.setRectangle(minX, minY, maxX, maxY);
+        
+        updateSelectionShape();
         
     }
     
@@ -151,11 +230,17 @@ public class Player {
             return;
         }
         
-        mSelectionBoxStart = new Vector2f(0.f,0.f);
-        mSelectionBox.setPosition(0.f, 0.f);
-        mSelectionBox.setSize(0.f,0.f);
-        mSelectionBox.hide();
+        selectObjects();
         
+        mSelectionShape.hide();
+        
+    }
+    
+    public Player getReference() {
+        Player r = new Player();
+        r.makeReference();
+        r.setID(mID);
+        return r;
     }
     
 }

@@ -7,9 +7,17 @@ package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.LocalController;
 import com.dinasgames.main.Inputs.LocalInput;
+import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.GameObject;
+import com.dinasgames.main.Objects.GameObjectType;
+import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.System.Mouse;
 import java.awt.Color;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  *
@@ -23,9 +31,9 @@ public class LocalPlayer extends Player {
         mController = new LocalController();
         
         // Setup our selection box
-        mSelectionBox.setFillColor(new Color(255,255,255,128));
-        mSelectionBox.setOutlineColor(new Color(255,255,255,255));
-        mSelectionBox.setOutlineThickness(2.f);
+        mSelectionShape.setFillColor(new Color(255,255,255,128));
+        mSelectionShape.setOutlineColor(new Color(255,255,255,255));
+        mSelectionShape.setOutlineThickness(2.f);
     }
     
     public static LocalPlayer create() {
@@ -50,6 +58,43 @@ public class LocalPlayer extends Player {
     }
     
     @Override
+    public void onSelectObjects(BoundingBox selectionArea) {
+        
+        // Find all the selectable objects (child of Entity)
+        List<Entity> entityList = Scene.findObjects();
+        
+        // Now find the ones that are within our selectionArea
+        List<Entity> entitiesInArea = new ArrayList();
+        for (Entity entity : entityList) {
+            BoundingBox box = entity.getBoundingBox();
+            if (selectionArea.contains(box)) {
+                // This unit is within our selectionArea
+                entitiesInArea.add(entity);
+            }
+        }
+        
+        // Now we have the entities within our selection area
+        // Next thing is to ensure that this player owns them, otherwise you'd select the enemies units :L
+        List<Entity> toSelect = new ArrayList();
+        
+        Iterator<Entity> it = entitiesInArea.iterator();
+        while(it.hasNext()) {
+            Entity e = it.next();
+            if(e.getOwner() == null) {
+                continue;
+            }
+            if(e.getOwner().getID() == mID) {
+                toSelect.add(e);
+            }
+        }
+        
+        System.out.println(toSelect.size());
+        
+        selectObjects(toSelect);
+        
+    }
+    
+    @Override
     public void update() {
         
         super.update();
@@ -57,16 +102,19 @@ public class LocalPlayer extends Player {
         // Handle local player input
         LocalInput input = new LocalInput(getLocalInput());
         
-        if(mSelectionBox.isVisible()) {
+        if(isSelectionBoxShowing()) {
             
             updateSelection(input.mousePosition);
             
             // If the mouse isn't being pressed anymore
             if(!input.mousePressed) {
                 
-                // TODO: handle selection here!
+                // When holding shift you can add to the current selection
+                if(!input.shift) {
+                    clearSelection();
+                }
                 
-                // Reset
+                // Stop seleting (selection process is in here)
                 stopSelection();
                 
             }

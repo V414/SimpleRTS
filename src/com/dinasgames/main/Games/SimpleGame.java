@@ -6,6 +6,7 @@
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.main.Players.LocalPlayer;
 import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.System.Clock;
@@ -21,6 +22,7 @@ public class SimpleGame extends WindowGame {
     protected Scene mScene;
         
     // Frame indepentant
+    protected LocalPlayer mPlayer;
     protected double mAccumulator, mCurrentTime, mT, mDT;
     protected int mFps, mFpsCounter;
     protected Clock mFpsClock;
@@ -67,6 +69,10 @@ public class SimpleGame extends WindowGame {
         
         mPlayerList = new PlayerList();
         
+        // Create a local player
+        mPlayer = LocalPlayer.create();
+        
+        // Set the background color
         Renderer.getCurrent().setBackgroundColor(new Color(128,128,128,255));
         
     }
@@ -156,6 +162,10 @@ public class SimpleGame extends WindowGame {
     
     public PlayerList getPlayerList() {
         return mPlayerList;
+    }
+    
+    public LocalPlayer getPlayer() {
+        return mPlayer;
     }
     
 }

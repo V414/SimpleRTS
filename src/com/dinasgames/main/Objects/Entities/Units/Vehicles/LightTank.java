@@ -54,7 +54,7 @@ public class LightTank extends Vehicle{
         
         mShapeBody = RectangleShape.create();
         
-        mShapeBody.setFillColor(Color.red);
+        mShapeBody.setFillColor(Color.white);
         mShapeBody.setOutlineColor(Color.black);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
@@ -62,11 +62,19 @@ public class LightTank extends Vehicle{
         
         mShapeTurret = RectangleShape.create();
         
-        mShapeTurret.setFillColor(Color.red);
+        mShapeTurret.setFillColor(Color.white);
         mShapeTurret.setOutlineColor(Color.black);
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setSize(mTurretSize);
         mShapeTurret.setRotation(RandomNumber.between(0.f,360.f));
+        
+    }
+    
+    @Override
+    public void onNewOwner() {
+        
+        mShapeBody.setFillColor(mOwner.getColor());
+        mShapeTurret.setFillColor(mOwner.getColor());
         
     }
     

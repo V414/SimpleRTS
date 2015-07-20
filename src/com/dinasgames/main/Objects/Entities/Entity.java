@@ -6,9 +6,11 @@
 package com.dinasgames.main.Objects.Entities;
 
 import com.dinasgames.main.Graphics.HealthbarShape;
+import com.dinasgames.main.Graphics.RectangleShape;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
+import com.dinasgames.main.Players.Player;
 import com.dinasgames.main.Scenes.Scene;
 import java.awt.Color;
 
@@ -18,8 +20,11 @@ import java.awt.Color;
  */
 public class Entity extends GameObject {
     
+    protected Player mOwner;
+    protected boolean mSelected;
     protected float mHealth, mHealthMax;
     protected HealthbarShape mHealthbar;
+    protected RectangleShape mSelectionBox;
     protected BoundingBox mBoundingBox;
     protected boolean mDead;
     
@@ -28,6 +33,8 @@ public class Entity extends GameObject {
         mHealthbar = null;
         mBoundingBox = new BoundingBox();
         mDead = false;
+        mSelected = false;
+        mOwner = null;
     }
     
     @Override
@@ -70,6 +77,16 @@ public class Entity extends GameObject {
         // Make sure the healthbar renders in front of other things
         mHealthbar.setDepth(-100);
         
+        mSelectionBox = RectangleShape.create();
+        mSelectionBox.setFillColor(new Color(0,0,0,0));
+        mSelectionBox.setOutlineColor(Color.white);
+        mSelectionBox.setOutlineThickness(1.f);
+        mSelectionBox.setDepth(-101);
+        
+    }
+    
+    public void onNewOwner() {
+        
     }
     
     @Override
@@ -83,24 +100,88 @@ public class Entity extends GameObject {
         // Update bounding box
         //mBoundingBox.setPosition(mPosition);
         recalculateBoundingBox();
+        
+        mSelectionBox.setPosition(mBoundingBox.left, mBoundingBox.top);
+        mSelectionBox.setSize(mBoundingBox.width, mBoundingBox.height);
     }
     
     @Override
     public void onRender() {
         
         // Update healthbar
-        mHealthbar.setPosition(mBoundingBox.left-10, mBoundingBox.top-10);
-        mHealthbar.setWidth(mBoundingBox.width+20);
-        mHealthbar.setHealth(mHealth);
-        
-        
+        if(mSelected) {
+            mHealthbar.setPosition(mBoundingBox.left-10, mBoundingBox.top-10);
+            mHealthbar.setWidth(mBoundingBox.width+20);
+            mHealthbar.setHealth(mHealth);
+            mHealthbar.show();
+        }else{
+            mHealthbar.hide();
+        }
+
     }
     
     protected void recalculateBoundingBox() {
         mBoundingBox.setPosition(mPosition);
     }
     
+    public void setOwner(Player owner) {
+        if(isReference()) {
+            ref().setOwner(owner);
+            return;
+        }
+        mOwner = owner;
+        if(mOwner == null) {
+            return;
+        }
+        onNewOwner();
+    }
+    
+    public Player getOwner() {
+        if(isReference()) {
+            return ref().getOwner();
+        }
+        return mOwner;
+    }
+    
+    public void select() {
+        if(isReference()) {
+            ref().select();
+            return;
+        }
+        mSelected = true;
+    }
+    
+    public void deselect() {
+        if(isReference()) {
+            ref().deselect();
+            return;
+        }
+        mSelected = false;
+    }
+    
+    public boolean isSelected() {
+        if(isReference()) {
+            return ref().isSelected();
+        }
+        return mSelected;
+    }
+    
+    public void setSelected(boolean selected) {
+        if(isReference()) {
+            ref().setSelected(selected);
+            return;
+        }
+        mSelected = selected;
+    }
+    
     // Getters
+    public BoundingBox getBoundingBox() {
+        if(isReference()) {
+            return ref().getBoundingBox();
+        }
+        return mBoundingBox;
+    }
+    
     public boolean isDead() {
         if(isReference()) {
             return ref().isDead();

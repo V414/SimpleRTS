@@ -85,7 +85,7 @@ public class GameObject {
     }
     
     public void onDestroy() {
-        
+        // TODO: deselect unit globally!
     }
     
     public void onTick(double time) {

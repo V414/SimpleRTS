@@ -14,8 +14,6 @@ import com.dinasgames.main.Scenes.TestScene;
  */
 public class TestGame extends SimpleGame {
     
-    protected LocalPlayer player;
-    
     @Override
     protected void load() {
         
@@ -23,8 +21,6 @@ public class TestGame extends SimpleGame {
         
         // Goto the test scene
         setScene(new TestScene());
-        
-        player = LocalPlayer.create();
         
     }
     

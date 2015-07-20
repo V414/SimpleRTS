@@ -25,6 +25,13 @@ public class BoundingBox {
         this.height = height;
     }
     
+    public BoundingBox(BoundingBox other) {
+        this.left = other.left;
+        this.top = other.top;
+        this.width = other.width;
+        this.height = other.height;
+    }
+    
     public void setPosition(float x, float y) {
         this.left = x;
         this.top = y;
@@ -36,10 +43,15 @@ public class BoundingBox {
     }
     
     public void setRectangle(float left, float top, float right, float bottom) {
-        this.left = left;
-        this.top = top;
-        this.width = right - left;
-        this.height = bottom - top;
+        
+        Vector2f topLeft = new Vector2f( Math.min(left, right), Math.min( top, bottom ) );
+        Vector2f bottomRight = new Vector2f( Math.max(left, right), Math.max( top, bottom ) );
+        
+        this.left = topLeft.x;
+        this.top = topLeft.y;
+        this.width = bottomRight.x - topLeft.x;
+        this.height = bottomRight.y - topLeft.y;
+        
     }
     
     public void setSize(Vector2f size) {
@@ -62,7 +74,7 @@ public class BoundingBox {
         float minX = Math.min(this.left, this.left + this.width);
         float minY = Math.min(this.top, this.top + this.height);
         float maxX = Math.max(this.left, this.left + this.width);
-        float maxY = Math.max(this.left, this.left + this.width);
+        float maxY = Math.max(this.top, this.top + this.height);
         return (x >= minX) && (y >= minY) && (x <= maxX) && (y <= maxY);
     }
     
@@ -75,6 +87,28 @@ public class BoundingBox {
         return this.contains(point.x, point.y);
     }
     
+    /**
+     * Checks whether another box is within this bounding box.
+     * @param other
+     * @return 
+     */
+    public boolean contains(BoundingBox other) {
+        
+        return (
+                
+                    contains(other.left, other.top) &&
+                    contains(other.left + other.width, other.top) &&
+                    contains(other.left + other.width, other.top + other.height) &&
+                    contains(other.left, other.top + other.height)
+                
+                );
+        
+    }
+    
     // TODO: intersects
+
+    public void setRectangle(Vector2f topLeft, Vector2f bottomRight) {
+        setRectangle(topLeft.x, topLeft.y, bottomRight.x, bottomRight.y);
+    }
     
 }
