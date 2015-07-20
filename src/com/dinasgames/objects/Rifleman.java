@@ -16,12 +16,13 @@ public class Rifleman extends Infantry{
     objectHeight = 10;
     objectType = "Rifleman";
     healthMax = 100;
-    healthNow = 50;
+    healthNow = 100;
+    velocity = 1;
     createDrawShapes();
   }
   
   @Override
-  public void onTick(float cameraX, float cameraY){
+  public void onTick(double delta, float cameraX, float cameraY){
     this.cameraX = cameraX;
     this.cameraY = cameraY;
     

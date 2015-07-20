@@ -1,5 +1,7 @@
 package com.dinasgames.objects;
 
+import java.util.List;
+
 public class GameObject{
   
   protected float mX;
@@ -19,10 +21,11 @@ public class GameObject{
   }
   
   //Main OnTick method - checked every tick.
-  public void onTick(float cameraX, float cameraY){
+  public void onTick(double delta, float cameraX, float cameraY){
     this.cameraX = cameraX;
     this.cameraY = cameraY;
   }
+  
   
   //Getters
   
