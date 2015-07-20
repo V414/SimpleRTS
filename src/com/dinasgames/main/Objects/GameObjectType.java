@@ -18,7 +18,9 @@ public enum GameObjectType {
     Infantry    (0x00000008),
     TestObject  (0x00000010),
     Entity      (0x00000020),
-    TestUnit    (0x00000040);
+    TestUnit    (0x00000040),
+    Rifleman    (0x00000080),
+    LightTank   (0x00000100);
     
     // Constructor
     private final int mId;

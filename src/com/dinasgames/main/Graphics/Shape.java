@@ -275,7 +275,15 @@ public class Shape extends Renderable {
         return this;
     }
     
-
+    public Shape setOriginCenter(){
+      mOrigin.x = mSize.x/2;
+      mOrigin.y = mSize.y/2;
+      
+      if(inRenderQueue()){
+        self().setOriginCenter();
+      }
+      return this;
+    }
     
     public Vector2f getPosition() {
         if(inRenderQueue()) {

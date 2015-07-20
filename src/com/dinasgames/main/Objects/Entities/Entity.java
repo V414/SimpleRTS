@@ -89,8 +89,8 @@ public class Entity extends GameObject {
     public void onRender() {
         
         // Update healthbar
-        mHealthbar.setPosition(mBoundingBox.left, mBoundingBox.top);
-        mHealthbar.setWidth(mBoundingBox.width);
+        mHealthbar.setPosition(mBoundingBox.left-10, mBoundingBox.top-10);
+        mHealthbar.setWidth(mBoundingBox.width+20);
         mHealthbar.setHealth(mHealth);
         
         

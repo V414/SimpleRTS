@@ -1,5 +1,108 @@
 package com.dinasgames.main.Objects.Entities.Units.Vehicles;
 
+import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.main.Math.RandomNumber;
+import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.GameObjectType;
+import com.dinasgames.main.Scenes.Scene;
+import java.awt.Color;
+
+public class LightTank extends Vehicle{
+  
+  RectangleShape mShapeBody;
+  RectangleShape mShapeTurret;
+  Vector2f mTurretSize;
+
+  protected LightTank(){
+    mShapeBody = null;
+    mShapeTurret = null;
+    mHealthMax = 100.f;
+    mHealth = mHealthMax;
+  }
+  
+  public static LightTank create() {
+        
+        // Add a test unit to the scene
+        int id = Scene.getCurrent().add(new LightTank());
+        
+        // Make a reference to this object and return it
+        LightTank ghost = new LightTank();
+        ghost.setID(id);
+        ghost.makeReference();
+        
+        return ghost;
+        
+    }
+    
+    @Override
+    public void onCreate() {
+        
+        super.onCreate();
+        
+        setSize(40.f, 20.f);
+        mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
+        
+        mShapeBody = RectangleShape.create();
+        
+        mShapeBody.setFillColor(Color.red);
+        mShapeBody.setOutlineColor(Color.black);
+        mShapeBody.setOutlineThickness(2.f);
+        mShapeBody.setSize(mSize);
+        mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
+        
+        mShapeTurret = RectangleShape.create();
+        
+        mShapeTurret.setFillColor(Color.red);
+        mShapeTurret.setOutlineColor(Color.black);
+        mShapeTurret.setOutlineThickness(2.f);
+        mShapeTurret.setSize(mTurretSize);
+        mShapeTurret.setRotation(RandomNumber.between(0.f,360.f));
+        
+    }
+    
+    @Override
+    public void onTick(double time) {
+        
+        super.onTick(time);
+        
+        //mPosition.x --;
+        
+    }
+    
+    @Override
+    public void onRender() {
+        
+        super.onRender();
+        
+        mShapeBody.setPosition(mPosition);
+        mShapeBody.setRotation(mRotation);
+        
+        mShapeTurret.setPosition(mPosition.x+7, mPosition.y+2);
+        mShapeTurret.setRotation(mRotation);
+        
+    }
+    
+    @Override
+    public int getTypeID() {
+        return super.getTypeID() | GameObjectType.LightTank.getID();
+    }
+    
+    @Override
+    public String getTypeString() {
+        return "LightTank";
+    }
+    
+    @Override
+    protected boolean hasValidReference() {
+        return (this.ref() != null);
+    }
+
+    private LightTank ref() {
+        return (LightTank)Scene.getCurrent().get(mID);
+    }
+  
+}
+
 //package com.dinasgames.objects;
 //
 //import java.awt.Color;

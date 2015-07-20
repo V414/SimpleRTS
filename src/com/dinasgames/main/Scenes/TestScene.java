@@ -7,7 +7,9 @@ package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.TestUnit;
+import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 
 
 
@@ -24,7 +26,13 @@ public class TestScene extends Scene {
         for(int i = 0; i < 5; i ++) {
             TestUnit unit = TestUnit.create();
             unit.setPosition(RandomNumber.between(new Vector2f(0.f,0.f), new Vector2f(1280.f, 720.f)));
-        }
+        } 
+        
+        Rifleman rifleman = Rifleman.create();
+        rifleman.setPosition(500, 500);
+        
+        LightTank lightTank = LightTank.create();
+        lightTank.setPosition(200, 300);
         
     }
     
