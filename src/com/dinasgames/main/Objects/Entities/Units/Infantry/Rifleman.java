@@ -1,5 +1,111 @@
 package com.dinasgames.main.Objects.Entities.Units.Infantry;
 
+import com.dinasgames.main.Graphics.CircleShape;
+import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.main.Math.RandomNumber;
+import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.GameObjectType;
+import com.dinasgames.main.Scenes.Scene;
+import java.awt.Color;
+
+public class Rifleman extends Infantry{
+  
+  CircleShape mShapeBody;
+  RectangleShape mShapeGun;
+  Vector2f mGunSize;
+
+  protected Rifleman(){
+    mShapeBody = null;
+    mShapeGun = null;
+    mHealthMax = 100.f;
+    mHealth = mHealthMax;
+  }
+  
+  public static Rifleman create() {
+        
+        // Add a test unit to the scene
+        int id = Scene.getCurrent().add(new Rifleman());
+        
+        // Make a reference to this object and return it
+        Rifleman ghost = new Rifleman();
+        ghost.setID(id);
+        ghost.makeReference();
+        
+        return ghost;
+        
+    }
+    
+    @Override
+    public void onCreate() {
+        
+        super.onCreate();
+        
+        setSize(10.f, 10.f);
+        mGunSize = new Vector2f(2, 10);
+        
+        mShapeBody = CircleShape.create();
+        
+        mShapeBody.setFillColor(Color.red);
+        mShapeBody.setOutlineColor(Color.black);
+        mShapeBody.setOutlineThickness(2.f);
+        mShapeBody.setSize(mSize);
+        mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
+        mShapeBody.setOriginCenter();
+        
+        mShapeGun = RectangleShape.create();
+        
+        mShapeGun.setFillColor(Color.black);
+        mShapeGun.setOutlineColor(Color.black);
+        mShapeGun.setOutlineThickness(0.f);
+        mShapeGun.setSize(mGunSize);
+        mShapeGun.setRotation(RandomNumber.between(0.f,360.f));
+        mShapeGun.setOriginCenter();
+        
+    }
+    
+    @Override
+    public void onTick(double time) {
+        
+        super.onTick(time);
+        
+        //mPosition.x --;
+        
+    }
+    
+    @Override
+    public void onRender() {
+        
+        super.onRender();
+        
+        mShapeBody.setPosition(mPosition);
+        mShapeBody.setRotation(mRotation);
+        
+        mShapeGun.setPosition(mPosition.x, mPosition.y);
+        mShapeGun.setRotation(mRotation);
+        
+    }
+    
+    @Override
+    public int getTypeID() {
+        return super.getTypeID() | GameObjectType.Rifleman.getID();
+    }
+    
+    @Override
+    public String getTypeString() {
+        return "Rifleman";
+    }
+    
+    @Override
+    protected boolean hasValidReference() {
+        return (this.ref() != null);
+    }
+
+    private Rifleman ref() {
+        return (Rifleman)Scene.getCurrent().get(mID);
+    }
+  
+}
+
 //package com.dinasgames.objects;
 //
 //import java.awt.Color;
