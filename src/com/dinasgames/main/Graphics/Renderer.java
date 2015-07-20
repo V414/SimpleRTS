@@ -14,6 +14,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.Color;
+import java.awt.RenderingHints;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -161,6 +162,9 @@ public class Renderer {
             
             // Draw shapes in order of highest to lowest (negative is toward the screen)
             Graphics2D g = (Graphics2D)mGraphics;
+            
+            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+                    RenderingHints.VALUE_ANTIALIAS_ON);
             while(true) {
                 
                 int renderObject = -1;
