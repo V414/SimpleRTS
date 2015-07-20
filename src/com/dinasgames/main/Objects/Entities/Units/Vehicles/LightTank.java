@@ -16,6 +16,7 @@ public class LightTank extends Vehicle{
   protected LightTank(){
     mShapeBody = null;
     mShapeTurret = null;
+    mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
   }
@@ -34,6 +35,15 @@ public class LightTank extends Vehicle{
         
     }
     
+//    @Override
+//    public void setSize(Vector2f size) {
+//        super.setSize(size);
+//        mTurretSize = new Vector2f(size.x / 2.f, size.y / 2.f);
+//        if(isReference()) {
+//            ref().setSize(size);
+//        }
+//    }
+  
     @Override
     public void onCreate() {
         

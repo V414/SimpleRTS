@@ -5,7 +5,8 @@
  */
 package com.dinasgames.main.Players;
 
-import com.dinasgames.main.Game;
+import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.SimpleGame;
 
 /**
  *
@@ -18,7 +19,7 @@ public class PlayerList {
     protected Player[] mPlayers;
     
     public static PlayerList getCurrent() {
-        return Game.current.getPlayerList();
+        return ((SimpleGame)Game.current).getPlayerList();
     }
     
     public PlayerList() {
@@ -30,6 +31,9 @@ public class PlayerList {
     
     public void clear() {
         for(int i = 0; i < MAX_PLAYERS; i++) {
+            if(mPlayers[i] != null) {
+                mPlayers[i].onRemove();
+            }
             mPlayers[i] = null;
         }
     }
@@ -37,7 +41,10 @@ public class PlayerList {
     public int add(Player player) {
         for(int i = 0; i < MAX_PLAYERS; i++) {
             if(mPlayers[i] == null) {
+                
                 mPlayers[i] = player;
+                mPlayers[i].setID(i);
+                
                 return i;
             }
         }
@@ -48,6 +55,9 @@ public class PlayerList {
         if(idx < 0 || idx >= MAX_PLAYERS) {
             return;
         }
+        if(mPlayers[idx] != null) {
+            mPlayers[idx].onRemove();
+        }
         mPlayers[idx] = null;
     }
     
@@ -56,6 +66,16 @@ public class PlayerList {
             return null;
         }
         return mPlayers[idx];
+    }
+    
+    public void update() {
+        
+        for(int i = 0; i < MAX_PLAYERS; i++) {
+            if(mPlayers[i] != null) {
+                mPlayers[i].update();
+            }
+        }
+        
     }
     
 }

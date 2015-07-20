@@ -6,7 +6,8 @@
 package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Camera;
-import com.dinasgames.main.Game;
+import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Objects.GameObject;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class Scene {
     protected GameObject[] mObjects;
     
     public static Scene getCurrent() {
-        return Game.current.getScene();
+        return ((SimpleGame)Game.current).getScene();
     }
     
     public Scene() {

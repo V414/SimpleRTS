@@ -22,10 +22,20 @@ public class CircleShape extends Shape{
         
         // Create a ghost
         CircleShape ghost = new CircleShape();
+        ghost.makeReference();
         ghost.setID(id);
         
         return ghost;
         
+    }
+    
+    @Override
+    protected boolean hasValidReference() {
+        return (ref() != null);
+    }
+
+    private CircleShape ref() {
+        return (CircleShape)Renderer.getCurrent().get(mID);
     }
     
     @Override
@@ -38,6 +48,10 @@ public class CircleShape extends Shape{
     public void render(Graphics2D g) {
         
         if(mCircle == null) {
+            return;
+        }
+        
+        if(mSize.x == 0.f && mSize.y == 0.f) {
             return;
         }
         

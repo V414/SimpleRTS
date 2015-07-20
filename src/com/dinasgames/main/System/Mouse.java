@@ -5,7 +5,7 @@
  */
 package com.dinasgames.main.System;
 
-import com.dinasgames.main.Game;
+import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Scenes.Scene;
 import java.awt.event.MouseEvent;
@@ -33,7 +33,7 @@ public class Mouse {
         mPosition.y = mRealPosition.y;
         
         // Apply camera transformation
-        if(Game.current.getScene() != null && Scene.getCurrent().getCamera() != null) {
+        if(Scene.getCurrent() != null && Scene.getCurrent().getCamera() != null) {
 
             mPosition.x += Scene.getCurrent().getCamera().getPosition().x;
             mPosition.y += Scene.getCurrent().getCamera().getPosition().y;

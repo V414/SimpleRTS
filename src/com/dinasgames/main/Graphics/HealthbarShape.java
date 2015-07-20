@@ -38,63 +38,72 @@ public class HealthbarShape extends Shape {
         
         // Create a ghost
         HealthbarShape ghost = new HealthbarShape();
+        ghost.makeReference();
         ghost.setID(id);
         
         return ghost;
         
     }
     
-    private HealthbarShape self() {
+    @Override
+    protected boolean hasValidReference() {
+        return (ref() != null);
+    }
+
+    private HealthbarShape ref() {
         return (HealthbarShape)Renderer.getCurrent().get(mID);
     }
     
     public HealthbarShape setHealth(float hp) {
+        if(isReference()) {
+            ref().setHealth(hp);
+            return this;
+        }
         if(mHealth != hp) {
             mHealth = hp;
             recalculate();
-        }
-        if(inRenderQueue()) {
-            self().setHealth(hp);
         }
         return this;
     }
     
     public HealthbarShape setMaxHealth(float max) {
+        if(isReference()) {
+            ref().setMaxHealth(max);
+            return this;
+        }
         if(mHealthMax != max) {
             mHealthMax = max;
             recalculate();
-        }
-        if(inRenderQueue()) {
-            self().setMaxHealth(max);
         }
         return this;
     }
     
     public HealthbarShape setForegroundColor(Color color) {
-        mForegroundColor = color;
-        if(inRenderQueue()) {
-            self().setForegroundColor(color);
+        if(isReference()) {
+            ref().setForegroundColor(color);
+            return this;
         }
+        mForegroundColor = color;
         return this;
     }
     
     public Color getForegroundColor() {
-        if(inRenderQueue()) {
-            return self().getForegroundColor();
+        if(isReference()) {
+            return ref().getForegroundColor();
         }
         return mForegroundColor;
     }
     
     public float getHealth() {
-        if(inRenderQueue()) {
-            return self().getHealth();
+        if(isReference()) {
+            return ref().getHealth();
         }
         return mHealth;
     }
     
     public float getMaxHealth() {
-        if(inRenderQueue()) {
-            return self().getMaxHealth();
+        if(isReference()) {
+            return ref().getMaxHealth();
         }
         return mHealthMax;
     }
@@ -127,6 +136,10 @@ public class HealthbarShape extends Shape {
     
     @Override
     public void render(Graphics2D g) {
+        
+        if(mSize.x == 0.f && mSize.y == 0.f) {
+            return;
+        }
         
         AffineTransform oldTransform = g.getTransform();
         

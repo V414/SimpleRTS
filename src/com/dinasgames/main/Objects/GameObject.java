@@ -5,7 +5,7 @@
  */
 package com.dinasgames.main.Objects;
 
-import com.dinasgames.main.Game;
+import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Math.Vector2f;
 
@@ -145,7 +145,7 @@ public class GameObject {
     }
     
     public void destroy() {
-        if( Game.current.getScene() != null && Scene.getCurrent() != null ) {
+        if( Scene.getCurrent() != null ) {
             Scene.getCurrent().remove(mID);
         }
     }

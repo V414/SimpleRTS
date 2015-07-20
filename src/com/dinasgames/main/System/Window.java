@@ -5,7 +5,8 @@
  */
 package com.dinasgames.main.System;
 
-import com.dinasgames.main.Game;
+import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.WindowGame;
 import com.dinasgames.main.Graphics.Renderer;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -24,7 +25,7 @@ public class Window implements WindowListener {
     protected Renderer mRenderer;
     
     public static Window getCurrent() {
-        return Game.current.getWindow();
+        return ((WindowGame)Game.current).getWindow();
     }
     
     public Window() {

@@ -32,6 +32,7 @@ public class Renderer {
     
     public final int MAX_RENDER_OBJECTS = 1024;
     
+    protected Color mBackgroundColor;
     protected boolean[] mRenderFlag;
     protected Renderable[] mRenderObjects;
     protected Canvas mCanvas;
@@ -49,6 +50,7 @@ public class Renderer {
         //mRenderList = Collections.synchronizedList(new ArrayList<Renderable>());
         mRenderObjects  = new Renderable[MAX_RENDER_OBJECTS];
         mRenderFlag     = new boolean[MAX_RENDER_OBJECTS];
+        mBackgroundColor = Color.white;
         
         // Init render list
         for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
@@ -77,6 +79,14 @@ public class Renderer {
            public void mouseMoved(MouseEvent e) {
                
                // Apply these changes globally
+               Mouse.onMouseMoved(e.getX(), e.getY());
+               
+           }
+           
+           @Override
+           public void mouseDragged(MouseEvent e) {
+               
+               // Bugfix: Mouse position not updating when clicking at the same time
                Mouse.onMouseMoved(e.getX(), e.getY());
                
            }
@@ -111,6 +121,14 @@ public class Renderer {
         mCanvas.addMouseMotionListener(mMouseAdapter);
         mCanvas.addKeyListener(mKeyboardAdapter);
         
+    }
+    
+    public void setBackgroundColor(Color color) {
+        mBackgroundColor = color;
+    }
+    
+    public Color getBackgroundColor() {
+        return mBackgroundColor;
     }
     
     public void clear() {
@@ -150,7 +168,7 @@ public class Renderer {
         try {
             
             mGraphics = mBuffer.getDrawGraphics();
-            mGraphics.setColor(Color.white);
+            mGraphics.setColor(mBackgroundColor);
             mGraphics.fillRect( 0, 0, 1279, 719 );
             
             // Reset render flags
@@ -172,7 +190,7 @@ public class Renderer {
                 
                 // Find the render object with the lowest depth
                 for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
-                    if(mRenderObjects[i] != null && !mRenderFlag[i]) {
+                    if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible()) {
                         if(renderObject == -1) {
                             renderObject = i;
                             highestDepth = mRenderObjects[i].getDepth();

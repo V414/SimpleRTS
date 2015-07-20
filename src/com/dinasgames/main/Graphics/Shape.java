@@ -87,7 +87,12 @@ public class Shape extends Renderable {
         mTransformNeedsUpdate = false;
     }
     
-    private Shape self() {
+    @Override
+    protected boolean hasValidReference() {
+        return (ref() != null);
+    }
+
+    private Shape ref() {
         return (Shape)Renderer.getCurrent().get(mID);
     }
     
@@ -135,27 +140,31 @@ public class Shape extends Renderable {
     }
     
     public float getRotation() {
-        if(inRenderQueue()) {
-            return self().getRotation();
+        if(isReference()) {
+            return ref().getRotation();
         }
         return mRotation;
     }
     
     public Vector2f getScale() {
-        if(inRenderQueue()) {
-            return self().getScale();
+        if(isReference()) {
+            return ref().getScale();
         }
         return mScale;
     }
     
     public Vector2f getOrigin() {
-        if(inRenderQueue()) {
-            return self().getOrigin();
+        if(isReference()) {
+            return ref().getOrigin();
         }
         return mOrigin;
     }
     
     public Shape setRotation(float rotation) {
+        if(isReference()) {
+            ref().setRotation(rotation);
+            return this;
+        }
         mRotation = rotation;
         while(mRotation < 0) {
             mRotation += 360;
@@ -165,173 +174,252 @@ public class Shape extends Renderable {
         }
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
-        if(inRenderQueue()) {
-            self().setRotation(rotation);
-        }
         return this;
     }
     
     public Shape setWidth(float width) {
-        mSize.x = width;
-        if(inRenderQueue()) {
-            self().setWidth(width);
+        if(isReference()) {
+            ref().setWidth(width);
+            return this;
         }
+        if(mSize.x == width) { return this; }
+        mSize.x = width;
         return this;
     }
     
     public Shape setHeight(float height) {
-        mSize.y = height;
-        if(inRenderQueue()) {
-            self().setHeight(height);
+        if(isReference()) {
+            ref().setHeight(height);
+            return this;
         }
+        if(mSize.y == height) { return this; }
+        mSize.y = height;
+        recalculate();
         return this;
     }
     
     public Shape setPosition(Vector2f position) {
+        if(isReference()) {
+            ref().setPosition(position);
+            return this;
+        }
+        if(mPosition.x == position.x && mPosition.y == position.y) {
+            return this;
+        }
         mPosition = position;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
         recalculate();
-        if(inRenderQueue()) {
-            self().setPosition(position);
-        }
         return this;
     }   
     
+    public Shape setX(float x) {
+        if(isReference()) {
+            ref().setX(x);
+            return this;
+        }
+        if(mPosition.x == x) {
+            return this;
+        }
+        mPosition.x = x;
+        recalculate();
+        return this;
+    }
+    
+    public Shape setY(float y) {
+        if(isReference()) {
+            ref().setY(y);
+            return this;
+        }
+        if(mPosition.y == y) {
+            return this;
+        }
+        mPosition.y = y;
+        recalculate();
+        return this;
+    }
+    
+    public float getY() {
+        if(isReference()) {
+            return ref().getY();
+        }
+        return mPosition.y;
+    }
+    
+    public float getX() {
+        if(isReference()) {
+            return ref().getX();
+        }
+        return mPosition.x;
+    }
+    
     public Shape setPosition(float x, float y) {
+        if(isReference()) {
+            ref().setPosition(x, y);
+            return this;
+        }
+        if(mPosition.x == x && mPosition.y == y) {
+            return this;
+        }
         mPosition.x = x;
         mPosition.y = y;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
         recalculate();
-        if(inRenderQueue()) {
-            self().setPosition(x, y);
-        }
         return this;
     }
     
     public Shape setScale(Vector2f scale) {
+        if(isReference()) {
+            ref().setScale(scale);
+            return this;
+        }
+        if(mScale.x == scale.x && mScale.y == scale.y) {
+            return this;
+        }
         mScale = scale;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
-        if(inRenderQueue()) {
-            self().setScale(scale);
-        }
         return this;
     }   
     
     public Shape setScale(float x, float y) {
+        if(isReference()) {
+            ref().setScale(x, y);
+            return this;
+        }
+        if(mScale.x == x && mScale.y == y) {
+            return this;
+        }
         mScale.x = x;
         mScale.y = y;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
-        if(inRenderQueue()) {
-            self().setScale(x, y);
-        }
         return this;
     }
     
     public Shape setSize(Vector2f size) {
+        if(isReference()) {
+            ref().setSize(size);
+            return this;
+        }
+        if(mSize.x == size.x && mSize.y == size.y) {
+            return this;
+        }
         mSize = size;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
         recalculate();
-        if(inRenderQueue()) {
-            self().setSize(size);
-        }
         return this;
     }   
     
     public Shape setSize(float x, float y) {
+        if(isReference()) {
+            ref().setSize(x, y);
+            return this;
+        }
+        if(mSize.x == x && mSize.y == y) {
+            return this;
+        }
         mSize.x = x;
         mSize.y = y;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
         recalculate();
-        if(inRenderQueue()) {
-            self().setSize(x, y);
-        }
         return this;
     }
     
     public Shape setOrigin(Vector2f origin) {
+        if(isReference()) {
+            ref().setOrigin(origin);
+            return this;
+        }
+        if(mOrigin.x == origin.x && mOrigin.y == origin.y) {
+            return this;
+        }
         mOrigin = origin;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
-        if(inRenderQueue()) {
-            self().setOrigin(origin);
-        }
         return this;
     }   
     
     public Shape setOrigin(float x, float y) {
+        if(isReference()) {
+            ref().setOrigin(x, y);
+            return this;
+        }
+        if(mOrigin.x == x && mOrigin.y == y) {
+            return this;
+        }
         mOrigin.x = x;
         mOrigin.y = y;
         mTransformNeedsUpdate = true;
         mInverseTransformNeedsUpdate = true;
-        if(inRenderQueue()) {
-            self().setOrigin(x, y);
-        }
         return this;
     }
     
     public Shape setOriginCenter(){
-      mOrigin.x = mSize.x/2;
-      mOrigin.y = mSize.y/2;
-      
-      if(inRenderQueue()){
-        self().setOriginCenter();
-      }
-      return this;
+        if(isReference()) {
+            ref().setOriginCenter();
+            return this;
+        }
+        setOrigin(mSize.x / 2.f, mSize.y / 2.f);
+        return this;
     }
     
     public Vector2f getPosition() {
-        if(inRenderQueue()) {
-            return self().getPosition();
+        if(isReference()) {
+            return ref().getPosition();
         }
         return mPosition;
     }
     
     public Vector2f getSize() {
-        if(inRenderQueue()) {
-            return self().getSize();
+        if(isReference()) {
+            return ref().getSize();
         }
         return mSize;
     }
     
     public float getWidth() {
-        if(inRenderQueue()) {
-            return self().getWidth();
+        if(isReference()) {
+            return ref().getWidth();
         }
         return mSize.x;
     }
     
     public float getHeight() {
-        if(inRenderQueue()) {
-            return self().getHeight();
+        if(isReference()) {
+            return ref().getHeight();
         }
         return mSize.y;
     }
     
-    public void setOutlineColor(Color color) {
+    public Shape setOutlineColor(Color color) {
+        if(isReference()) {
+            ref().setOutlineColor(color);
+            return this;
+        }
         mOutlineColor = color;
-        if(inRenderQueue()) {
-            self().setOutlineColor(color);
-        }
+        return this;
     }
     
-    public void setFillColor(Color color) {
+    public Shape setFillColor(Color color) {
+        if(isReference()) {
+            ref().setFillColor(color);
+            return this;
+        }
         mFillColor = color;
-        if(inRenderQueue()) {
-            self().setFillColor(color);
-        }
+        return this;
     }
     
-    public void setOutlineThickness(float t) {
-        mOutlineThickness = t;
-        if(inRenderQueue()) {
-            self().setOutlineThickness(t);
+    public Shape setOutlineThickness(float t) {
+        if(isReference()) {
+            ref().setOutlineThickness(t);
+            return this;
         }
+        mOutlineThickness = t;
+        return this;
     }
     
 //    @Override

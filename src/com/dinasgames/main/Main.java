@@ -2,22 +2,26 @@
 
 package com.dinasgames.main;
 
-import com.dinasgames.main.Scenes.TestScene;
+import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.TestGame;
 
 public class Main {
     
     public static void main(String args[]) {
         
-        Game.current = new Game();
-        
-        // Goto the test scene
-        Game.current.setScene(new TestScene());
-        
-        while(Game.current.isRunning()) {
+        //try {
             
-            Game.current.tick();
-            
-        }
+            // Create a new game instance
+            Game.current = new TestGame();
+
+            // Run the game
+            Game.current.run();
+        
+//        } catch(Exception e) {
+//            System.out.println("Exception: " + e.toString());
+//        } finally {
+//            Game.current = null;
+//        }
         
     };
     

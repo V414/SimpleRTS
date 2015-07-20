@@ -31,6 +31,7 @@ public class RectangleShape extends Shape {
         
         // Create a ghost
         RectangleShape ghost = new RectangleShape();
+        ghost.makeReference();
         ghost.setID(id);
         
         return ghost;
@@ -47,6 +48,10 @@ public class RectangleShape extends Shape {
     public void render(Graphics2D g) {
         
         if(mRectangle == null) {
+            return;
+        }
+        
+        if(mSize.x == 0.f && mSize.y == 0.f) {
             return;
         }
         

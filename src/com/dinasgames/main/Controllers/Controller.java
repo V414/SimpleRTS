@@ -5,16 +5,26 @@
  */
 package com.dinasgames.main.Controllers;
 
+import com.dinasgames.main.Inputs.Input;
+
 /**
  *
  * @author Jack
  */
 public class Controller {
     
+    protected Input mInput;
     
+    protected Controller() {
+        mInput = null;
+    }
     
     public void update() {
         
+    }
+    
+    public Input getInput() {
+        return mInput;
     }
     
 }

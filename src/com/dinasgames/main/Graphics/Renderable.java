@@ -13,27 +13,40 @@ import java.awt.Graphics2D;
  */
 public class Renderable {
     
+    protected boolean mIsReference;
+    protected boolean mVisible;
     protected int mDepth;
     protected int mID;
     
     Renderable() {
+        mVisible = true;
         mDepth = 0;
         mID = -1;
+        mIsReference = false;
     }
     
-    private Renderable self() {
+    public boolean isReference() {
+        return (mIsReference && hasValidReference());
+    }
+    
+    public void makeReference() {
+        mIsReference = true;
+    }
+    
+    protected boolean hasValidReference() {
+        return (ref() != null);
+    }
+
+    private Renderable ref() {
         return Renderer.getCurrent().get(mID);
     }
 
     public void remove() {
-        if(inRenderQueue()) {
-            Renderer.getCurrent().remove(mID);
-            mID = -1;
+        if(mID < 0) {
+            return;
         }
-    }
-    
-    public boolean inRenderQueue() {
-        return (mID >= 0);
+        Renderer.getCurrent().remove(mID);
+        mID = -1;
     }
     
     public Renderable setID(int id) {
@@ -47,17 +60,48 @@ public class Renderable {
     
     public Renderable setDepth(int depth) {
         mDepth = depth;
-        if(inRenderQueue()) {
-            self().setDepth(depth);
+        if(isReference()) {
+            ref().setDepth(depth);
         }
         return this;
     }
     
     public int getDepth() {
-        if(inRenderQueue()) {
-            return self().getDepth();
+        if(isReference()) {
+            return ref().getDepth();
         }
         return mDepth;
+    }
+    
+    public boolean isVisible() {
+        if(isReference()) {
+            return ref().isVisible();
+        }
+        return mVisible;
+    }
+    
+    public void setVisible(boolean vis) {
+        if(isReference()) {
+            ref().setVisible(vis);
+            return;
+        }
+        mVisible = vis;
+    }
+    
+    public void hide() {
+        if(isReference()) {
+            ref().hide();
+            return;
+        }
+        mVisible = false;
+    }
+    
+    public void show() {
+        if(isReference()) {
+            ref().show();
+            return;
+        }
+        mVisible = true;
     }
     
     public void render(Graphics2D g) {

@@ -5,10 +5,12 @@
  */
 package com.dinasgames.main.Games;
 
+import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.main.System.Mouse;
+import java.awt.Color;
 
 /**
  *
@@ -65,6 +67,8 @@ public class SimpleGame extends WindowGame {
         
         mPlayerList = new PlayerList();
         
+        Renderer.getCurrent().setBackgroundColor(new Color(128,128,128,255));
+        
     }
     
     @Override
@@ -84,6 +88,9 @@ public class SimpleGame extends WindowGame {
         
         // Update mouse
         Mouse.tick();
+        
+        // Update players
+        mPlayerList.update();
         
         // Update game logic
         double newTime = System.currentTimeMillis() / 1000.0;
