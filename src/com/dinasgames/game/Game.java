@@ -90,6 +90,19 @@ public class Game extends JPanel{
           }
           }
         }
+        
+        if(SwingUtilities.isRightMouseButton(e)){
+          synchronized (objects){
+          for (GameObject gameObject : objects) {
+            Unit unit = (Unit) gameObject;
+            
+            if(unit.getIsSelected() == true){
+              unit.setTargetX(e.getX()+cameraX);
+              unit.setTargetY(e.getY()+cameraY);
+            }
+          }
+          }
+        }
       }
 
       @Override
