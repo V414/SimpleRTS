@@ -6,7 +6,10 @@
 package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.LocalGame;
+import com.dinasgames.server.ServerGame;
 import com.dinasgames.main.Games.SimpleGame;
+import com.dinasgames.main.Networking.Network;
 
 /**
  *
@@ -19,6 +22,9 @@ public class PlayerList {
     protected Player[] mPlayers;
     
     public static PlayerList getCurrent() {
+        if(Network.isServer()) {
+            return ((ServerGame)Game.current).getPlayerList();
+        }
         return ((SimpleGame)Game.current).getPlayerList();
     }
     

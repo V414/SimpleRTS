@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main.Networking.Server;
 
+import com.dinasgames.main.Networking.Network;
 import com.esotericsoftware.kryonet.Connection;
 import com.esotericsoftware.kryonet.Listener;
 import com.esotericsoftware.kryonet.Server;
@@ -18,17 +19,20 @@ import java.util.logging.Logger;
  */
 public class SimpleServer {
     
-    public final int TCP_PORT = 12000;
-    public final int UDP_PORT = 12001;
     
+    
+    protected boolean mRunning;
     protected int mTcpPort, mUdpPort;
     protected Server mServer;
     
     public SimpleServer() {
         
         mServer = new Server();
-        mTcpPort = TCP_PORT;
-        mUdpPort = UDP_PORT;
+        mTcpPort = Network.TCP_PORT;
+        mUdpPort = Network.UDP_PORT;
+        mRunning = false;
+        
+        Network.loadPackets(mServer.getKryo());
         
         mServer.addListener(new Listener() {
             
@@ -42,7 +46,7 @@ public class SimpleServer {
     
     protected boolean bind() {
         try {
-            mServer.bind(mTcpPort, mTcpPort);
+            mServer.bind(mTcpPort);
             return true;
         } catch (IOException ex) {
             Logger.getLogger(SimpleServer.class.getName()).log(Level.SEVERE, null, ex);
@@ -67,12 +71,27 @@ public class SimpleServer {
     }
     
     public boolean start() {
+        if(mRunning) {
+            return true;
+        }
         mServer.start();
-        return this.bind();
+        if(this.bind()) {
+            mRunning = true;
+            return true;
+        }
+        return false;
     }
     
     public void stop() {
+        if(!mRunning) {
+            return;
+        }
         mServer.stop();
+        mRunning = false;
+    }
+    
+    public boolean isRunning() {
+        return mRunning;
     }
     
 }

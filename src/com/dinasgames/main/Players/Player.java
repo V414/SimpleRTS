@@ -7,13 +7,14 @@ package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.Controller;
 import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Graphics.RectangleShape;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Objects.Entities.Entity;
 import com.dinasgames.main.Objects.Utils.EntitySelection;
-import com.dinasgames.main.System.Mouse;
 import java.awt.Color;
 import java.util.List;
 
@@ -55,6 +56,9 @@ public class Player {
     protected Vector2f mSelectionStart;
     
     public static Player getLocalPlayer() {
+        if(Network.isServer()) {
+            return null;
+        }
         return ((SimpleGame)Game.current).getPlayer();
     }
     

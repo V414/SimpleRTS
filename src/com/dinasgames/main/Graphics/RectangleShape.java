@@ -6,6 +6,7 @@
 package com.dinasgames.main.Graphics;
 
 import com.dinasgames.main.Camera;
+import com.dinasgames.main.Networking.Network;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Rectangle;
@@ -25,6 +26,10 @@ public class RectangleShape extends Shape {
     }
     
     public static RectangleShape create() {
+        
+        if(Network.isServer()) {
+            return new RectangleShape();
+        }
         
         // Add a rectangle shape to the render queue
         int id = Renderer.getCurrent().add(new RectangleShape());

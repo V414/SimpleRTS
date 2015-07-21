@@ -6,10 +6,10 @@
 package com.dinasgames.main.System;
 
 import com.dinasgames.main.Games.Game;
-import com.dinasgames.main.Games.WindowGame;
+import com.dinasgames.main.Games.LocalGame;
+import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Graphics.Renderer;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.dinasgames.main.Networking.Network;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
@@ -25,7 +25,10 @@ public class Window implements WindowListener {
     protected Renderer mRenderer;
     
     public static Window getCurrent() {
-        return ((WindowGame)Game.current).getWindow();
+        if(Network.isServer()) {
+            return null;
+        }
+        return ((SimpleGame)Game.current).getWindow();
     }
     
     public Window() {

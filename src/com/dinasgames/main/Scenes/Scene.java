@@ -7,13 +7,13 @@ package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Camera;
 import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.LocalGame;
+import com.dinasgames.server.ServerGame;
 import com.dinasgames.main.Games.SimpleGame;
+import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Objects.GameObject;
-import com.dinasgames.main.Objects.GameObjectType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * Class used to store and manage game objects.
@@ -27,6 +27,9 @@ public class Scene {
     protected GameObject[] mObjects;
     
     public static Scene getCurrent() {
+        if(Network.isServer()) {
+            return ((ServerGame)Game.current).getServerScene();
+        }
         return ((SimpleGame)Game.current).getScene();
     }
     

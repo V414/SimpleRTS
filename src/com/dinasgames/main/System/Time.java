@@ -13,11 +13,11 @@ public class Time {
     
     protected long mMilliseconds;
     
-    Time() {
+    public Time() {
         mMilliseconds = 0;
     }
     
-    Time(long time) {
+    public Time(long time) {
         mMilliseconds = time;
     }
     

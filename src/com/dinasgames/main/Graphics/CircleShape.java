@@ -1,6 +1,7 @@
 package com.dinasgames.main.Graphics;
 
 import com.dinasgames.main.Camera;
+import com.dinasgames.main.Networking.Network;
 import java.awt.BasicStroke;
 import java.awt.Graphics2D;
 import java.awt.Stroke;
@@ -16,6 +17,10 @@ public class CircleShape extends Shape{
     }
     
     public static CircleShape create() {
+        
+        if(Network.isServer()) {
+            return new CircleShape();
+        }
         
         // Add a rectangle shape to the render queue
         int id = Renderer.getCurrent().add(new CircleShape());

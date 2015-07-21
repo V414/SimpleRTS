@@ -13,6 +13,7 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Networking.Network;
 
 /**
  *
@@ -32,6 +33,10 @@ public class HealthbarShape extends Shape {
     }
     
     public static HealthbarShape create() {
+        
+        if(Network.isServer()) {
+            return new HealthbarShape();
+        }
         
         // Add a rectangle shape to the render queue
         int id = Renderer.getCurrent().add(new HealthbarShape());

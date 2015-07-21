@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main.Graphics;
 
+import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.System.Window;
 import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Keyboard;
@@ -19,10 +20,6 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-//import java.util.ArrayList;
-//import java.util.List;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * A class used to render a list to a window.
@@ -42,6 +39,9 @@ public class Renderer {
     protected KeyAdapter mKeyboardAdapter;
     
     public static Renderer getCurrent() {
+        if(Network.isServer()) {
+            return null;
+        }
         return Window.getCurrent().getRenderer();
     }
     
