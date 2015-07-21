@@ -30,9 +30,9 @@ public class Unit extends Entity {
         if(mRotation < 0){
             mRotation += 360;
         }
-
-        float nX = mPosition.x - (Math.round(mVelocity * Math.cos(Math.toRadians(mRotation))));
-        float nY = mPosition.y - (Math.round(mVelocity * Math.sin(Math.toRadians(mRotation))));
+        
+        float nX = mPosition.x + (Math.round(mVelocity * Math.cos(Math.toRadians(mRotation))));
+        float nY = mPosition.y + (Math.round(mVelocity * Math.sin(Math.toRadians(mRotation))));
 
         mPosition.x = nX;
         mPosition.y = nY;

@@ -190,12 +190,8 @@ public class Player {
     }
     
     protected void setNewTargetPosition(Vector2f mousePosition) {
-      if(isReference()) {
-        ref().setNewTargetPosition(mousePosition);
-        return;
-      }
       
-      Entity[] selectedEntities = mEntitySelection.getSelections();
+      List<Entity> selectedEntities = mEntitySelection.getSelections();
       
       for (Entity selectedEntity : selectedEntities) {
         if (selectedEntity.hasType(GameObjectType.Unit)) {

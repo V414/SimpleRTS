@@ -1,6 +1,7 @@
 package com.dinasgames.main.Objects.Utils;
 
 import com.dinasgames.main.Objects.Entities.Entity;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -106,8 +107,14 @@ public class EntitySelection {
         return mSelection[idx];
     }
     
-    public Entity[] getSelections() {
-        return mSelection;
+    public List<Entity> getSelections() {
+        List<Entity> list = new ArrayList();
+        for(int i = 0; i < MAX_SELECTIONS; i ++) {
+            if(mSelection[i] != null) {
+                list.add(mSelection[i]);
+            }
+        }
+        return list;
     }
     
 }
