@@ -119,6 +119,10 @@ public class LocalPlayer extends Player {
             
         }
         
+        if(input.mousePressedR){
+          setNewTargetPosition(input.mousePosition);
+        }
+        
     }
     
     public LocalController getLocalController() {

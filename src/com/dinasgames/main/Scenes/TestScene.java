@@ -21,6 +21,8 @@ public class TestScene extends Scene {
             Rifleman rifleman = Rifleman.create();
             rifleman.setPosition(RandomNumber.between(new Vector2f(100.f, 100.f), new Vector2f(300.f, 300.f)));
             rifleman.setOwner(Player.getLocalPlayer());
+            
+            rifleman.setTargetPosition(rifleman.getPosition());
         }
         
         // Create a light tank of another team

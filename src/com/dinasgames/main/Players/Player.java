@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.Controller;
@@ -12,8 +7,9 @@ import com.dinasgames.main.Graphics.RectangleShape;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.Entities.Units.Unit;
+import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Objects.Utils.EntitySelection;
-import com.dinasgames.main.System.Mouse;
 import java.awt.Color;
 import java.util.List;
 
@@ -186,6 +182,22 @@ public class Player {
     protected void updateSelectionShape() {
         mSelectionShape.setPosition(mSelectionBox.left, mSelectionBox.top);
         mSelectionShape.setSize(mSelectionBox.width, mSelectionBox.height);
+    }
+    
+    protected void setNewTargetPosition(Vector2f mousePosition) {
+      if(isReference()) {
+        ref().setNewTargetPosition(mousePosition);
+        return;
+      }
+      
+      Entity[] selectedEntities = mEntitySelection.getSelections();
+      
+      for (Entity selectedEntity : selectedEntities) {
+        if (selectedEntity.hasType(GameObjectType.Unit)) {
+          Unit unit = (Unit) selectedEntity;
+          unit.setTargetPosition(mousePosition);
+        }
+      }
     }
     
     protected void startSelection(Vector2f mousePosition) {
