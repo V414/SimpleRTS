@@ -1,21 +1,14 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
-import com.dinasgames.main.Objects.Entities.Units.TestUnit;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 import com.dinasgames.main.Players.Player;
 
 
-
 /**
- *
+ * Test Scene, called by test Game
  * @author Jack
  */
 public class TestScene extends Scene {

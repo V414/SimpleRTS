@@ -1,17 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Objects.Utils;
 
 import com.dinasgames.main.Objects.Entities.Entity;
 import java.util.List;
 
 
-
 /**
- *
+ * The selection box class
  * @author Jack
  */
 public class EntitySelection {

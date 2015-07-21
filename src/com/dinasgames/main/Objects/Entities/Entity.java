@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Objects.Entities;
 
 import com.dinasgames.main.Graphics.HealthbarShape;
@@ -71,17 +66,17 @@ public class Entity extends GameObject {
         mHealthbar.setForegroundColor(Color.red);
         mHealthbar.setOutlineThickness(1.f);
         mHealthbar.setOutlineColor(Color.black);
-        mHealthbar.setMaxHealth(mHealth);
+        mHealthbar.setHealth(mHealth);
         mHealthbar.setMaxHealth(mHealthMax);
         
         // Make sure the healthbar renders in front of other things
         mHealthbar.setDepth(-100);
         
         mSelectionBox = RectangleShape.create();
-        mSelectionBox.setFillColor(new Color(0,0,0,0));
-        mSelectionBox.setOutlineColor(Color.white);
-        mSelectionBox.setOutlineThickness(1.f);
-        mSelectionBox.setDepth(-101);
+        //mSelectionBox.setFillColor(new Color(0,0,0,0));
+        //mSelectionBox.setOutlineColor(Color.white);
+        //mSelectionBox.setOutlineThickness(1.f);
+        //mSelectionBox.setDepth(-101);
         
     }
     
@@ -98,7 +93,6 @@ public class Entity extends GameObject {
     public void onTick(double time) {
         
         // Update bounding box
-        //mBoundingBox.setPosition(mPosition);
         recalculateBoundingBox();
         
         mSelectionBox.setPosition(mBoundingBox.left, mBoundingBox.top);
@@ -110,9 +104,9 @@ public class Entity extends GameObject {
         
         // Update healthbar
         if(mSelected) {
-            mHealthbar.setPosition(mBoundingBox.left-10, mBoundingBox.top-10);
-            mHealthbar.setWidth(mBoundingBox.width+20);
+            mHealthbar.setPosition(mBoundingBox.left, mBoundingBox.top-10);
             mHealthbar.setHealth(mHealth);
+            mHealthbar.setSize(mBoundingBox.width, mHealthbar.getSize().y);
             mHealthbar.show();
         }else{
             mHealthbar.hide();

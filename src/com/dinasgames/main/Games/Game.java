@@ -1,15 +1,6 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Games;
 
-import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.System.Clock;
-import com.dinasgames.main.System.Window;
-import com.dinasgames.main.System.Mouse;
-import com.dinasgames.main.Scenes.Scene;
 
 /**
  * A class used to handle game logic and render a window.

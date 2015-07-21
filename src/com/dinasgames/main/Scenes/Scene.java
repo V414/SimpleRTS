@@ -1,19 +1,11 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Camera;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Objects.GameObject;
-import com.dinasgames.main.Objects.GameObjectType;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Collections;
-import java.util.Iterator;
 
 /**
  * Class used to store and manage game objects.
