@@ -25,6 +25,7 @@ public class LocalInput extends Input {
     public void update() {
         
         mousePressed    = Mouse.isButtonPressed(Mouse.Button.Left);
+        mousePressedR   = Mouse.isButtonPressed(Mouse.Button.Right);
         left            = Keyboard.isKeyPressed(Keyboard.Key.Left);
         right           = Keyboard.isKeyPressed(Keyboard.Key.Right);
         down            = Keyboard.isKeyPressed(Keyboard.Key.Down);

@@ -8,9 +8,35 @@ import com.dinasgames.main.Scenes.Scene;
 public class Unit extends Entity {
     
     protected Vector2f mSize;
+    protected Vector2f mTargetPosition;
+    protected float mVelocity;
+    
     
     protected Unit() {
+        mTargetPosition = new Vector2f(0.f,0.f);
         mSize = new Vector2f(0.f,0.f);
+    }
+    
+    protected void moveUnit(){
+      if((mPosition.x < mTargetPosition.x - mVelocity ||
+              mPosition.x > mTargetPosition.x + mVelocity) &&
+              (mPosition.y < mTargetPosition.y - mVelocity ||
+              mPosition.y > mTargetPosition.y + mVelocity)){
+        double b = mTargetPosition.y - mPosition.y;
+        double a = mTargetPosition.x - mPosition.x;
+        mRotation = (float) (Math.toDegrees(Math.atan(b/a)));
+
+        //Preventing angles going into minus numbers when travelling backwards
+        if(mRotation < 0){
+            mRotation += 360;
+        }
+
+        float nX = mPosition.x - (Math.round(mVelocity * Math.cos(Math.toRadians(mRotation))));
+        float nY = mPosition.y - (Math.round(mVelocity * Math.sin(Math.toRadians(mRotation))));
+
+        mPosition.x = nX;
+        mPosition.y = nY;
+      }
     }
     
     @Override
@@ -36,6 +62,31 @@ public class Unit extends Entity {
     protected void recalculateBoundingBox() {
         super.recalculateBoundingBox();
         mBoundingBox.setSize(mSize);
+    }
+    
+    public Vector2f getTargetPosition(){
+      if(isReference()) {
+          return ref().getTargetPosition();
+      }
+      
+      return mTargetPosition;
+    }
+    
+    public void setTargetPosition(Vector2f mTargetPosition){
+      this.mTargetPosition = mTargetPosition;
+      
+      if(isReference()) {
+        ref().setTargetPosition(mTargetPosition);
+      }
+    }
+    
+    public void setTargetPosition(float x, float y){
+      this.mTargetPosition.x = x;
+      this.mTargetPosition.y = y;
+      
+      if(isReference()) {
+        ref().setSize(x, y);
+      }
     }
     
     public void setSize(Vector2f size) {

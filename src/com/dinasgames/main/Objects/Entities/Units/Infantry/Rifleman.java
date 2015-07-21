@@ -19,6 +19,7 @@ public class Rifleman extends Infantry {
     mShapeGun = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
+    mVelocity = 2.f;
   }
   
   public static Rifleman create() {
@@ -74,7 +75,7 @@ public class Rifleman extends Infantry {
     public void onTick(double time) {
         
         super.onTick(time);
-        
+        moveUnit();
         //mPosition.x --;
         
     }

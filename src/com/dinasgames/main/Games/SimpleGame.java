@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.Graphics.Renderer;
@@ -14,7 +9,7 @@ import com.dinasgames.main.System.Mouse;
 import java.awt.Color;
 
 /**
- *
+ * The template for all games underneath
  * @author Jack
  */
 public class SimpleGame extends WindowGame {

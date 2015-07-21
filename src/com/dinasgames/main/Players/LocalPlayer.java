@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.LocalController;
@@ -16,7 +11,7 @@ import java.util.Iterator;
 import java.util.List;
 
 /**
- *
+ * Functions relating to the local player
  * @author Jack
  */
 public class LocalPlayer extends Player {
@@ -84,8 +79,6 @@ public class LocalPlayer extends Player {
             }
         }
         
-        System.out.println(toSelect.size());
-        
         selectObjects(toSelect);
         
     }
@@ -124,6 +117,10 @@ public class LocalPlayer extends Player {
                 
             }
             
+        }
+        
+        if(input.mousePressedR){
+          setNewTargetPosition(input.mousePosition);
         }
         
     }

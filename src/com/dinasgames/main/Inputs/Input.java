@@ -13,11 +13,11 @@ import com.dinasgames.main.Math.Vector2f;
  */
 public class Input {
     
-    public boolean mousePressed, left, right, up, down, control, shift;
+    public boolean mousePressed, left, right, up, down, control, shift, mousePressedR;
     public Vector2f mousePosition;
     
     public Input() {
-        mousePressed = left = right = up = down = false;
+        mousePressed = left = right = up = down = mousePressedR = false;
         mousePosition = new Vector2f(0.f,0.f);
     }
     
@@ -29,6 +29,7 @@ public class Input {
         down = other.down;
         control = other.control;
         shift = other.shift;
+        mousePressedR = other.mousePressedR;
         mousePosition = new Vector2f(other.mousePosition);
     }
     
