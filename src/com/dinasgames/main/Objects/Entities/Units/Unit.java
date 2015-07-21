@@ -24,7 +24,7 @@ public class Unit extends Entity {
               mPosition.y > mTargetPosition.y + mVelocity)){
         double b = mTargetPosition.y - mPosition.y;
         double a = mTargetPosition.x - mPosition.x;
-        mRotation = (float) (Math.toDegrees(Math.atan(b/a)));
+        mRotation = Math.round(Math.toDegrees(Math.atan2(b, a)));
 
         //Preventing angles going into minus numbers when travelling backwards
         if(mRotation < 0){
