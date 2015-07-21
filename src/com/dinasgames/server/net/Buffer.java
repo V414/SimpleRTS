@@ -37,13 +37,17 @@ public class Buffer {
         }
     }
     
+    public Buffer(ByteBuffer other) {
+        this(other.array());
+    }
+    
     public Buffer(Buffer data) {
         this(data.copyData());
         this.mReadPos = data.getReadPosition();
         this.mWritePos = data.getWritePosition();
     }
     
-    protected void resize(int size) {
+    protected Buffer resize(int size) {
         
         if(mBuffer == null) {
             mBuffer = ByteBuffer.allocate(size);
@@ -52,6 +56,8 @@ public class Buffer {
             mBuffer = ByteBuffer.allocate(mWritePos + size);
             mBuffer.put(oldBuffer.array());
         }
+        
+        return this;
         
     }
     
@@ -93,6 +99,10 @@ public class Buffer {
         
     }
     
+    public boolean empty() {
+        return (mBuffer == null ? true : (size() <= 0));
+    }
+    
     protected void onWrite(int size) {
         mWritePos += size;
     }
@@ -112,10 +122,11 @@ public class Buffer {
     /**
      * Clear the buffer.
      */
-    public void clear() {
+    public Buffer clear() {
         mReadPos = 0;
         mWritePos = 0;
         mBuffer = null;
+        return this;
     }
     
     /**
@@ -126,82 +137,102 @@ public class Buffer {
         if(mBuffer == null) {
             return 0;
         }
-        return mWritePos;
+        return Math.max(mWritePos, mReadPos);
+    }
+    
+    public ByteBuffer getByteBuffer() {
+        return mBuffer;
     }
     
     /**
      * Writes a char value to the buffer.
      * @param value 
      */
-    public void writeChar(char value) {
+    public Buffer writeChar(char value) {
         resize(2);
         mBuffer.putChar(mWritePos, value);
         onWrite(2);
+        return this;
     }
     
     /**
      * Writes an int value to the buffer.
      * @param value 
      */
-    public void writeInt(int value) {
+    public Buffer writeInt(int value) {
         resize(4);
         mBuffer.putInt(mWritePos, value);
         onWrite(4);
+        return this;
     }
     
     /**
      * Writes a double value to the buffer.
      * @param value 
      */
-    public void writeDouble(double value) {
+    public Buffer writeDouble(double value) {
         resize(8);
         mBuffer.putDouble(mWritePos, value);
         onWrite(8);
+        return this;
     }
     
     /**
      * Writes a float value to the buffer.
      * @param value 
      */
-    public void writeFloat(float value) {
+    public Buffer writeFloat(float value) {
         resize(4);
         mBuffer.putFloat(mWritePos, value);
         onWrite(4);
+        return this;
     }
     
     /**
      * Writes a long value to the buffer.
      * @param value 
      */
-    public void writeLong(long value) {
+    public Buffer writeLong(long value) {
         resize(8);
         mBuffer.putLong(mWritePos, value);
         onWrite(8);
+        return this;
     }
     
     /**
      * Writes a short value to the buffer.
      * @param value 
      */
-    public void writeShort(short value) {
+    public Buffer writeShort(short value) {
         resize(2);
         mBuffer.putShort(mWritePos, value);
         onWrite(2);
+        return this;
     }
     
     /**
      * Writes a String value to the buffer.
      * @param value 
      */
-    public void writeString(String value) {
+    public Buffer writeString(String value) {
         writeInt(value.length());
         for(int i = 0; i < value.length(); i++) {
             writeChar(value.charAt(i));
         }
+        return this;
     }
     
-    public void writeBuffer(Buffer other) {
-        
+    public Buffer writeBuffer(Buffer other) {
+        byte[] otherData = other.copyData();
+        if(otherData == null) {
+            return this;
+        }
+        resize(otherData.length);
+        for(int i = mWritePos; i < mWritePos + otherData.length; i++) {
+            mBuffer.put(i, otherData[i-mWritePos]);
+        }
+        onWrite(otherData.length);
+        return this;
     }
     
     /**

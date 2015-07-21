@@ -8,6 +8,7 @@ package com.dinasgames.server.net;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
+import java.nio.channels.ClosedChannelException;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.SocketChannel;
@@ -19,26 +20,56 @@ import java.util.Iterator;
  */
 public class NonBlockingClient {
     
-    public static String message = "Hello from Client!";
+    public interface Listener {
+        
+        public void socketConnecting(NonBlockingClient client);
+        public void socketDisconnecting(NonBlockingClient client);
+        public void socketConnected(NonBlockingClient client);
+        public void socketDisconnected(NonBlockingClient client);
+        public void socketMessage(NonBlockingClient client, Buffer buffer);
+        
+    };
     
+    protected Buffer mPendingBuffer;
     protected Selector mSelector;
     protected SocketChannel mSocket;
     protected boolean mConnected;
+    protected Listener mListener;
     
     public NonBlockingClient() {
         mSelector = null;
         mSocket = null;
         mConnected = false;
+        mListener = null;
+        mPendingBuffer = new Buffer();
+    }
+    
+    public NonBlockingClient(Listener listener) {
+        this();
+        mListener = listener;
+    }
+    
+    public NonBlockingClient setListener(Listener listener) {
+        mListener = listener;
+        return this;
     }
     
     public boolean isConnected() {
         return mConnected;
     }
     
-    public void connect(String address, int port) {
+    public NonBlockingClient connect(String address, int port) {
+        
+        if(mConnected) {
+            return this;
+        }
         
         if(mSocket != null) {
-            return;
+            return this;
+        }
+        
+        if(mListener != null) {
+            mListener.socketConnecting(this);
         }
         
         try {
@@ -55,11 +86,19 @@ public class NonBlockingClient {
         } finally {
             //disconnect();
         }
+        
+        return this;
     }
     
-    public void disconnect() {
+    public NonBlockingClient disconnect() {
         
-        System.out.println("Disconnecting...");
+        if(!mConnected) {
+            return this;
+        }
+        
+        if(mListener != null) {
+            mListener.socketDisconnecting(this);
+        }
         
         try {
             
@@ -80,48 +119,50 @@ public class NonBlockingClient {
         
         mConnected = false;
         
+        if(mListener != null) {
+            mListener.socketDisconnected(this);
+        }
+        
+        return this;
+        
     }
     
-    public void update() {
+    public NonBlockingClient update() {
         
         if(mSelector == null || mSocket == null) {
-            return;
+            return this;
         }
         
         try {
             
-            if(mSelector.selectNow() <= 0) {
-                return;
-            }
+            while(mSelector.selectNow() > 0) {
             
-            Iterator<SelectionKey> keys = mSelector.selectedKeys().iterator();
-            while(keys.hasNext()) {
-                
-                SelectionKey key = keys.next();
-                keys.remove();
-                
-                if(!key.isValid()) {
-                    continue;
+                Iterator<SelectionKey> keys = mSelector.selectedKeys().iterator();
+                while(keys.hasNext()) {
+
+                    SelectionKey key = keys.next();
+                    keys.remove();
+
+                    if(!key.isValid()) {
+                        continue;
+                    }
+
+                    if(key.isConnectable()) {
+                        onConnect(key);
+                        continue;
+                    }
+
+                    if(key.isWritable()) {
+                        onWrite(key);
+                        continue;
+                    }
+
+                    if(key.isReadable()) {
+                        onRead(key);
+                        continue;
+                    }
+
                 }
-                
-                if(key.isConnectable()) {
-                    System.out.println("client connect");
-                    onConnect(key);
-                    continue;
-                }
-                
-                if(key.isWritable()) {
-                    System.out.println("client write");
-                    onWrite(key);
-                    continue;
-                }
-                
-                if(key.isReadable()) {
-                    System.out.println("client read");
-                    onRead(key);
-                    continue;
-                }
-                
             }
             
         } catch(IOException e) {
@@ -129,6 +170,8 @@ public class NonBlockingClient {
         } finally {
             //disconnect();
         }
+        
+        return this;
         
     }
     
@@ -140,19 +183,40 @@ public class NonBlockingClient {
             channel.finishConnect();
         }
         
+        channel.configureBlocking(false);
+        
         mConnected = true;
         
-        channel.configureBlocking(false);
-        channel.register(mSelector, SelectionKey.OP_WRITE);
+        if(mListener != null) {
+            mListener.socketConnected(this);
+        }
+        
+        if(mPendingBuffer.empty()) {
+            channel.register(mSelector, SelectionKey.OP_READ);
+        }else{
+            channel.register(mSelector, SelectionKey.OP_WRITE);
+        }
         
     }
     
     protected void onWrite(SelectionKey key) throws IOException {
         
-        SocketChannel channel = (SocketChannel)key.channel();
-        channel.write(ByteBuffer.wrap(message.getBytes()));
+        // If we have nothing to write then continue
+        if(mPendingBuffer.empty()) {
+            //key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+            key.interestOps(SelectionKey.OP_READ);
+            return;
+        }
         
+        // Otherwise write the data
+        SocketChannel channel = (SocketChannel)key.channel();
+        //channel.write(ByteBuffer.wrap(message.getBytes()));
+        channel.write(mPendingBuffer.getByteBuffer());
+        mPendingBuffer.clear();
+        
+        // Continue
         key.interestOps(SelectionKey.OP_READ);
+        //key.interestOps(SelectionKey.OP_READ | SelectionKey.OP_WRITE);
         
     }
     
@@ -166,27 +230,46 @@ public class NonBlockingClient {
         try {
             length = channel.read(readBuffer);
         } catch(IOException e) {
-            System.out.println("Reading problem " + e.toString());
             key.cancel();
             disconnect();
             return;
         }
         
         if(length == -1) {
-            System.out.println("Nothing read from server");
             disconnect();
             key.cancel();
             return;
         }
         
-        readBuffer.flip();
+        if(mListener != null) {
+            mListener.socketMessage(this, new Buffer(readBuffer));
+        }
         
-        byte[] buff = new byte[1024];
-        readBuffer.get(buff, 0, length);
-        System.out.println("Server said: " + new String(buff));
         
-        key.interestOps(SelectionKey.OP_WRITE);
+//        readBuffer.flip();
         
+//        byte[] buff = new byte[1024];
+//        readBuffer.get(buff, 0, length);
+//        System.out.println("Server said: " + new String(buff));
+        
+        //key.interestOps(SelectionKey.OP_WRITE | SelectionKey.OP_READ);
+        
+    }
+    
+    public NonBlockingClient send(Buffer b) throws ClosedChannelException {
+        mPendingBuffer.writeBuffer(b);
+        if(isConnected()) {
+            mSocket.register(mSelector, SelectionKey.OP_WRITE);
+        }
+        return this;
+    }
+    
+    public String getRemoteAddress() throws IOException {
+        return mSocket.getRemoteAddress().toString();
+    }
+    
+    public String getLocalAddress() throws IOException {
+        return mSocket.getLocalAddress().toString();
     }
     
 }
