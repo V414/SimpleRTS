@@ -5,9 +5,8 @@
  */
 package com.dinasgames.main.Games;
 
-import com.dinasgames.server.ServerGame;
 import com.dinasgames.main.Graphics.Renderer;
-import com.dinasgames.main.Networking.Client.SimpleClient;
+//import com.dinasgames.main.Networking.Client.SimpleClient;
 import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Players.LocalPlayer;
 import com.dinasgames.main.Players.PlayerList;
@@ -25,7 +24,6 @@ public class LocalGame extends Game {
     
     private Window mWindow;
     private Scene mScene;
-    private SimpleClient mClient;
         
     // Frame indepentant
     private LocalPlayer mPlayer;
@@ -52,7 +50,6 @@ public class LocalGame extends Game {
         mScene = null;
         
         mPlayerList = null;
-        mClient = null;
         
     }
     
@@ -81,10 +78,6 @@ public class LocalGame extends Game {
         // Create a local player
         mPlayer = LocalPlayer.create();
         
-        mClient = new SimpleClient();
-        mClient.setUdpPort(Network.UDP_PORT + 1);
-        mClient.connect("127.0.0.1");
-        
         // Set the background color
         Renderer.getCurrent().setBackgroundColor(new Color(128,128,128,255));
         
@@ -96,10 +89,6 @@ public class LocalGame extends Game {
         super.unload();
         
         Network._client = true;
-        
-        if(mClient.isConnected()) {
-            mClient.disconnect();
-        }
         
         // Close the game window
         if(mWindow.isOpen()) {
@@ -196,10 +185,6 @@ public class LocalGame extends Game {
     
     public Window getWindow() {
         return mWindow;
-    }
-    
-    public SimpleClient getClient() {
-        return mClient;
     }
     
 }

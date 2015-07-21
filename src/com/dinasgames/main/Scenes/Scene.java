@@ -3,7 +3,6 @@ package com.dinasgames.main.Scenes;
 import com.dinasgames.main.Camera;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.server.ServerGame;
 import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Objects.GameObject;
@@ -22,9 +21,6 @@ public class Scene {
     protected GameObject[] mObjects;
     
     public static Scene getCurrent() {
-        if(Network.isServer()) {
-            return ((ServerGame)Game.current).getServerScene();
-        }
         return ((SimpleGame)Game.current).getScene();
     }
     
