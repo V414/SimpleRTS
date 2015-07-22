@@ -3,6 +3,7 @@ package com.dinasgames.main.Scenes;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 import com.dinasgames.main.Players.Player;
@@ -35,6 +36,11 @@ public class TestScene extends Scene {
         lightTank.setPosition(200, 300);
         lightTank.setOwner(getLocalPlayer());
         lightTank.setTargetPosition(lightTank.getPosition());
+        
+        PowerPlant powerPlant = new PowerPlant(this);
+        powerPlant.setPosition(500, 400);
+        powerPlant.setOwner(getLocalPlayer());
+        
         
         return this;
         

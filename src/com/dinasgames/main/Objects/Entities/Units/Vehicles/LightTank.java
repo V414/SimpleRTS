@@ -109,7 +109,7 @@ public class LightTank extends Vehicle {
         mShapeBody.setRotation(mRotation);
         
         mShapeBody2.setPosition(mPosition);
-        mShapeBody2.setRotation(mRotation + mTurretRotation);
+        mShapeBody2.setRotation(mTurretRotation);
         
         // Move the turret so that it is at the end of the 2nd body shape
         
