@@ -2,7 +2,6 @@ package com.dinasgames.main.Objects.Entities.Units.Infantry;
 
 import com.dinasgames.main.Graphics.CircleShape;
 import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;

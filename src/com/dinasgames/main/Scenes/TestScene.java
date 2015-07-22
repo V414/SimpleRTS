@@ -29,7 +29,7 @@ public class TestScene extends Scene {
         LightTank lightTank = LightTank.create();
         lightTank.setPosition(200, 300);
         lightTank.setOwner(Player.getLocalPlayer());
-        
+        lightTank.setTargetPosition(lightTank.getPosition());
     }
     
 }

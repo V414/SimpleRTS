@@ -19,6 +19,7 @@ public class LightTank extends Vehicle{
     mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
+    mVelocity = 1.f;
   }
   
   public static LightTank create() {
@@ -59,6 +60,7 @@ public class LightTank extends Vehicle{
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
+        mShapeBody.setOriginCenter();
         
         mShapeTurret = RectangleShape.create();
         
@@ -66,7 +68,8 @@ public class LightTank extends Vehicle{
         mShapeTurret.setOutlineColor(Color.black);
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setSize(mTurretSize);
-        mShapeTurret.setRotation(RandomNumber.between(0.f,360.f));
+        mShapeTurret.setRotation(RandomNumber.between(0.f, 360.f));
+        mShapeTurret.setOriginCenter();
         
     }
     
@@ -94,7 +97,7 @@ public class LightTank extends Vehicle{
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
         
-        mShapeTurret.setPosition(mPosition.x+7, mPosition.y+2);
+        mShapeTurret.setPosition(mPosition.x, mPosition.y);
         mShapeTurret.setRotation(mRotation);
         
     }
