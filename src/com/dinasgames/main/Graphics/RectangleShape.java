@@ -21,26 +21,8 @@ public class RectangleShape extends Shape {
     
     Rectangle mRectangle;
     
-    protected RectangleShape() {
+    public RectangleShape() {
         mRectangle = null;
-    }
-    
-    public static RectangleShape create() {
-        
-        if(Network.isServer()) {
-            return new RectangleShape();
-        }
-        
-        // Add a rectangle shape to the render queue
-        int id = Renderer.getCurrent().add(new RectangleShape());
-        
-        // Create a ghost
-        RectangleShape ghost = new RectangleShape();
-        ghost.makeReference();
-        ghost.setID(id);
-        
-        return ghost;
-        
     }
     
     @Override
@@ -63,7 +45,9 @@ public class RectangleShape extends Shape {
         AffineTransform oldTransform = g.getTransform();
         
         // Apply camera transformation
-        g.translate(-Camera.getCurrent().getPosition().x, -Camera.getCurrent().getPosition().y);
+        if(mScene != null && mScene.getCamera() != null) {
+            g.translate(-mScene.getCamera().getPosition().x, -mScene.getCamera().getPosition().y);
+        }
         
         // Apply frame transformation
         //g.translate(Window.getCurrent().getFrame().getWidth() / 2.0, Window.getCurrent().getFrame().getHeight() / 2.0);

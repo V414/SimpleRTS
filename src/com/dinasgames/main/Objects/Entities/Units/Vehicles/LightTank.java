@@ -7,33 +7,23 @@ import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
 import java.awt.Color;
 
-public class LightTank extends Vehicle{
+public class LightTank extends Vehicle {
   
   RectangleShape mShapeBody;
   RectangleShape mShapeTurret;
   Vector2f mTurretSize;
 
-  protected LightTank(){
+  public LightTank(Scene scene){
+    mScene = scene;
     mShapeBody = null;
     mShapeTurret = null;
     mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
+    
+    addToScene();
+    
   }
-  
-  public static LightTank create() {
-        
-        // Add a test unit to the scene
-        int id = Scene.getCurrent().add(new LightTank());
-        
-        // Make a reference to this object and return it
-        LightTank ghost = new LightTank();
-        ghost.setID(id);
-        ghost.makeReference();
-        
-        return ghost;
-        
-    }
     
 //    @Override
 //    public void setSize(Vector2f size) {
@@ -52,21 +42,25 @@ public class LightTank extends Vehicle{
         setSize(40.f, 20.f);
         mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
         
-        mShapeBody = RectangleShape.create();
+        mShapeBody = new RectangleShape();
         
         mShapeBody.setFillColor(Color.white);
         mShapeBody.setOutlineColor(Color.black);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
+        mShapeBody.setScene(mScene);
+        mShapeBody.setRenderer(mRenderer);
         
-        mShapeTurret = RectangleShape.create();
+        mShapeTurret = new RectangleShape();
         
         mShapeTurret.setFillColor(Color.white);
         mShapeTurret.setOutlineColor(Color.black);
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setSize(mTurretSize);
         mShapeTurret.setRotation(RandomNumber.between(0.f,360.f));
+        mShapeTurret.setScene(mScene);
+        mShapeTurret.setRenderer(mRenderer);
         
     }
     
@@ -108,15 +102,6 @@ public class LightTank extends Vehicle{
     @Override
     public String getTypeString() {
         return "LightTank";
-    }
-    
-    @Override
-    protected boolean hasValidReference() {
-        return (this.ref() != null);
-    }
-
-    private LightTank ref() {
-        return (LightTank)Scene.getCurrent().get(mID);
     }
   
 }

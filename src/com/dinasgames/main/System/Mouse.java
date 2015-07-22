@@ -24,6 +24,11 @@ public class Mouse {
     protected static boolean[] mButtonState = null;
     protected static Vector2f mPosition = new Vector2f(0.f,0.f);
     protected static Vector2f mRealPosition = new Vector2f(0.f,0.f);
+    protected static Scene mScene = null;
+    
+    public static void setScene(Scene scene) {
+        mScene = scene;
+    }
     
     public static void tick() {
         
@@ -31,12 +36,10 @@ public class Mouse {
         mPosition.x = mRealPosition.x;
         mPosition.y = mRealPosition.y;
         
-        // Apply camera transformation
-        if(Scene.getCurrent() != null && Scene.getCurrent().getCamera() != null) {
-
-            mPosition.x += Scene.getCurrent().getCamera().getPosition().x;
-            mPosition.y += Scene.getCurrent().getCamera().getPosition().y;
-            
+        // Apply camera transformation if we have been assigned one
+        if(mScene != null && mScene.getCamera() != null) {
+            mPosition.x += mScene.getCamera().getPosition().x;
+            mPosition.y += mScene.getCamera().getPosition().y;
         }
         
     }

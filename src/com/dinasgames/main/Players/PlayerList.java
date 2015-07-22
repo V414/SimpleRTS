@@ -7,8 +7,8 @@ package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.main.Games.SimpleGame;
-import com.dinasgames.main.Networking.Network;
+import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.main.Scenes.Scene;
 
 /**
  *
@@ -19,9 +19,27 @@ public class PlayerList {
     public static final int MAX_PLAYERS = 8;
     
     protected Player[] mPlayers;
+    protected Renderer mRenderer;
+    protected Scene mScene;
     
-    public static PlayerList getCurrent() {
-        return ((SimpleGame)Game.current).getPlayerList();
+    public PlayerList setRenderer(Renderer renderer) {
+        mRenderer = renderer;
+        for(int i = 0; i < MAX_PLAYERS; i++) {
+            if(mPlayers[i] != null) {
+                mPlayers[i].setRenderer(renderer);
+            }
+        }
+        return this;
+    }
+    
+    public PlayerList setScene(Scene scene) {
+        mScene = scene;
+        for(int i = 0; i < MAX_PLAYERS; i++) {
+            if(mPlayers[i] != null) {
+                mPlayers[i].setScene(scene);
+            }
+        }
+        return this;
     }
     
     public PlayerList() {
@@ -46,6 +64,8 @@ public class PlayerList {
                 
                 mPlayers[i] = player;
                 mPlayers[i].setID(i);
+                mPlayers[i].setScene(mScene);
+                mPlayers[i].setRenderer(mRenderer);
                 
                 return i;
             }

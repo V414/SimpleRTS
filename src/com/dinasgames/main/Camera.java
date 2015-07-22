@@ -17,13 +17,6 @@ public class Camera {
     
     protected Vector2f mPosition;
     
-    public static Camera getCurrent() {
-        if(Network.isServer()) {
-            return null;
-        }
-        return Scene.getCurrent().getCamera();
-    }
-    
     public Camera() {
         mPosition = new Vector2f(0.f,0.f);
     }

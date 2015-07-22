@@ -6,15 +6,15 @@ import com.dinasgames.main.Scenes.TestScene;
  * An pretty empty test game
  * @author Jack
  */
-public class TestGame extends SimpleGame {
+public class TestGame extends ClientGame {
     
     @Override
-    protected void load() {
+    public void load() {
         
         super.load();
         
         // Goto the test scene
-        setScene(new TestScene());
+        setScene(new TestScene(this));
         
     }
     

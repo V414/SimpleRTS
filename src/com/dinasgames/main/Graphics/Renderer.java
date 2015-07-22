@@ -37,14 +37,7 @@ public class Renderer {
     protected Graphics mGraphics;
     protected MouseAdapter mMouseAdapter;
     protected KeyAdapter mKeyboardAdapter;
-    
-    public static Renderer getCurrent() {
-        if(Network.isServer()) {
-            return null;
-        }
-        return Window.getCurrent().getRenderer();
-    }
-    
+
     public Renderer(JFrame window) {
         
         //mRenderList = Collections.synchronizedList(new ArrayList<Renderable>());

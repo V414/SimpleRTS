@@ -14,27 +14,18 @@ public class Rifleman extends Infantry {
   RectangleShape mShapeGun;
   Vector2f mGunSize;
 
-  protected Rifleman(){
+  public Rifleman(Scene scene){
+      
+    mScene = scene;
     mShapeBody = null;
     mShapeGun = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
     mVelocity = 2.f;
+    
+    addToScene();
+    
   }
-  
-  public static Rifleman create() {
-        
-        // Add a test unit to the scene
-        int id = Scene.getCurrent().add(new Rifleman());
-        
-        // Make a reference to this object and return it
-        Rifleman ghost = new Rifleman();
-        ghost.setID(id);
-        ghost.makeReference();
-        
-        return ghost;
-        
-    }
     
     @Override
     public void onCreate() {
@@ -44,7 +35,7 @@ public class Rifleman extends Infantry {
         setSize(10.f, 10.f);
         mGunSize = new Vector2f(2, 10);
         
-        mShapeBody = CircleShape.create();
+        mShapeBody = new CircleShape();
         
         mShapeBody.setFillColor(Color.white);
         mShapeBody.setOutlineColor(Color.black);
@@ -52,8 +43,10 @@ public class Rifleman extends Infantry {
         mShapeBody.setSize(mSize);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
+        mShapeBody.setScene(mScene);
+        mShapeBody.setRenderer(mRenderer);
         
-        mShapeGun = RectangleShape.create();
+        mShapeGun = new RectangleShape();
         
         mShapeGun.setFillColor(Color.black);
         mShapeGun.setOutlineColor(Color.black);
@@ -61,6 +54,8 @@ public class Rifleman extends Infantry {
         mShapeGun.setSize(mGunSize);
         mShapeGun.setRotation(RandomNumber.between(0.f,360.f));
         mShapeGun.setOriginCenter();
+        mShapeGun.setScene(mScene);
+        mShapeGun.setRenderer(mRenderer);
         
     }
     
@@ -103,14 +98,6 @@ public class Rifleman extends Infantry {
         return "Rifleman";
     }
     
-    @Override
-    protected boolean hasValidReference() {
-        return (this.ref() != null);
-    }
-
-    private Rifleman ref() {
-        return (Rifleman)Scene.getCurrent().get(mID);
-    }
   
 }
 

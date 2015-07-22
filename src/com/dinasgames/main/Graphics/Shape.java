@@ -87,15 +87,6 @@ public class Shape extends Renderable {
         mTransformNeedsUpdate = false;
     }
     
-    @Override
-    protected boolean hasValidReference() {
-        return (ref() != null);
-    }
-
-    private Shape ref() {
-        return (Shape)Renderer.getCurrent().get(mID);
-    }
-    
     public void recalculate() {
         
     }
@@ -140,31 +131,18 @@ public class Shape extends Renderable {
     }
     
     public float getRotation() {
-        if(isReference()) {
-            return ref().getRotation();
-        }
         return mRotation;
     }
     
     public Vector2f getScale() {
-        if(isReference()) {
-            return ref().getScale();
-        }
         return mScale;
     }
     
     public Vector2f getOrigin() {
-        if(isReference()) {
-            return ref().getOrigin();
-        }
         return mOrigin;
     }
     
     public Shape setRotation(float rotation) {
-        if(isReference()) {
-            ref().setRotation(rotation);
-            return this;
-        }
         mRotation = rotation;
         while(mRotation < 0) {
             mRotation += 360;
@@ -178,20 +156,12 @@ public class Shape extends Renderable {
     }
     
     public Shape setWidth(float width) {
-        if(isReference()) {
-            ref().setWidth(width);
-            return this;
-        }
         if(mSize.x == width) { return this; }
         mSize.x = width;
         return this;
     }
     
     public Shape setHeight(float height) {
-        if(isReference()) {
-            ref().setHeight(height);
-            return this;
-        }
         if(mSize.y == height) { return this; }
         mSize.y = height;
         recalculate();
@@ -199,10 +169,6 @@ public class Shape extends Renderable {
     }
     
     public Shape setPosition(Vector2f position) {
-        if(isReference()) {
-            ref().setPosition(position);
-            return this;
-        }
         if(mPosition.x == position.x && mPosition.y == position.y) {
             return this;
         }
@@ -214,10 +180,6 @@ public class Shape extends Renderable {
     }   
     
     public Shape setX(float x) {
-        if(isReference()) {
-            ref().setX(x);
-            return this;
-        }
         if(mPosition.x == x) {
             return this;
         }
@@ -227,10 +189,6 @@ public class Shape extends Renderable {
     }
     
     public Shape setY(float y) {
-        if(isReference()) {
-            ref().setY(y);
-            return this;
-        }
         if(mPosition.y == y) {
             return this;
         }
@@ -240,24 +198,14 @@ public class Shape extends Renderable {
     }
     
     public float getY() {
-        if(isReference()) {
-            return ref().getY();
-        }
         return mPosition.y;
     }
     
     public float getX() {
-        if(isReference()) {
-            return ref().getX();
-        }
         return mPosition.x;
     }
     
     public Shape setPosition(float x, float y) {
-        if(isReference()) {
-            ref().setPosition(x, y);
-            return this;
-        }
         if(mPosition.x == x && mPosition.y == y) {
             return this;
         }
@@ -270,10 +218,6 @@ public class Shape extends Renderable {
     }
     
     public Shape setScale(Vector2f scale) {
-        if(isReference()) {
-            ref().setScale(scale);
-            return this;
-        }
         if(mScale.x == scale.x && mScale.y == scale.y) {
             return this;
         }
@@ -284,10 +228,6 @@ public class Shape extends Renderable {
     }   
     
     public Shape setScale(float x, float y) {
-        if(isReference()) {
-            ref().setScale(x, y);
-            return this;
-        }
         if(mScale.x == x && mScale.y == y) {
             return this;
         }
@@ -299,10 +239,6 @@ public class Shape extends Renderable {
     }
     
     public Shape setSize(Vector2f size) {
-        if(isReference()) {
-            ref().setSize(size);
-            return this;
-        }
         if(mSize.x == size.x && mSize.y == size.y) {
             return this;
         }
@@ -314,10 +250,6 @@ public class Shape extends Renderable {
     }   
     
     public Shape setSize(float x, float y) {
-        if(isReference()) {
-            ref().setSize(x, y);
-            return this;
-        }
         if(mSize.x == x && mSize.y == y) {
             return this;
         }
@@ -330,10 +262,6 @@ public class Shape extends Renderable {
     }
     
     public Shape setOrigin(Vector2f origin) {
-        if(isReference()) {
-            ref().setOrigin(origin);
-            return this;
-        }
         if(mOrigin.x == origin.x && mOrigin.y == origin.y) {
             return this;
         }
@@ -344,10 +272,6 @@ public class Shape extends Renderable {
     }   
     
     public Shape setOrigin(float x, float y) {
-        if(isReference()) {
-            ref().setOrigin(x, y);
-            return this;
-        }
         if(mOrigin.x == x && mOrigin.y == y) {
             return this;
         }
@@ -359,65 +283,37 @@ public class Shape extends Renderable {
     }
     
     public Shape setOriginCenter(){
-        if(isReference()) {
-            ref().setOriginCenter();
-            return this;
-        }
         setOrigin(mSize.x / 2.f, mSize.y / 2.f);
         return this;
     }
     
     public Vector2f getPosition() {
-        if(isReference()) {
-            return ref().getPosition();
-        }
         return mPosition;
     }
     
     public Vector2f getSize() {
-        if(isReference()) {
-            return ref().getSize();
-        }
         return mSize;
     }
     
     public float getWidth() {
-        if(isReference()) {
-            return ref().getWidth();
-        }
         return mSize.x;
     }
     
     public float getHeight() {
-        if(isReference()) {
-            return ref().getHeight();
-        }
         return mSize.y;
     }
     
     public Shape setOutlineColor(Color color) {
-        if(isReference()) {
-            ref().setOutlineColor(color);
-            return this;
-        }
         mOutlineColor = color;
         return this;
     }
     
     public Shape setFillColor(Color color) {
-        if(isReference()) {
-            ref().setFillColor(color);
-            return this;
-        }
         mFillColor = color;
         return this;
     }
     
     public Shape setOutlineThickness(float t) {
-        if(isReference()) {
-            ref().setOutlineThickness(t);
-            return this;
-        }
         mOutlineThickness = t;
         return this;
     }

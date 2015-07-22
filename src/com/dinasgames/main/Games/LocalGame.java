@@ -1,43 +1,33 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.Graphics.Renderer;
-//import com.dinasgames.main.Networking.Client.SimpleClient;
-import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Players.LocalPlayer;
 import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.main.System.Mouse;
-import com.dinasgames.main.System.Window;
 import java.awt.Color;
 
 /**
- *
+ * The template for all games underneath
  * @author Jack
  */
-public class LocalGame extends Game {
+public class LocalGame extends WindowGame {
     
-    private Window mWindow;
-    private Scene mScene;
+    protected Scene mScene;
         
     // Frame indepentant
-    private LocalPlayer mPlayer;
-    private double mAccumulator, mCurrentTime, mT, mDT;
-    private int mFps, mFpsCounter;
-    private Clock mFpsClock;
-    private PlayerList mPlayerList;
+    protected LocalPlayer mPlayer;
+    protected double mAccumulator, mCurrentTime, mT, mDT;
+    protected int mFps, mFpsCounter;
+    protected Clock mFpsClock;
+    protected PlayerList mPlayerList;
     
     /**
      * Construct the Game class.
      */
     public LocalGame() {
         
-        mWindow         = null;
         mFpsClock       = null;
         
         mAccumulator    = 0.0;
@@ -54,13 +44,12 @@ public class LocalGame extends Game {
     }
     
     @Override
-    protected void load() {
+    public void load() {
         
         super.load();
         
-        Network._client = true;
-        
-        mWindow = new Window( "Simple RTS", 1280, 720 );
+        // Initialize variables
+        mRunning        = true;
         
         mFpsClock       = new Clock();
         
@@ -74,26 +63,23 @@ public class LocalGame extends Game {
         mScene = null;
         
         mPlayerList = new PlayerList();
+        mPlayerList.setRenderer(getWindow().getRenderer());
+        mPlayerList.setScene(mScene);
         
         // Create a local player
-        mPlayer = LocalPlayer.create();
+        mPlayer = new LocalPlayer();
+        
+        mPlayerList.add(mPlayer);
         
         // Set the background color
-        Renderer.getCurrent().setBackgroundColor(new Color(128,128,128,255));
+        getWindow().getRenderer().setBackgroundColor(new Color(128,128,128,255));
         
     }
     
     @Override
-    protected void unload() {
+    public void unload() {
         
         super.unload();
-        
-        Network._client = true;
-        
-        // Close the game window
-        if(mWindow.isOpen()) {
-            mWindow.close();
-        }
         
     }
     
@@ -101,11 +87,9 @@ public class LocalGame extends Game {
      * Handle a rendering and logic tick.
      */
     @Override
-    protected void tick() {
+    public void tick() {
         
         super.tick();
-        
-        Network._client = true;
         
         // Update mouse
         Mouse.tick();
@@ -157,7 +141,7 @@ public class LocalGame extends Game {
     /**
      * Does a single game step (logic step).
      */
-    private void singleStep() {
+    protected void singleStep() {
         
         // Tick the scene logic
         if(mScene != null) {
@@ -171,8 +155,16 @@ public class LocalGame extends Game {
     }
     
     public void setScene(Scene scene) {
+        
         mScene = scene;
+        mScene.setGame(this);
+        mScene.setRenderer(mWindow.getRenderer());
         mScene.onCreate();
+        
+        // The mouse should use this scene
+        Mouse.setScene(scene);
+        mPlayerList.setScene(mScene);
+        
     }
     
     public PlayerList getPlayerList() {
@@ -181,10 +173,6 @@ public class LocalGame extends Game {
     
     public LocalPlayer getPlayer() {
         return mPlayer;
-    }
-    
-    public Window getWindow() {
-        return mWindow;
     }
     
 }

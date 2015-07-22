@@ -12,35 +12,8 @@ public class CircleShape extends Shape{
   
   Ellipse2D mCircle;
     
-    protected CircleShape() {
+    public CircleShape() {
         mCircle = null;
-    }
-    
-    public static CircleShape create() {
-        
-        if(Network.isServer()) {
-            return new CircleShape();
-        }
-        
-        // Add a rectangle shape to the render queue
-        int id = Renderer.getCurrent().add(new CircleShape());
-        
-        // Create a ghost
-        CircleShape ghost = new CircleShape();
-        ghost.makeReference();
-        ghost.setID(id);
-        
-        return ghost;
-        
-    }
-    
-    @Override
-    protected boolean hasValidReference() {
-        return (ref() != null);
-    }
-
-    private CircleShape ref() {
-        return (CircleShape)Renderer.getCurrent().get(mID);
     }
     
     @Override
@@ -63,7 +36,9 @@ public class CircleShape extends Shape{
         AffineTransform oldTransform = g.getTransform();
         
         // Apply camera transformation
-        g.translate(-Camera.getCurrent().getPosition().x, -Camera.getCurrent().getPosition().y);
+        if(mScene != null && mScene.getCamera() != null) {
+            g.translate(-mScene.getCamera().getPosition().x, -mScene.getCamera().getPosition().y);
+        }
         
         // Apply frame transformation
         //g.translate(Window.getCurrent().getFrame().getWidth() / 2.0, Window.getCurrent().getFrame().getHeight() / 2.0);

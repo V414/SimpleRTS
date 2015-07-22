@@ -13,7 +13,6 @@ import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
 import com.dinasgames.main.Math.Vector2f;
-import com.dinasgames.main.Networking.Network;
 
 /**
  *
@@ -25,45 +24,14 @@ public class HealthbarShape extends Shape {
     protected Rectangle mBackground, mForeground;
     protected float mHealth, mHealthMax;
     
-    protected HealthbarShape() {
+    public HealthbarShape() {
         mForegroundColor = Color.red;
         mSize = new Vector2f(100.f, 10.f);
         mHealth = 100.f;
         mHealthMax = 100.f;
     }
     
-    public static HealthbarShape create() {
-        
-        if(Network.isServer()) {
-            return new HealthbarShape();
-        }
-        
-        // Add a rectangle shape to the render queue
-        int id = Renderer.getCurrent().add(new HealthbarShape());
-        
-        // Create a ghost
-        HealthbarShape ghost = new HealthbarShape();
-        ghost.makeReference();
-        ghost.setID(id);
-        
-        return ghost;
-        
-    }
-    
-    @Override
-    protected boolean hasValidReference() {
-        return (ref() != null);
-    }
-
-    private HealthbarShape ref() {
-        return (HealthbarShape)Renderer.getCurrent().get(mID);
-    }
-    
     public HealthbarShape setHealth(float hp) {
-        if(isReference()) {
-            ref().setHealth(hp);
-            return this;
-        }
         if(mHealth != hp) {
             mHealth = hp;
             recalculate();
@@ -72,10 +40,6 @@ public class HealthbarShape extends Shape {
     }
     
     public HealthbarShape setMaxHealth(float max) {
-        if(isReference()) {
-            ref().setMaxHealth(max);
-            return this;
-        }
         if(mHealthMax != max) {
             mHealthMax = max;
             recalculate();
@@ -84,32 +48,19 @@ public class HealthbarShape extends Shape {
     }
     
     public HealthbarShape setForegroundColor(Color color) {
-        if(isReference()) {
-            ref().setForegroundColor(color);
-            return this;
-        }
         mForegroundColor = color;
         return this;
     }
     
     public Color getForegroundColor() {
-        if(isReference()) {
-            return ref().getForegroundColor();
-        }
         return mForegroundColor;
     }
     
     public float getHealth() {
-        if(isReference()) {
-            return ref().getHealth();
-        }
         return mHealth;
     }
     
     public float getMaxHealth() {
-        if(isReference()) {
-            return ref().getMaxHealth();
-        }
         return mHealthMax;
     }
     
@@ -149,7 +100,9 @@ public class HealthbarShape extends Shape {
         AffineTransform oldTransform = g.getTransform();
         
         // Apply camera transformation
-        g.translate(-Camera.getCurrent().getPosition().x, -Camera.getCurrent().getPosition().y);
+        if(mScene != null && mScene.getCamera() != null) {
+            g.translate(-mScene.getCamera().getPosition().x, -mScene.getCamera().getPosition().y);
+        }
         
         // Apply our position
         g.translate(mPosition.x, mPosition.y);

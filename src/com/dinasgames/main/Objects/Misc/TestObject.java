@@ -52,28 +52,21 @@ public class TestObject extends Entity {
         return "TestObject";
     }
     
-    @Override
-    protected boolean hasValidReference() {
-        return (this.ref() != null);
-    }
-
-    private TestObject ref() {
-        return (TestObject)Scene.getCurrent().get(mID);
-    }
-    
     // Events
     @Override
     public void onCreate() {
         
         super.onCreate();
         
-        mShape = RectangleShape.create();
+        mShape = new RectangleShape();
         
         mShape.setFillColor(Color.yellow);
         mShape.setOutlineColor(Color.red);
         mShape.setOutlineThickness(5.f);
         mShape.setSize(20.f, 40.f);
         mShape.setOrigin(10.f,20.f);
+        mShape.setRenderer(mRenderer);
+        mShape.setScene(mScene);
         
     }
     
@@ -94,7 +87,7 @@ public class TestObject extends Entity {
         mPosition = Mouse.getPosition();
         mRotation ++;
         
-        Camera.getCurrent().move(-1,-1);
+        //Camera.getCurrent().move(-1,-1);
         
         if(Keyboard.isKeyPressed(Keyboard.Key.B)) {
             System.out.println("B pressed! " + mPosition.x);

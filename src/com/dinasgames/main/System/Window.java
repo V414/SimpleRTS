@@ -7,7 +7,6 @@ package com.dinasgames.main.System;
 
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.main.Games.SimpleGame;
 import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Networking.Network;
 import java.awt.event.WindowEvent;
@@ -23,13 +22,6 @@ public class Window implements WindowListener {
     protected boolean mIsOpen;
     protected JFrame mFrame;
     protected Renderer mRenderer;
-    
-    public static Window getCurrent() {
-        if(Network.isServer()) {
-            return null;
-        }
-        return ((SimpleGame)Game.current).getWindow();
-    }
     
     public Window() {
         

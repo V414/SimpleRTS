@@ -20,11 +20,11 @@ public class Game {
         mRunning = false;
     }
     
-    protected void tick() {
+    public void tick() {
         
     }
     
-    protected void load() {
+    public void load() {
         
         mStartClock = new Clock();
         mClock = new Clock();
@@ -32,7 +32,7 @@ public class Game {
         
     }
     
-    protected void unload() {
+    public void unload() {
         
     }
     

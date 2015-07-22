@@ -145,6 +145,18 @@ public class Buffer {
     }
     
     /**
+     * Writes a byte to the buffer.
+     * @param value
+     * @return 
+     */
+    public Buffer writeByte(byte value) {
+        resize(1);
+        mBuffer.put(mWritePos, value);
+        onWrite(1);
+        return this;
+    }
+    
+    /**
      * Writes a char value to the buffer.
      * @param value 
      */
@@ -233,6 +245,16 @@ public class Buffer {
         }
         onWrite(otherData.length);
         return this;
+    }
+    
+    /**
+     * Read byte from the buffer.
+     * @return 
+     */
+    public byte readByte() {
+        byte c = mBuffer.get(mReadPos);
+        onRead(1);
+        return c;
     }
     
     /**

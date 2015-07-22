@@ -17,6 +17,11 @@ public class Unit extends Entity {
         mSize = new Vector2f(0.f,0.f);
     }
     
+    protected Unit(Scene scene) {
+        this();
+        mScene = scene;
+    }
+    
     protected void moveUnit(){
       if((mPosition.x < mTargetPosition.x - mVelocity ||
               mPosition.x > mTargetPosition.x + mVelocity) &&
@@ -49,14 +54,6 @@ public class Unit extends Entity {
         return "Unit";
     }
     
-    @Override
-    protected boolean hasValidReference() {
-        return (this.ref() != null);
-    }
-
-    private Unit ref() {
-        return (Unit)Scene.getCurrent().get(mID);
-    }
     
     @Override
     protected void recalculateBoundingBox() {
@@ -65,63 +62,36 @@ public class Unit extends Entity {
     }
     
     public Vector2f getTargetPosition(){
-      if(isReference()) {
-          return ref().getTargetPosition();
-      }
-      
       return mTargetPosition;
     }
     
     public void setTargetPosition(Vector2f mTargetPosition){
       this.mTargetPosition = mTargetPosition;
-      
-      if(isReference()) {
-        ref().setTargetPosition(mTargetPosition);
-      }
     }
     
     public void setTargetPosition(float x, float y){
       this.mTargetPosition.x = x;
       this.mTargetPosition.y = y;
-      
-      if(isReference()) {
-        ref().setSize(x, y);
-      }
     }
     
     public void setSize(Vector2f size) {
         mSize = size;
-        if(isReference()) {
-            ref().setSize(size);
-        }
     }
     
     public void setSize(float width, float height) {
         mSize.x = width;
         mSize.y = height;
-        if(isReference()) {
-            ref().setSize(width, height);
-        }
     }
     
     public float getWidth() {
-        if(isReference()) {
-            return ref().getWidth();
-        }
         return mSize.x;
     }
     
     public float getHeight() {
-        if(isReference()) {
-            return ref().getHeight();
-        }
         return mSize.y;
     }
     
     public Vector2f getSize() {
-        if(isReference()) {
-            return ref().getSize();
-        }
         return mSize;
     }
     

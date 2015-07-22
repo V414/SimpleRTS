@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main.Graphics;
 
+import com.dinasgames.main.Scenes.Scene;
 import java.awt.Graphics2D;
 
 /**
@@ -13,6 +14,8 @@ import java.awt.Graphics2D;
  */
 public class Renderable {
     
+    protected Renderer mRenderer;
+    protected Scene mScene;
     protected boolean mIsReference;
     protected boolean mVisible;
     protected int mDepth;
@@ -23,30 +26,53 @@ public class Renderable {
         mDepth = 0;
         mID = -1;
         mIsReference = false;
+        mScene = null;
     }
     
-    public boolean isReference() {
-        return (mIsReference && hasValidReference());
+    public Renderable setScene(Scene scene) {
+        mScene = scene;
+        return this;
     }
     
-    public void makeReference() {
-        mIsReference = true;
+    public Renderable setRenderer(Renderer renderer) {
+        mRenderer = renderer;
+        if(mID < 0 && renderer != null) {
+            mID = renderer.add(this);
+        }
+        return this;
+    }
+        
+    public Scene getScene() {
+        return mScene;
     }
     
-    protected boolean hasValidReference() {
-        return (ref() != null);
+    public Renderer getRenderer() {
+        return mRenderer;
     }
-
-    private Renderable ref() {
-        return Renderer.getCurrent().get(mID);
-    }
+    
+//    public boolean isReference() {
+//        return (mIsReference && hasValidReference());
+//    }
+//    
+//    public void makeReference() {
+//        mIsReference = true;
+//    }
+//    
+//    protected boolean hasValidReference() {
+//        return (ref() != null);
+//    }
+//
+//    private Renderable ref() {
+//        return Renderer.getCurrent().get(mID);
+//    }
 
     public void remove() {
         if(mID < 0) {
             return;
         }
-        Renderer.getCurrent().remove(mID);
-        mID = -1;
+        if(mRenderer != null) {
+            mRenderer.remove(mID);
+        }
     }
     
     public Renderable setID(int id) {
@@ -60,47 +86,26 @@ public class Renderable {
     
     public Renderable setDepth(int depth) {
         mDepth = depth;
-        if(isReference()) {
-            ref().setDepth(depth);
-        }
         return this;
     }
     
     public int getDepth() {
-        if(isReference()) {
-            return ref().getDepth();
-        }
         return mDepth;
     }
     
     public boolean isVisible() {
-        if(isReference()) {
-            return ref().isVisible();
-        }
         return mVisible;
     }
     
     public void setVisible(boolean vis) {
-        if(isReference()) {
-            ref().setVisible(vis);
-            return;
-        }
         mVisible = vis;
     }
     
     public void hide() {
-        if(isReference()) {
-            ref().hide();
-            return;
-        }
         mVisible = false;
     }
     
     public void show() {
-        if(isReference()) {
-            ref().show();
-            return;
-        }
         mVisible = true;
     }
     
@@ -109,13 +114,6 @@ public class Renderable {
 //        g.setColor(Color.red);
 //        g.fillRect(100, 100, 200,200);
         
-    }
-    
-    public Renderable getReference() {
-        Renderable r = new Renderable();
-        r.makeReference();
-        r.setID(mID);
-        return r;
     }
     
 }

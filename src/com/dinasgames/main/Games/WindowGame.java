@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main.Games;
 
+import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.System.Window;
 
 /**
@@ -22,7 +23,7 @@ public class WindowGame extends Game {
     }
     
     @Override
-    protected void load() {
+    public void load() {
         
         super.load();
         
@@ -32,14 +33,14 @@ public class WindowGame extends Game {
     }
     
     @Override
-    protected void tick() {
+    public void tick() {
         
         super.tick();
         
     }
     
     @Override
-    protected void unload() {
+    public void unload() {
         
         super.unload();
         
@@ -52,6 +53,10 @@ public class WindowGame extends Game {
     
     public Window getWindow() {
         return mWindow;
+    }
+    
+    public Renderer getRenderer() {
+        return mWindow.getRenderer();
     }
     
 }

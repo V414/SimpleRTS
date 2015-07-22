@@ -1,5 +1,6 @@
 package com.dinasgames.main.Objects;
 
+import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Math.Vector2f;
 
@@ -29,47 +30,55 @@ public class GameObject {
      */
     protected float mRotation;
     
+    protected Scene mScene;
+    protected Renderer mRenderer;
+    
     protected GameObject() {
         mPosition = new Vector2f(0.f,0.f);
         mRotation = 0.f;
         mID = -1;
         mIsReference = false;
     }
-
-    public boolean isReference() {
-        return (mIsReference && hasValidReference());
-    }
     
-    public void makeReference() {
-        mIsReference = true;
-    }
-    
-    protected boolean hasValidReference() {
-        return (ref() != null);
+    protected GameObject(Scene scene) {
+        this();
+        mScene = scene;
     }
 
-    private GameObject ref() {
-        return Scene.getCurrent().get(mID);
+    protected GameObject addToScene() {
+        if(mScene != null) {
+            mScene.add(this);
+        }
+        return this;
+    }
+    
+    public GameObject setScene(Scene scene) {
+        mScene = scene;
+        return this;
+    }
+    
+    public GameObject setRenderer(Renderer renderer) {
+        mRenderer = renderer;
+        return this;
+    }
+    
+    public Scene getScene() {
+        return mScene;
+    }
+    
+    public Renderer getRenderer() {
+        return mRenderer;
     }
     
     public boolean hasType(GameObjectType type) {
-        if(isReference()) {
-            return ref().hasType(type);
-        }
         return (getTypeID() & type.getID()) > 0;
     }
     
     public int getTypeID() {
-        if(isReference()) {
-            return ref().getTypeID();
-        }
         return GameObjectType.GameObject.getID();
     }
     
     public String getTypeString() {
-        if(isReference()) {
-            return ref().getTypeString();
-        }
         return "GameObject";
     }
     
@@ -99,38 +108,23 @@ public class GameObject {
     
     public void setPosition(Vector2f position) {
         mPosition = position;
-        if(isReference()) {
-            ref().setPosition(position);
-        }
     }
     
     public void setPosition(float x, float y) {
         mPosition.x = x;
         mPosition.y = y;
-        if(isReference()) {
-            ref().setPosition(x,y);
-        }
     }
     
     public void setRotation(float rotation) {
         mRotation = rotation;
-        if(isReference()) {
-            ref().setRotation(rotation);
-        }
     }
     
     // Getter methods
     public Vector2f getPosition() {
-        if(isReference()) {
-            return ref().getPosition();
-        }
         return mPosition;
     }
     
     public float getRotation() {
-        if(isReference()) {
-            return ref().getRotation();
-        }
         return mRotation;
     }
     
@@ -139,8 +133,8 @@ public class GameObject {
     }
     
     public void destroy() {
-        if( Scene.getCurrent() != null ) {
-            Scene.getCurrent().remove(mID);
+        if(mScene != null) {
+            mScene.remove(mID);
         }
     }
     

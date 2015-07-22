@@ -16,7 +16,7 @@ import java.util.List;
  */
 public class LocalPlayer extends Player {
     
-    protected LocalPlayer() {
+    public LocalPlayer() {
         
         // Create a Keyboard & Mouse controller for this player
         mController = new LocalController();
@@ -27,32 +27,15 @@ public class LocalPlayer extends Player {
         mSelectionShape.setOutlineThickness(2.f);
     }
     
-    public static LocalPlayer create() {
-        
-        int id = PlayerList.getCurrent().add(new LocalPlayer());
-        
-        LocalPlayer ghost = new LocalPlayer();
-        ghost.makeReference();
-        ghost.setID(id);
-        
-        return ghost;
-        
-    }
-    
-    @Override
-    protected boolean hasValidReference() {
-        return (ref() != null);
-    }
-
-    private LocalPlayer ref() {
-        return (LocalPlayer)PlayerList.getCurrent().get(mID);
-    }
-    
     @Override
     public void onSelectObjects(BoundingBox selectionArea) {
         
+        if(mScene == null) {
+            return;
+        }
+        
         // Find all the selectable objects (child of Entity)
-        List<Entity> entityList = Scene.findObjects();
+        List<Entity> entityList = mScene.findObjects();
         
         // Now find the ones that are within our selectionArea
         List<Entity> entitiesInArea = new ArrayList();
@@ -126,16 +109,10 @@ public class LocalPlayer extends Player {
     }
     
     public LocalController getLocalController() {
-        if(isReference()) {
-            return ref().getLocalController();
-        }
         return (LocalController)mController;
     }
     
     public LocalInput getLocalInput() {
-        if(isReference()) {
-            return ref().getLocalInput();
-        }
         return (LocalInput)getLocalController().getInput();
     }
     
