@@ -6,7 +6,6 @@ import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
-import com.dinasgames.main.Players.Player;
 
 
 /**

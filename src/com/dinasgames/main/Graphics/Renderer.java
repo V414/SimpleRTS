@@ -1,12 +1,5 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.dinasgames.main.Graphics;
 
-import com.dinasgames.main.Networking.Network;
-import com.dinasgames.main.System.Window;
 import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Keyboard;
 import javax.swing.JFrame;
