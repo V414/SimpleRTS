@@ -13,6 +13,7 @@ import com.dinasgames.main.Scenes.TestScene;
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingServer;
+import com.dinasgames.server.net.packets.*;
 import java.nio.channels.ClosedChannelException;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -99,15 +100,6 @@ public class ServerGame extends Game {
                 @Override
                 public void socketMessage(NonBlockingServer.Socket socket, Buffer message) {
                     
-//                    System.out.println("Server socket message!");
-//                    System.out.println("Header: " + message.readShort());
-//                    System.out.println("Content: " + message.readString());
-                    
-                    try {
-                        socket.send(new Buffer().writeShort((short)1).writeString("Hello Client!"));
-                    } catch (ClosedChannelException ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
                     
                 }
 
@@ -120,7 +112,9 @@ public class ServerGame extends Game {
                 public void serverStopping() {
                     System.out.println("Stopping server...");
                 }
-            }).listen(12000);
+            })
+                .register(new PacketKeepAlive())
+                .listen(12000);
         
         //setServerScene(new TestScene().setGame(this));
         
@@ -153,6 +147,8 @@ public class ServerGame extends Game {
 
         // Toggle the network to server mode for this tick
         Network._client = false;
+        
+        mServer.update();
         
         // Update mouse
         //Mouse.tick();

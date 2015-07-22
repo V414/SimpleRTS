@@ -145,6 +145,18 @@ public class Buffer {
     }
     
     /**
+     * Write a boolean to the buffer.
+     * @param value
+     * @return 
+     */
+    public Buffer writeBoolean(boolean value) {
+        resize(1);
+        mBuffer.put(mWritePos, (value ? (byte)1 : (byte)0));
+        onWrite(1);
+        return this;
+    }
+    
+    /**
      * Writes a byte to the buffer.
      * @param value
      * @return 
@@ -245,6 +257,16 @@ public class Buffer {
         }
         onWrite(otherData.length);
         return this;
+    }
+    
+    /**
+     * Read a boolean from the buffer.
+     * @return 
+     */
+    public boolean readBoolean() {
+        byte c = mBuffer.get(mReadPos);
+        onRead(1);
+        return (c == (byte)0 ? false : true);
     }
     
     /**

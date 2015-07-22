@@ -5,6 +5,10 @@
  */
 package com.dinasgames.server.net;
 
+import com.dinasgames.main.System.Clock;
+import com.dinasgames.main.System.Time;
+import com.dinasgames.main.System.Timer;
+import com.dinasgames.server.net.packets.PacketKeepAlive;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -30,16 +34,35 @@ public class NonBlockingServer {
     
     public class Socket {
         
+        protected Timer mPingTimer;
+        protected Clock mPingClock;
         protected int mID;
         protected Buffer mPendingBuffer;
         protected SocketChannel mChannel;
         protected Selector mSelector;
+        Time mPing;
         
         public Socket() {
+            
             mID = -1;
             mChannel = null;
             mSelector = null;
             mPendingBuffer = new Buffer();
+            mPing = new Time();
+            
+            mPingTimer = Timer.every(Time.seconds(1.f), () -> {
+                
+                try {
+                    this.send(new PacketKeepAlive());
+                } catch (ClosedChannelException ex) {
+                    Logger.getLogger(NonBlockingServer.class.getName()).log(Level.SEVERE, null, ex);
+                }
+                
+                System.out.println("Client (" + getId() + ") Ping: " + getPing().asMilliseconds() + "ms");
+                
+            });
+            
+            
         }
         
         public Socket(int id, SocketChannel channel, Selector selector) throws ClosedChannelException {
@@ -56,6 +79,21 @@ public class NonBlockingServer {
             
         }
         
+        public Socket startPingTimer() {
+            mPingClock = new Clock();
+            return this;
+        }
+
+        public Socket stopPingTimer() {
+            mPing = mPingClock.getElapsedTime();
+            mPingTimer = null;
+            return this;
+        }
+        
+        public Time getPing() {
+            return mPing;
+        }
+        
         public int getId() {
             return mID;
         }
@@ -66,6 +104,15 @@ public class NonBlockingServer {
         
         public String getLocalAddress() throws IOException {
             return mChannel.getLocalAddress().toString();
+        }
+        
+        public Socket send(Packet packet) throws ClosedChannelException {
+            if(packet == null) {
+                return this;
+            }
+            Buffer tmp = new Buffer();
+            packet.onServerWrite(this, tmp);
+            return send(tmp);
         }
         
         public Socket send(Buffer buffer) throws ClosedChannelException {
@@ -81,6 +128,10 @@ public class NonBlockingServer {
         
         public Buffer getPendingBuffer() {
             return mPendingBuffer;
+        }
+        
+        public void onDestroy() {
+            mPingTimer.stop();
         }
         
     };
@@ -102,6 +153,7 @@ public class NonBlockingServer {
     
     public final int MAX_SOCKETS = 128;
     
+    protected Map<Byte, Packet> mPacketMap = new HashMap();
     protected Map<SocketChannel, Socket> mSocketMap = new HashMap();
     protected ServerSocketChannel mServerChannel;
     protected Selector mSelector;
@@ -118,6 +170,16 @@ public class NonBlockingServer {
         for(int i = 0; i < MAX_SOCKETS; i++) {
             mSocketSlot[i] = false;
         }
+    }
+    
+    public NonBlockingServer register(Packet packet) {
+        mPacketMap.put(packet.getID(), packet);
+        return this;
+    }
+    
+    public NonBlockingServer unregister(Packet packet) {
+        mPacketMap.remove(packet);
+        return this;
     }
     
     protected int newSlot() {
@@ -291,6 +353,7 @@ public class NonBlockingServer {
         
         if(pending.empty()) {
             // Nothing to write
+            key.interestOps(SelectionKey.OP_READ);
             return;
         }
         
@@ -366,9 +429,20 @@ public class NonBlockingServer {
             return;
         }
         
+        Socket thisSocket = mSocketMap.get(channel);
+        Buffer buffer = new Buffer(readBuffer);
+        
+        while(buffer.getReadPosition() < buffer.size()) {
+            byte head = buffer.readByte();
+            if(mPacketMap.containsKey(head)) {
+                mPacketMap.get(head).onServerRead(thisSocket, buffer);
+            }
+        }
+        
+        // Handle callback
         if(mListener != null) {
-            Socket socket = mSocketMap.get(channel);
-            mListener.socketMessage(socket, new Buffer(readBuffer));
+            buffer.setReadPosition(0);
+            mListener.socketMessage(thisSocket, buffer);
         }
         
 //        Buffer buffer = new Buffer(readBuffer);
@@ -397,6 +471,7 @@ public class NonBlockingServer {
             if(mListener != null) {
                 mListener.socketDisconnected(socket);
             }
+            socket.onDestroy();
             removeSlot(socket.getId());
             mSocketMap.remove(channel, socket);
             channel.close();

@@ -1,6 +1,7 @@
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.System.Clock;
+import com.dinasgames.main.System.Timer;
 
 /**
  * A class used to handle game logic and render a window.
@@ -59,7 +60,13 @@ public class Game {
         mRunning = true;
         
         while(mRunning) {
+            
+            // Update game logic
             tick();
+            
+            // Run timers
+            Timer.update();
+            
         }
         
         unload();

@@ -46,9 +46,9 @@ public class Main {
                 @Override
                 public void socketMessage(NonBlockingServer.Socket socket, Buffer message) {
                     
-//                    System.out.println("Server socket message!");
-//                    System.out.println("Header: " + message.readShort());
-//                    System.out.println("Content: " + message.readString());
+                    System.out.println("Server socket message!");
+                    System.out.println("Header: " + message.readShort());
+                    System.out.println("Content: " + message.readString());
                     
                     try {
                         socket.send(new Buffer().writeShort((short)1).writeString("Hello Client!"));
@@ -93,9 +93,9 @@ public class Main {
                     @Override
                     public void socketMessage(NonBlockingClient client, Buffer buffer) {
 
-    //                    System.out.println("Client socket message!");
-    //                    System.out.println("Header: " + buffer.readShort());
-    //                    System.out.println("Content: " + buffer.readString());
+                        System.out.println("Client socket message!");
+                        System.out.println("Header: " + buffer.readShort());
+                        System.out.println("Content: " + buffer.readString());
 
                         try {
                             client.send(new Buffer().writeShort((short)1).writeString("Hello Server!"));

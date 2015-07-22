@@ -6,6 +6,8 @@ import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.main.System.Mouse;
+import com.dinasgames.main.System.Time;
+import com.dinasgames.main.System.Timer;
 import java.awt.Color;
 
 /**
@@ -20,7 +22,8 @@ public class LocalGame extends WindowGame {
     protected LocalPlayer mPlayer;
     protected double mAccumulator, mCurrentTime, mT, mDT;
     protected int mFps, mFpsCounter;
-    protected Clock mFpsClock;
+    //protected Clock mFpsClock;
+    protected Timer mFpsTimer;
     protected PlayerList mPlayerList;
     
     /**
@@ -28,7 +31,7 @@ public class LocalGame extends WindowGame {
      */
     public LocalGame() {
         
-        mFpsClock       = null;
+        //mFpsClock       = null;
         
         mAccumulator    = 0.0;
         mCurrentTime    = 0.0;
@@ -51,7 +54,7 @@ public class LocalGame extends WindowGame {
         // Initialize variables
         mRunning        = true;
         
-        mFpsClock       = new Clock();
+        //mFpsClock       = new Clock();
         
         mAccumulator    = 0.0;
         mCurrentTime    = 0.0;
@@ -74,12 +77,24 @@ public class LocalGame extends WindowGame {
         // Set the background color
         getWindow().getRenderer().setBackgroundColor(new Color(128,128,128,255));
         
+        // Keep track of fps
+        mFpsTimer = Timer.every(Time.seconds(1.f), () -> {
+            
+            mFps = mFpsCounter;
+            mFpsCounter = 0;
+            
+            System.out.println("FPS: " + mFps);
+            
+        });
+        
     }
     
     @Override
     public void unload() {
         
         super.unload();
+        
+        mFpsTimer.stop();
         
     }
     
@@ -125,16 +140,6 @@ public class LocalGame extends WindowGame {
         
         // Calculate FPS
         mFpsCounter++;
-        if(mFpsClock.getElapsedTime().asSeconds() >= 1.f) {
-            
-            mFps = mFpsCounter;
-            mFpsCounter = 0;
-            
-            System.out.println("FPS: " + Integer.toString(mFps));
-            
-            mFpsClock.restart();
-            
-        }
         
     }
     

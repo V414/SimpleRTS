@@ -29,4 +29,24 @@ public class Time {
         return mMilliseconds;
     }
     
+    public static Time milliseconds(int milliseconds) {
+        return new Time(milliseconds);
+    }
+    
+    public static Time seconds(float seconds) {
+        return new Time((int)(seconds * 1000.f));
+    }
+    
+    public static Time minutes(float minutes) {
+        return seconds(minutes * 60.f);
+    }
+    
+    public static Time hours(float hours) {
+        return minutes(hours * 60.f);
+    }
+    
+    public static Time days(float days) {
+        return hours(days * 24.f);
+    }
+    
 }

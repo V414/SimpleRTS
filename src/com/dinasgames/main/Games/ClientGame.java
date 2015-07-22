@@ -5,10 +5,13 @@
  */
 package com.dinasgames.main.Games;
 
+import com.dinasgames.main.System.Time;
+import com.dinasgames.main.System.Timer;
 import com.dinasgames.server.Main;
 import com.dinasgames.server.ServerGame;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingClient;
+import com.dinasgames.server.net.packets.PacketKeepAlive;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;
 import java.util.logging.Level;
@@ -22,6 +25,7 @@ public class ClientGame extends LocalGame {
     
     protected ServerGame mServerGame;
     protected NonBlockingClient mClient;
+    protected Timer mPingTimer;
     
     public ClientGame() {
         
@@ -60,16 +64,6 @@ public class ClientGame extends LocalGame {
                 @Override
                 public void socketMessage(NonBlockingClient client, Buffer buffer) {
                     
-                    //                    System.out.println("Client socket message!");
-                    //                    System.out.println("Header: " + buffer.readShort());
-                    //                    System.out.println("Content: " + buffer.readString());
-                    
-                    try {
-                        client.send(new Buffer().writeShort((short)1).writeString("Hello Server!"));
-                    } catch (ClosedChannelException ex) {
-                        Logger.getLogger(Main.class.getName()).log(Level.SEVERE, null, ex);
-                    }
-                    
                 }
                 
                 @Override
@@ -82,11 +76,26 @@ public class ClientGame extends LocalGame {
                     System.out.println("Client is disconnecting from server...");
                 }
             })
-                    .connect("127.0.0.1", 12000)
-                    .send(new Buffer().writeShort((short)1).writeString("Hello Server!"));
-        } catch (ClosedChannelException ex) {
+                    .register(new PacketKeepAlive())
+                    .connect("127.0.0.1", 12000);
+        } catch (Exception ex) {
             Logger.getLogger(ClientGame.class.getName()).log(Level.SEVERE, null, ex);
         }
+        
+        // Send ping to the server
+        mPingTimer = Timer.every(Time.seconds(1.f), () -> {
+            
+            if(mClient.isConnected()) {
+                try {
+                    mClient.send(new PacketKeepAlive());
+                } catch (ClosedChannelException ex) {
+                    Logger.getLogger(ClientGame.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            }
+            
+            System.out.println("Client ping: " + mClient.getPing().asMilliseconds() + "ms");
+            
+        });
         
     }
     
@@ -110,6 +119,7 @@ public class ClientGame extends LocalGame {
         super.unload();
         mServerGame.unload();
         mClient.disconnect();
+        mPingTimer.stop();
         
     }
         
