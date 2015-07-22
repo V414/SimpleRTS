@@ -1,12 +1,14 @@
 //Our Main Method - should be quite empty for now
 
-package com.dinasgames.server;
+package com.dinasgames.client;
+
+import com.dinasgames.main.Games.ClientGame;
 
 public class Main {
     
     public static void main(String args[]) {
         
-        ServerGame game = new ServerGame();
+        ClientGame game = new ClientGame();
         game.run();
         
     };

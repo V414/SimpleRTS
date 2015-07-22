@@ -8,6 +8,7 @@ package com.dinasgames.main.Games;
 import com.dinasgames.main.System.Time;
 import com.dinasgames.main.System.Timer;
 import com.dinasgames.server.Main;
+import com.dinasgames.server.ServerGame;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingClient;
 import com.dinasgames.server.net.packets.PacketKeepAlive;
@@ -20,13 +21,15 @@ import java.util.logging.Logger;
  *
  * @author Jack
  */
-public class ClientGame extends LocalGame {
+public class ClientServerGame extends LocalGame {
     
+    protected ServerGame mServerGame;
     protected NonBlockingClient mClient;
     protected Timer mPingTimer;
     
-    public ClientGame() {
+    public ClientServerGame() {
         
+        mServerGame = null;
         mClient = null;
         
     }
@@ -35,6 +38,10 @@ public class ClientGame extends LocalGame {
     public void load() {
         
         super.load();
+        
+        // Start the server
+        mServerGame = new ServerGame();
+        mServerGame.load();
         
         try {
             // Start the client
@@ -99,6 +106,7 @@ public class ClientGame extends LocalGame {
         super.tick();
         
         // Update server logic and socket
+        mServerGame.tick();
         
         // Update client socket
         mClient.update();
@@ -109,6 +117,7 @@ public class ClientGame extends LocalGame {
     public void unload() {
         
         super.unload();
+        mServerGame.unload();
         mClient.disconnect();
         mPingTimer.stop();
         
