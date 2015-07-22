@@ -179,6 +179,35 @@ public class Shape extends Renderable {
         return this;
     }   
     
+    public Shape rotate(float offset) {
+        mRotation += offset;
+        return this;
+    }
+    
+    public Shape scale(Vector2f offset) {
+        mScale.x += offset.x;
+        mScale.y += offset.y;
+        return this;
+    }
+    
+    public Shape scale(float x, float y) {
+        mScale.x += x;
+        mScale.y += y;
+        return this;
+    }
+    
+    public Shape move(Vector2f offset) {
+        mPosition.x += offset.x;
+        mPosition.y += offset.y;
+        return this;
+    }
+    
+    public Shape move(float x, float y) {
+        mPosition.x += x;
+        mPosition.y += y;
+        return this;
+    }
+    
     public Shape setX(float x) {
         if(mPosition.x == x) {
             return this;

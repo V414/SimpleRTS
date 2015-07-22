@@ -1,6 +1,7 @@
 package com.dinasgames.main.Objects.Entities.Units.Vehicles;
 
 import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.main.Math.Point;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
@@ -10,17 +11,20 @@ import java.awt.Color;
 public class LightTank extends Vehicle {
   
   RectangleShape mShapeBody;
+  RectangleShape mShapeBody2;
   RectangleShape mShapeTurret;
-  Vector2f mTurretSize;
+  float mTurretRotation;
+  //Vector2f mTurretSize;
 
   public LightTank(Scene scene){
     mScene = scene;
     mShapeBody = null;
     mShapeTurret = null;
-    mTurretSize = null;
+    //mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
     mVelocity = 1.f;
+    mTurretRotation = 0.f;
     
     addToScene();
     
@@ -41,7 +45,7 @@ public class LightTank extends Vehicle {
         super.onCreate();
         
         setSize(40.f, 20.f);
-        mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
+        //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
         
         mShapeBody = new RectangleShape();
         
@@ -54,24 +58,37 @@ public class LightTank extends Vehicle {
         mShapeBody.setRenderer(mRenderer);
         mShapeBody.setOriginCenter();
         
+        mShapeBody2 = new RectangleShape();
+        
+        mShapeBody2.setFillColor(Color.white);
+        mShapeBody2.setOutlineColor(Color.black);
+        mShapeBody2.setOutlineThickness(2.f);
+        mShapeBody2.setSize(new Vector2f(mShapeBody.getSize()).divide(2.f,1.f).subtract(0.f,4.f));
+        mShapeBody2.setScene(mScene);
+        mShapeBody2.setRenderer(mRenderer);
+        mShapeBody2.setOriginCenter();
+        
         mShapeTurret = new RectangleShape();
         
-        mShapeTurret.setFillColor(Color.white);
+        mShapeTurret.setFillColor(Color.black);
         mShapeTurret.setOutlineColor(Color.black);
         mShapeTurret.setOutlineThickness(2.f);
-        mShapeTurret.setSize(mTurretSize);
-        mShapeTurret.setRotation(RandomNumber.between(0.f,360.f));
+        mShapeTurret.setSize(mShapeBody.getWidth() / 2.f, mShapeBody2.getHeight() / 4.f);
         mShapeTurret.setScene(mScene);
         mShapeTurret.setRenderer(mRenderer);
-        mShapeTurret.setOriginCenter();
+        mShapeTurret.setOrigin(0.f, mShapeTurret.getHeight() / 2.f);
+        
+        // Set a random rotation for our turret
+        mTurretRotation = RandomNumber.between(0.f, 360.f);
         
     }
     
     @Override
     public void onNewOwner() {
         
+        // Apply new owner colours
         mShapeBody.setFillColor(mOwner.getColor());
-        mShapeTurret.setFillColor(mOwner.getColor());
+        mShapeBody2.setFillColor(mOwner.getColor());
         
     }
     
@@ -91,8 +108,23 @@ public class LightTank extends Vehicle {
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
         
-        mShapeTurret.setPosition(mPosition.x, mPosition.y);
-        mShapeTurret.setRotation(mRotation);
+        mShapeBody2.setPosition(mPosition);
+        mShapeBody2.setRotation(mRotation + mTurretRotation);
+        
+        // Move the turret so that it is at the end of the 2nd body shape
+        
+        // First take the current position
+        Vector2f turretPosition = new Vector2f(mPosition);
+        
+        // Then move it so that it is in front of our 2nd body shape
+        turretPosition.add(Point.inDirection( mShapeBody2.getWidth() / 2.f, -mShapeBody2.getRotation()));
+        
+        // Finally apply the new position
+        mShapeTurret.setPosition(turretPosition);
+        mShapeTurret.setRotation(mShapeBody2.getRotation());
+        
+        // Move the turret back a bit
+        //mShapeTurret.setPosition(Point.inDirection(-10.f, mRotation));
         
     }
     

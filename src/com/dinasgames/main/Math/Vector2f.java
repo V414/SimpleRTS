@@ -177,5 +177,44 @@ public class Vector2f extends Tuple2f implements java.io.Serializable {
       return((float) (Math.acos( vDot )));
    }
 
+   public Vector2f add(float x, float y) {
+        this.x += x;
+        this.y += y;
+        return this;
+    }
+   
+    public Vector2f subtract(float x, float y) {
+        this.x -= x;
+        this.y -= y;
+        return this;
+    }
+
+    public Vector2f multiply(float x, float y) {
+        this.x *= x;
+        this.y *= y;
+        return this;
+    }
+    
+    public Vector2f divide(float x, float y) {
+        this.x /= x;
+        this.y /= y;
+        return this;
+    }
+    
+    public Vector2f add(Vector2f other) {
+        return add(other.x,other.y);
+    }
+    
+    public Vector2f subtract(Vector2f other) {
+        return subtract(other.x,other.y);
+    }
+    
+    public Vector2f multiply(Vector2f other) {
+        return multiply(other.x,other.y);
+    }
+    
+    public Vector2f divide(Vector2f other) {
+        return divide(other.x,other.y);
+    }
 
 }

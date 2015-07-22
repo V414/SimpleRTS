@@ -107,6 +107,9 @@ public class HealthbarShape extends Shape {
         // Apply our position
         g.translate(mPosition.x, mPosition.y);
         
+        // Actually apply the origin!
+        g.translate(-mOrigin.x, -mOrigin.y);
+        
         // Apply our rotation
         g.rotate(Math.toRadians(mRotation), mOrigin.x, mOrigin.y);
         

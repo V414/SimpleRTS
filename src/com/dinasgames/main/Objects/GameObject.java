@@ -106,6 +106,16 @@ public class GameObject {
         mID = id;
     }
     
+    public void move(Vector2f offset) {
+        mPosition.x += offset.x;
+        mPosition.y += offset.y;
+    }
+    
+    public void move(float x, float y) {
+        mPosition.x += x;
+        mPosition.y += y;
+    }
+    
     public void setPosition(Vector2f position) {
         mPosition = position;
     }
@@ -117,6 +127,10 @@ public class GameObject {
     
     public void setRotation(float rotation) {
         mRotation = rotation;
+    }
+    
+    public void rotate(float offset) {
+        mRotation += offset;
     }
     
     // Getter methods
