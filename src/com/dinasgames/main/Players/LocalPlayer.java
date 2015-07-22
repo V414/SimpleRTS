@@ -76,20 +76,30 @@ public class LocalPlayer extends Player {
         LocalInput input = new LocalInput(getLocalInput());
         
         
-        if(input.left == true){
-          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x-0.5f, 
-                  Camera.getCurrent().getPosition().y);
-        }else if(input.right == true){
-          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x+0.5f, 
-                  Camera.getCurrent().getPosition().y);
+        float speed = 0.5f;
+        
+        if(input.shift) {
+            speed *= 2.f;
         }
         
-        if(input.up == true){
-          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x, 
-                  Camera.getCurrent().getPosition().y-0.5f);
-        }else if(input.down == true){
-          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x, 
-                  Camera.getCurrent().getPosition().y+0.5f);
+        if(input.control){
+            speed /= 2.f;
+        }
+        
+        if(input.left) {
+            mScene.getCamera().move(-speed, 0.f);
+        }
+        
+        if(input.right) {
+            mScene.getCamera().move(speed, 0.f);
+        }
+        
+        if(input.up) {
+            mScene.getCamera().move(0.f, -speed);
+        }
+        
+        if(input.down) {
+            mScene.getCamera().move(0.f, speed);
         }
         
         
