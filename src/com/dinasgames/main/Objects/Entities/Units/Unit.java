@@ -8,7 +8,7 @@ import com.dinasgames.main.Scenes.Scene;
 public class Unit extends Entity {
     
     protected Vector2f mTargetPosition;
-    protected float mVelocity;
+    protected float mSpeed;
     
     
     protected Unit() {
@@ -21,10 +21,10 @@ public class Unit extends Entity {
     }
     
     protected void moveUnit(){
-      if((mPosition.x < mTargetPosition.x - mVelocity ||
-              mPosition.x > mTargetPosition.x + mVelocity) &&
-              (mPosition.y < mTargetPosition.y - mVelocity ||
-              mPosition.y > mTargetPosition.y + mVelocity)){
+      if((mPosition.x < mTargetPosition.x - mSpeed ||
+              mPosition.x > mTargetPosition.x + mSpeed) &&
+              (mPosition.y < mTargetPosition.y - mSpeed ||
+              mPosition.y > mTargetPosition.y + mSpeed)){
         double b = mTargetPosition.y - mPosition.y;
         double a = mTargetPosition.x - mPosition.x;
         mRotation = Math.round(Math.toDegrees(Math.atan2(b, a)));
@@ -34,8 +34,8 @@ public class Unit extends Entity {
             mRotation += 360;
         }
         
-        float nX = mPosition.x + (Math.round(mVelocity * Math.cos(Math.toRadians(mRotation))));
-        float nY = mPosition.y + (Math.round(mVelocity * Math.sin(Math.toRadians(mRotation))));
+        float nX = (float) (mPosition.x + (mSpeed * Math.cos(Math.toRadians(mRotation))));
+        float nY = (float) (mPosition.y + (mSpeed * Math.sin(Math.toRadians(mRotation))));
 
         mPosition.x = nX;
         mPosition.y = nY;

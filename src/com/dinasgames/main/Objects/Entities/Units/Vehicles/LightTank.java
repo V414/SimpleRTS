@@ -23,7 +23,7 @@ public class LightTank extends Vehicle {
     //mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
-    mVelocity = 1.f;
+    mSpeed = 2.f;
     mTurretRotation = 0.f;
     
     addToScene();

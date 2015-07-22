@@ -22,7 +22,7 @@ public class Rifleman extends Infantry {
     mShapeGun = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
-    mVelocity = 2.f;
+    mSpeed = 0.2f;
     mGunRotation = 270.f;
     
     addToScene();
