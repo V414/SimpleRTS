@@ -7,6 +7,7 @@ package com.dinasgames.server.net;
 
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.main.System.Time;
+import com.dinasgames.main.Version;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -26,11 +27,18 @@ public class NonBlockingClient {
     
     public interface Listener {
         
+        // Socket
         public void socketConnecting(NonBlockingClient client);
         public void socketDisconnecting(NonBlockingClient client);
+        
         public void socketConnected(NonBlockingClient client);
         public void socketDisconnected(NonBlockingClient client);
-        public void socketMessage(NonBlockingClient client, Buffer buffer);
+        //public void socketMessage(NonBlockingClient client, Buffer buffer);
+        
+        // Client
+        public void clientPacket(NonBlockingClient client, Packet packet);
+        public void clientLoginSuccessful(NonBlockingClient client, String serverName, Version serverVersion);
+        public void clientLoginFailure(NonBlockingClient client, String reason);
         
     };
     
@@ -60,6 +68,10 @@ public class NonBlockingClient {
     public NonBlockingClient setListener(Listener listener) {
         mListener = listener;
         return this;
+    }
+    
+    public Listener getListener() {
+        return mListener;
     }
     
     public NonBlockingClient register(Packet packet) {
@@ -160,7 +172,7 @@ public class NonBlockingClient {
         
     }
     
-    public NonBlockingClient update() {
+    public NonBlockingClient update() throws Exception {
         
         if(mSelector == null || mSocket == null) {
             return this;
@@ -253,7 +265,7 @@ public class NonBlockingClient {
         
     }
     
-    protected void onRead(SelectionKey key) throws IOException {
+    protected void onRead(SelectionKey key) throws Exception {
         
         SocketChannel channel = (SocketChannel)key.channel();
         ByteBuffer readBuffer = ByteBuffer.allocate(1000);
@@ -279,14 +291,18 @@ public class NonBlockingClient {
         while(buffer.getReadPosition() < buffer.size()) {
             byte head = buffer.readByte();
             if(mPacketMap.containsKey(head)) {
-                mPacketMap.get(head).onClientRead(this, buffer);
+                Packet packet = mPacketMap.get(head);
+                packet.onClientRead(this, buffer);
+                if(mListener != null) {
+                    mListener.clientPacket(this, packet);
+                }
             }
         }
         
-        if(mListener != null) {
-            buffer.setReadPosition(0);
-            mListener.socketMessage(this, new Buffer(readBuffer));
-        }
+//        if(mListener != null) {
+//            buffer.setReadPosition(0);
+//            mListener.socketMessage(this, new Buffer(readBuffer));
+//        }
         
         
 //        readBuffer.flip();
@@ -299,7 +315,7 @@ public class NonBlockingClient {
         
     }
     
-    public NonBlockingClient send(Packet p) throws ClosedChannelException {
+    public NonBlockingClient send(Packet p) throws Exception {
         if(p == null) {
             return this;
         }

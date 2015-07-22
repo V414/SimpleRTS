@@ -17,19 +17,19 @@ public class Packet {
         return (byte)0;
     }
     
-    public void onServerWrite(Socket socket, Buffer buffer) {
+    public void onServerWrite(Socket socket, Buffer buffer) throws Exception {
         buffer.writeByte(getID());
     }
     
-    public void onServerRead(Socket socket, Buffer buffer) {
+    public void onServerRead(Socket socket, Buffer buffer) throws Exception {
         
     }
     
-    public void onClientWrite(NonBlockingClient socket, Buffer buffer) {
+    public void onClientWrite(NonBlockingClient socket, Buffer buffer) throws Exception {
         buffer.writeByte(getID());
     }
     
-    public void onClientRead(NonBlockingClient socket, Buffer buffer) {
+    public void onClientRead(NonBlockingClient socket, Buffer buffer) throws Exception {
         
     }
     

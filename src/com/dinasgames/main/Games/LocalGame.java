@@ -70,9 +70,9 @@ public class LocalGame extends WindowGame {
         mPlayerList.setScene(mScene);
         
         // Create a local player
-        mPlayer = new LocalPlayer();
+        mPlayer = null;//new LocalPlayer();
         
-        mPlayerList.add(mPlayer);
+        //mPlayerList.add(mPlayer);
         
         // Set the background color
         getWindow().getRenderer().setBackgroundColor(new Color(128,128,128,255));

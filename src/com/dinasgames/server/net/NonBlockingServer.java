@@ -8,7 +8,8 @@ package com.dinasgames.server.net;
 import com.dinasgames.main.System.Clock;
 import com.dinasgames.main.System.Time;
 import com.dinasgames.main.System.Timer;
-import com.dinasgames.server.net.packets.PacketKeepAlive;
+import com.dinasgames.main.Version;
+import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
@@ -34,6 +35,7 @@ public class NonBlockingServer {
     
     public class Socket {
         
+        protected NonBlockingServer mServer;
         protected Timer mPingTimer;
         protected Clock mPingClock;
         protected int mID;
@@ -42,8 +44,13 @@ public class NonBlockingServer {
         protected Selector mSelector;
         Time mPing;
         
-        public Socket() {
+        public void close() throws IOException {
+            mServer.closeChannel(mChannel);
+        }
+        
+        public Socket(NonBlockingServer server) {
             
+            mServer = server;
             mID = -1;
             mChannel = null;
             mSelector = null;
@@ -53,8 +60,8 @@ public class NonBlockingServer {
             mPingTimer = Timer.every(Time.seconds(1.f), () -> {
                 
                 try {
-                    this.send(new PacketKeepAlive());
-                } catch (ClosedChannelException ex) {
+                    this.send(new PacketKeepAlive244());
+                } catch (Exception ex) {
                     Logger.getLogger(NonBlockingServer.class.getName()).log(Level.SEVERE, null, ex);
                 }
                 
@@ -65,9 +72,9 @@ public class NonBlockingServer {
             
         }
         
-        public Socket(int id, SocketChannel channel, Selector selector) throws ClosedChannelException {
+        public Socket(NonBlockingServer server, int id, SocketChannel channel, Selector selector) throws ClosedChannelException {
             
-            this();
+            this(server);
             
             // New socket connected
             mID = id;
@@ -106,7 +113,7 @@ public class NonBlockingServer {
             return mChannel.getLocalAddress().toString();
         }
         
-        public Socket send(Packet packet) throws ClosedChannelException {
+        public Socket send(Packet packet) throws Exception {
             if(packet == null) {
                 return this;
             }
@@ -115,7 +122,7 @@ public class NonBlockingServer {
             return send(tmp);
         }
         
-        public Socket send(Buffer buffer) throws ClosedChannelException {
+        public Socket send(Buffer buffer) throws Exception {
             
             // Write to temporary buffer
             mPendingBuffer.writeBuffer(buffer);
@@ -134,6 +141,14 @@ public class NonBlockingServer {
             mPingTimer.stop();
         }
         
+        public Listener getListener() {
+            return mServer.getListener();
+        }
+        
+        public NonBlockingServer getServer() {
+            return mServer;
+        }
+        
     };
     
     public interface Listener {
@@ -147,7 +162,12 @@ public class NonBlockingServer {
         // Socket events
         public void socketConnected(Socket socket);
         public void socketDisconnected(Socket socket);
-        public void socketMessage(Socket socket, Buffer message);
+        //public void socketMessage(Socket socket, Buffer message);
+        
+        // Clients
+        public void clientPacket(Socket socket, Packet packet);
+        public void clientLoginSuccess(Socket socket, String name, Version version);
+        public void clientLoginFailure(Socket socket, String reason);
         
     };
     
@@ -170,6 +190,10 @@ public class NonBlockingServer {
         for(int i = 0; i < MAX_SOCKETS; i++) {
             mSocketSlot[i] = false;
         }
+    }
+    
+    public Listener getListener() {
+        return mListener;
     }
     
     public NonBlockingServer register(Packet packet) {
@@ -293,7 +317,7 @@ public class NonBlockingServer {
         
     }
     
-    public NonBlockingServer update() {
+    public NonBlockingServer update() throws Exception {
         
         if(mSelector == null || mServerChannel == null) {
             return this;
@@ -380,11 +404,11 @@ public class NonBlockingServer {
         SocketChannel socketChannel = (SocketChannel)serverSocketchannel.accept();
         socketChannel.configureBlocking(false);
         
-        Socket newSocket = new Socket(newSlot(), socketChannel, mSelector);
+        Socket newSocket = new Socket(this, newSlot(), socketChannel, mSelector);
         
         if(newSocket.getId() < 0) {
             // No more space on the server
-            socketChannel.close();
+            closeChannel(socketChannel);
             return;
         }
         
@@ -408,7 +432,7 @@ public class NonBlockingServer {
         
     }
     
-    protected void onRead(SelectionKey key) throws IOException {
+    protected void onRead(SelectionKey key) throws Exception {
         
         SocketChannel channel = (SocketChannel)key.channel();
         ByteBuffer readBuffer = ByteBuffer.allocate(1024);
@@ -435,15 +459,19 @@ public class NonBlockingServer {
         while(buffer.getReadPosition() < buffer.size()) {
             byte head = buffer.readByte();
             if(mPacketMap.containsKey(head)) {
-                mPacketMap.get(head).onServerRead(thisSocket, buffer);
+                Packet packet = mPacketMap.get(head);
+                packet.onServerRead(thisSocket, buffer);
+                if(mListener != null) {
+                    mListener.clientPacket(thisSocket, packet);
+                }
             }
         }
         
         // Handle callback
-        if(mListener != null) {
-            buffer.setReadPosition(0);
-            mListener.socketMessage(thisSocket, buffer);
-        }
+//        if(mListener != null) {
+//            buffer.setReadPosition(0);
+//            mListener.socketMessage(thisSocket, buffer);
+//        }
         
 //        Buffer buffer = new Buffer(readBuffer);
 //        

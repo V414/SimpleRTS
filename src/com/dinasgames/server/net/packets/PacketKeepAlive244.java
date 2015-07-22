@@ -5,8 +5,6 @@
  */
 package com.dinasgames.server.net.packets;
 
-import com.dinasgames.main.Math.RandomNumber;
-import com.dinasgames.main.System.Clock;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingClient;
 import com.dinasgames.server.net.NonBlockingServer;
@@ -19,7 +17,7 @@ import java.util.logging.Logger;
  *
  * @author Jack
  */
-public class PacketKeepAlive extends Packet {
+public class PacketKeepAlive244 extends Packet {
     
     @Override
     public byte getID() {
@@ -27,7 +25,7 @@ public class PacketKeepAlive extends Packet {
     }
 
     @Override
-    public void onServerWrite(NonBlockingServer.Socket socket, Buffer buffer) {
+    public void onServerWrite(NonBlockingServer.Socket socket, Buffer buffer) throws Exception {
         
         super.onServerWrite(socket, buffer);
         
@@ -36,7 +34,7 @@ public class PacketKeepAlive extends Packet {
     }
 
     @Override
-    public void onServerRead(NonBlockingServer.Socket socket, Buffer buffer) {
+    public void onServerRead(NonBlockingServer.Socket socket, Buffer buffer) throws Exception {
         
         boolean isServer = buffer.readBoolean();
         
@@ -48,14 +46,14 @@ public class PacketKeepAlive extends Packet {
                 // Send it back
                 socket.send(new Buffer().writeByte(getID()).writeBoolean(isServer));
             } catch (ClosedChannelException ex) {
-                Logger.getLogger(PacketKeepAlive.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PacketKeepAlive244.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         
     }
 
     @Override
-    public void onClientWrite(NonBlockingClient socket, Buffer buffer) {
+    public void onClientWrite(NonBlockingClient socket, Buffer buffer) throws Exception {
         
         super.onClientWrite(socket, buffer);
         
@@ -65,7 +63,7 @@ public class PacketKeepAlive extends Packet {
     }
 
     @Override
-    public void onClientRead(NonBlockingClient socket, Buffer buffer) {
+    public void onClientRead(NonBlockingClient socket, Buffer buffer) throws Exception {
         
         super.onClientRead(socket, buffer);
         
@@ -79,7 +77,7 @@ public class PacketKeepAlive extends Packet {
                 // Send it back
                 socket.send(new Buffer().writeByte(getID()).writeBoolean(isServer));
             } catch (ClosedChannelException ex) {
-                Logger.getLogger(PacketKeepAlive.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(PacketKeepAlive244.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
         

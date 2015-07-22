@@ -11,8 +11,10 @@ import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Scenes.TestScene;
 import com.dinasgames.main.System.Clock;
+import com.dinasgames.main.Version;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingServer;
+import com.dinasgames.server.net.Packet;
 import com.dinasgames.server.net.packets.*;
 import java.nio.channels.ClosedChannelException;
 import java.util.logging.Level;
@@ -98,12 +100,6 @@ public class ServerGame extends Game {
                 }
 
                 @Override
-                public void socketMessage(NonBlockingServer.Socket socket, Buffer message) {
-                    
-                    
-                }
-
-                @Override
                 public void serverStarting() {
                     System.out.println("Starting server...");
                 }
@@ -112,8 +108,38 @@ public class ServerGame extends Game {
                 public void serverStopping() {
                     System.out.println("Stopping server...");
                 }
+
+                @Override
+                public void clientPacket(NonBlockingServer.Socket socket, Packet packet) {
+                    
+                    switch(packet.getID()) {
+                        
+                        default: 
+                            // Ignore other IDs
+                            break;
+                            
+                    }
+                    
+                }
+
+                @Override
+                public void clientLoginSuccess(NonBlockingServer.Socket socket, String name, Version version) {
+                    
+                    System.out.println("Client " + socket.getId() + " logged in with name '" + name + "' and version " + version);
+                    
+                }
+
+                @Override
+                public void clientLoginFailure(NonBlockingServer.Socket socket, String reason) {
+                    
+                    System.out.println("Client " + socket.getId() + " failed to login. Reason: " + reason);
+                    
+                }
+
+
             })
-                .register(new PacketKeepAlive())
+                .register(new PacketKeepAlive244())
+                .register(new PacketLogin10())
                 .listen(12000);
         
         //setServerScene(new TestScene().setGame(this));
@@ -148,7 +174,11 @@ public class ServerGame extends Game {
         // Toggle the network to server mode for this tick
         Network._client = false;
         
-        mServer.update();
+        try {
+            mServer.update();
+        } catch (Exception ex) {
+            Logger.getLogger(ServerGame.class.getName()).log(Level.SEVERE, null, ex);
+        }
         
         // Update mouse
         //Mouse.tick();
