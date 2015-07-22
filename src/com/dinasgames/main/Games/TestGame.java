@@ -1,5 +1,6 @@
 package com.dinasgames.main.Games;
 
+import com.dinasgames.main.Players.LocalPlayer;
 import com.dinasgames.main.Scenes.TestScene;
 
 /**
@@ -12,6 +13,9 @@ public class TestGame extends ClientServerGame {
     public void load() {
         
         super.load();
+        
+        mPlayer = new LocalPlayer();
+        mPlayerList.add(mPlayer);
         
         // Goto the test scene
         setScene(new TestScene(this));

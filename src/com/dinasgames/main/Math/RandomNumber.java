@@ -17,7 +17,7 @@ public class RandomNumber {
         
         Random r = new Random();
 
-        return (r.nextInt() * (higher - lower)) + lower;
+        return r.nextInt((higher-lower) + 1) + lower;
         
     }
     
@@ -41,6 +41,16 @@ public class RandomNumber {
         
         return new Vector2f( between(lower.x,higher.x), between(lower.y,higher.y) );
         
+    }
+    
+    /**
+     * Chooses a random element from a list given.
+     * @param <T>
+     * @param list
+     * @return The random element
+     */
+    public static <T> T choose(T[] list) {
+        return list[between(0, list.length - 1)];
     }
     
 }
