@@ -82,8 +82,7 @@ public class LightTank extends Vehicle{
     public void onTick(double time) {
         
         super.onTick(time);
-        
-        //mPosition.x --;
+        moveUnit();
         
     }
     

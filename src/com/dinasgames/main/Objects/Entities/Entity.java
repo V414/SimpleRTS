@@ -19,7 +19,7 @@ public class Entity extends GameObject {
     protected boolean mSelected;
     protected float mHealth, mHealthMax;
     protected HealthbarShape mHealthbar;
-    protected RectangleShape mSelectionBox;
+    //protected RectangleShape mSelectionBox;
     protected BoundingBox mBoundingBox;
     protected boolean mDead;
     
@@ -72,7 +72,7 @@ public class Entity extends GameObject {
         // Make sure the healthbar renders in front of other things
         mHealthbar.setDepth(-100);
         
-        mSelectionBox = RectangleShape.create();
+        //mSelectionBox = RectangleShape.create();
         //mSelectionBox.setFillColor(new Color(0,0,0,0));
         //mSelectionBox.setOutlineColor(Color.white);
         //mSelectionBox.setOutlineThickness(1.f);
@@ -95,8 +95,8 @@ public class Entity extends GameObject {
         // Update bounding box
         recalculateBoundingBox();
         
-        mSelectionBox.setPosition(mBoundingBox.left, mBoundingBox.top);
-        mSelectionBox.setSize(mBoundingBox.width, mBoundingBox.height);
+        //mSelectionBox.setPosition(mBoundingBox.left, mBoundingBox.top);
+        //mSelectionBox.setSize(mBoundingBox.width, mBoundingBox.height);
     }
     
     @Override

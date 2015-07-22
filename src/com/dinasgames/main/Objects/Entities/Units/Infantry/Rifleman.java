@@ -50,7 +50,6 @@ public class Rifleman extends Infantry {
         mShapeBody.setOutlineColor(Color.black);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
-        mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
         
         mShapeGun = RectangleShape.create();
@@ -59,7 +58,6 @@ public class Rifleman extends Infantry {
         mShapeGun.setOutlineColor(Color.black);
         mShapeGun.setOutlineThickness(0.f);
         mShapeGun.setSize(mGunSize);
-        mShapeGun.setRotation(RandomNumber.between(0.f,360.f));
         mShapeGun.setOriginCenter();
         
     }
@@ -76,7 +74,6 @@ public class Rifleman extends Infantry {
         
         super.onTick(time);
         moveUnit();
-        //mPosition.x --;
         
     }
     
@@ -88,7 +85,7 @@ public class Rifleman extends Infantry {
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
         
-        mShapeGun.setPosition(mPosition.x, mPosition.y);
+        mShapeGun.setPosition(mPosition.x, mPosition.y+mShapeBody.getWidth()/2);
         mShapeGun.setRotation(mRotation);
         
     }

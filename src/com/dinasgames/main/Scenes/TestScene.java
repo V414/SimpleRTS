@@ -28,6 +28,7 @@ public class TestScene extends Scene {
         // Create a light tank of another team
         LightTank lightTank = LightTank.create();
         lightTank.setPosition(200, 300);
+        lightTank.setOwner(Player.getLocalPlayer());
         
     }
     
