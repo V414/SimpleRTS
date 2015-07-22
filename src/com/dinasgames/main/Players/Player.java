@@ -101,6 +101,10 @@ public class Player {
         
     }
     
+    public Entity checkIfObject(Vector2f mousePosition){
+      return null;
+    }
+    
     public void clearSelection() {
         mEntitySelection.clear();
     }

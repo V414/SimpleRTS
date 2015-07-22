@@ -7,14 +7,12 @@ import com.dinasgames.main.Scenes.Scene;
 
 public class Unit extends Entity {
     
-    protected Vector2f mSize;
     protected Vector2f mTargetPosition;
-    protected float mVelocity;
+    protected float mSpeed;
     
     
     protected Unit() {
         mTargetPosition = new Vector2f(0.f,0.f);
-        mSize = new Vector2f(0.f,0.f);
     }
     
     protected Unit(Scene scene) {
@@ -23,10 +21,10 @@ public class Unit extends Entity {
     }
     
     protected void moveUnit(){
-      if((mPosition.x < mTargetPosition.x - mVelocity ||
-              mPosition.x > mTargetPosition.x + mVelocity) &&
-              (mPosition.y < mTargetPosition.y - mVelocity ||
-              mPosition.y > mTargetPosition.y + mVelocity)){
+      if((mPosition.x < mTargetPosition.x - mSpeed ||
+              mPosition.x > mTargetPosition.x + mSpeed) &&
+              (mPosition.y < mTargetPosition.y - mSpeed ||
+              mPosition.y > mTargetPosition.y + mSpeed)){
         double b = mTargetPosition.y - mPosition.y;
         double a = mTargetPosition.x - mPosition.x;
         mRotation = Math.round(Math.toDegrees(Math.atan2(b, a)));
@@ -36,8 +34,8 @@ public class Unit extends Entity {
             mRotation += 360;
         }
         
-        float nX = mPosition.x + (Math.round(mVelocity * Math.cos(Math.toRadians(mRotation))));
-        float nY = mPosition.y + (Math.round(mVelocity * Math.sin(Math.toRadians(mRotation))));
+        float nX = (float) (mPosition.x + (mSpeed * Math.cos(Math.toRadians(mRotation))));
+        float nY = (float) (mPosition.y + (mSpeed * Math.sin(Math.toRadians(mRotation))));
 
         mPosition.x = nX;
         mPosition.y = nY;
@@ -72,27 +70,6 @@ public class Unit extends Entity {
     public void setTargetPosition(float x, float y){
       this.mTargetPosition.x = x;
       this.mTargetPosition.y = y;
-    }
-    
-    public void setSize(Vector2f size) {
-        mSize = size;
-    }
-    
-    public void setSize(float width, float height) {
-        mSize.x = width;
-        mSize.y = height;
-    }
-    
-    public float getWidth() {
-        return mSize.x;
-    }
-    
-    public float getHeight() {
-        return mSize.y;
-    }
-    
-    public Vector2f getSize() {
-        return mSize;
     }
     
 }

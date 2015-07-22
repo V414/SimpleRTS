@@ -3,6 +3,7 @@ package com.dinasgames.main.Objects.Entities;
 import com.dinasgames.main.Graphics.HealthbarShape;
 import com.dinasgames.main.Graphics.RectangleShape;
 import com.dinasgames.main.Math.BoundingBox;
+import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Players.Player;
@@ -19,6 +20,7 @@ public class Entity extends GameObject {
     protected boolean mSelected;
     protected float mHealth, mHealthMax;
     protected HealthbarShape mHealthbar;
+    protected Vector2f mSize;
 
     protected BoundingBox mBoundingBox;
     protected boolean mDead;
@@ -30,6 +32,7 @@ public class Entity extends GameObject {
         mDead = false;
         mSelected = false;
         mOwner = null;
+        mSize = new Vector2f(0.f,0.f);
     }
     
     protected Entity(Scene scene) {
@@ -66,6 +69,7 @@ public class Entity extends GameObject {
         mHealthbar.setMaxHealth(mHealthMax);
         mHealthbar.setRenderer(mRenderer);
         mHealthbar.setScene(mScene);
+        
         
         // Make sure the healthbar renders in front of other things
         mHealthbar.setDepth(-100);
@@ -111,7 +115,7 @@ public class Entity extends GameObject {
     }
     
     protected void recalculateBoundingBox() {
-        mBoundingBox.setPosition(mPosition);
+        mBoundingBox.setPosition(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
     }
     
     public void setOwner(Player owner) {
@@ -124,6 +128,27 @@ public class Entity extends GameObject {
     
     public Player getOwner() {
         return mOwner;
+    }
+    
+    public void setSize(Vector2f size) {
+        mSize = size;
+    }
+    
+    public void setSize(float width, float height) {
+        mSize.x = width;
+        mSize.y = height;
+    }
+    
+    public float getWidth() {
+        return mSize.x;
+    }
+    
+    public float getHeight() {
+        return mSize.y;
+    }
+    
+    public Vector2f getSize() {
+        return mSize;
     }
     
     public void select() {

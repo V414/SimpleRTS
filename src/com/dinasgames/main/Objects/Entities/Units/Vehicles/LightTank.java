@@ -23,7 +23,7 @@ public class LightTank extends Vehicle {
     //mTurretSize = null;
     mHealthMax = 100.f;
     mHealth = mHealthMax;
-    mVelocity = 1.f;
+    mSpeed = 2.f;
     mTurretRotation = 0.f;
     
     addToScene();
@@ -79,7 +79,7 @@ public class LightTank extends Vehicle {
         mShapeTurret.setOrigin(0.f, mShapeTurret.getHeight() / 2.f);
         
         // Set a random rotation for our turret
-        mTurretRotation = RandomNumber.between(0.f, 360.f);
+        mTurretRotation = 0;
         
     }
     
@@ -109,7 +109,7 @@ public class LightTank extends Vehicle {
         mShapeBody.setRotation(mRotation);
         
         mShapeBody2.setPosition(mPosition);
-        mShapeBody2.setRotation(mRotation + mTurretRotation);
+        mShapeBody2.setRotation(mTurretRotation);
         
         // Move the turret so that it is at the end of the 2nd body shape
         
