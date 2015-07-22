@@ -10,7 +10,7 @@ public class Map{
   private Vector2f mapSize;
   private final int tileSize;
   private List<Tile> tileList = new ArrayList<>();
-  private List<BufferedImage> imageList = new ArrayList<>();
+  private List<BufferedImage> chunkList = new ArrayList<>();
   
   public Map(){
     mapSize = new Vector2f(100, 100);
@@ -29,29 +29,38 @@ public class Map{
       }
     }
     
-    createImages();
+    createChunks();
   }
   
-  private void createImages(){
-    for (Tile tile : tileList) {
-      imageList.add(tile.getID(), new BufferedImage(
-              tileSize, tileSize, BufferedImage.TYPE_INT_RGB));
-      
-      for(int y = 0; y<tileSize; y++){
-        for(int x = 0; x<tileSize; x++){
-          
-          imageList.get(tile.getID()).setRGB(x, y, tile.getColor());
+  private void createChunks(){
+    BufferedImage newImage = new BufferedImage(
+              256, 256, BufferedImage.TYPE_INT_RGB);
+    
+    for (int mY = 0; mY < mapSize.y; mY++){
+      for (int mX = 0; mX < mapSize.x; mX++){
+        for (Tile tile : tileList) {
+
+          for(int y = 0; y<tileSize; y++){
+            for(int x = 0; x<tileSize; x++){
+              newImage.setRGB(
+                      (int) (x+tile.getPosition().x), 
+                      (int) (y+tile.getPosition().y), 
+                       tile.getColor());
+              
+              chunkList.add(newImage);
+            }
+          }
         }
       }
-      
     }
+    
   }
   
   
   //Getters
   
-  public List<BufferedImage> getImageList(){
-    return imageList;
+  public List<BufferedImage> getChunkList(){
+    return chunkList;
   }
   
 }

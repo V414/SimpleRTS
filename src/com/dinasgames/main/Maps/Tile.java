@@ -35,6 +35,10 @@ public class Tile{
     return 0;
   }
   
+  public Vector2f getPosition(){
+    return mPosition;
+  }
+  
   
   //Setters
   
