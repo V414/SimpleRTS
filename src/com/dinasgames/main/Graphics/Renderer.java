@@ -106,7 +106,17 @@ public class Renderer {
         mCanvas.addMouseListener(mMouseAdapter);
         mCanvas.addMouseMotionListener(mMouseAdapter);
         mCanvas.addKeyListener(mKeyboardAdapter);
+        mCanvas.requestFocus();
+        mCanvas.requestFocusInWindow();
         
+    }
+    
+    public MouseAdapter getMouseAdapter() {
+        return mMouseAdapter;
+    }
+    
+    public KeyAdapter getKeyboardAdapter() {
+        return mKeyboardAdapter;
     }
     
     public void setBackgroundColor(Color color) {

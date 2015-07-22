@@ -9,6 +9,7 @@ import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Networking.Network;
+import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
 import javax.swing.JFrame;
@@ -29,6 +30,9 @@ public class Window implements WindowListener {
         mFrame = new JFrame();
         mFrame.setIgnoreRepaint(true);
         mFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
+        mFrame.setMinimumSize(new Dimension(640, 480));
+        mFrame.setResizable(false);
+        mFrame.setLocationRelativeTo(null);
         
         mIsOpen = true;
         
@@ -40,6 +44,9 @@ public class Window implements WindowListener {
 
         // Listen for window events
         mFrame.addWindowListener(this);
+        mFrame.addMouseListener(mRenderer.getMouseAdapter());
+        mFrame.addKeyListener(mRenderer.getKeyboardAdapter());
+        mFrame.requestFocus();
         
     }
     
@@ -61,6 +68,7 @@ public class Window implements WindowListener {
         // Setup using parameters
         mFrame.setTitle(title);
         mFrame.setSize(width, height);
+        mFrame.setLocationRelativeTo(null);
         
     }
     
