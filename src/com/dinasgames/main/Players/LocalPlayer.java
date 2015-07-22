@@ -1,11 +1,10 @@
 package com.dinasgames.main.Players;
 
-import com.dinasgames.main.Camera;
 import com.dinasgames.main.Controllers.LocalController;
 import com.dinasgames.main.Inputs.LocalInput;
 import com.dinasgames.main.Math.BoundingBox;
+import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
-import com.dinasgames.main.Scenes.Scene;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -26,6 +25,23 @@ public class LocalPlayer extends Player {
         mSelectionShape.setFillColor(new Color(255,255,255,128));
         mSelectionShape.setOutlineColor(new Color(255,255,255,255));
         mSelectionShape.setOutlineThickness(2.f);
+    }
+    
+    @Override
+    public Entity checkIfObject(Vector2f mousePosition){
+      
+      List<Entity> entityList = mScene.findObjects();
+
+      for (Entity entity : entityList) {
+        if((mousePosition.x > entity.getBoundingBox().left 
+            && mousePosition.x < entity.getBoundingBox().left + entity.getWidth()) 
+            && (mousePosition.y > entity.getBoundingBox().top
+            && mousePosition.y < entity.getBoundingBox().top + entity.getHeight())){
+          return entity;
+        }
+      }
+      
+      return null;
     }
     
     @Override
@@ -125,8 +141,12 @@ public class LocalPlayer extends Player {
             // If the user click then start the selection box
             if(input.mousePressed) {
                 
+              if(checkIfObject(input.mousePosition) != null){
+                mEntitySelection.clear();
+                mEntitySelection.select(checkIfObject(input.mousePosition));
+              }else{
                 startSelection(input.mousePosition);
-                
+              }
             }
             
         }
