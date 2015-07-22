@@ -1,5 +1,6 @@
 package com.dinasgames.main.Players;
 
+import com.dinasgames.main.Camera;
 import com.dinasgames.main.Controllers.LocalController;
 import com.dinasgames.main.Inputs.LocalInput;
 import com.dinasgames.main.Math.BoundingBox;
@@ -73,6 +74,24 @@ public class LocalPlayer extends Player {
         
         // Handle local player input
         LocalInput input = new LocalInput(getLocalInput());
+        
+        
+        if(input.left == true){
+          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x-0.5f, 
+                  Camera.getCurrent().getPosition().y);
+        }else if(input.right == true){
+          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x+0.5f, 
+                  Camera.getCurrent().getPosition().y);
+        }
+        
+        if(input.up == true){
+          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x, 
+                  Camera.getCurrent().getPosition().y-0.5f);
+        }else if(input.down == true){
+          Camera.getCurrent().setPosition(Camera.getCurrent().getPosition().x, 
+                  Camera.getCurrent().getPosition().y+0.5f);
+        }
+        
         
         if(isSelectionBoxShowing()) {
             

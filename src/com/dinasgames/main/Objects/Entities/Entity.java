@@ -19,6 +19,7 @@ public class Entity extends GameObject {
     protected boolean mSelected;
     protected float mHealth, mHealthMax;
     protected HealthbarShape mHealthbar;
+
     protected BoundingBox mBoundingBox;
     protected boolean mDead;
     
@@ -91,6 +92,7 @@ public class Entity extends GameObject {
         
         // Update bounding box
         recalculateBoundingBox();
+
     }
     
     @Override

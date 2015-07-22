@@ -2,7 +2,6 @@ package com.dinasgames.main.Objects.Entities.Units.Infantry;
 
 import com.dinasgames.main.Graphics.CircleShape;
 import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
@@ -41,7 +40,6 @@ public class Rifleman extends Infantry {
         mShapeBody.setOutlineColor(Color.black);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
-        mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
         mShapeBody.setScene(mScene);
         mShapeBody.setRenderer(mRenderer);
@@ -52,7 +50,6 @@ public class Rifleman extends Infantry {
         mShapeGun.setOutlineColor(Color.black);
         mShapeGun.setOutlineThickness(0.f);
         mShapeGun.setSize(mGunSize);
-        mShapeGun.setRotation(RandomNumber.between(0.f,360.f));
         mShapeGun.setOriginCenter();
         mShapeGun.setScene(mScene);
         mShapeGun.setRenderer(mRenderer);
@@ -71,7 +68,6 @@ public class Rifleman extends Infantry {
         
         super.onTick(time);
         moveUnit();
-        //mPosition.x --;
         
     }
     
@@ -83,7 +79,7 @@ public class Rifleman extends Infantry {
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
         
-        mShapeGun.setPosition(mPosition.x, mPosition.y);
+        mShapeGun.setPosition(mPosition.x, mPosition.y+mShapeBody.getWidth()/2);
         mShapeGun.setRotation(mRotation);
         
     }
