@@ -79,7 +79,7 @@ public class LightTank extends Vehicle {
         mShapeTurret.setOrigin(0.f, mShapeTurret.getHeight() / 2.f);
         
         // Set a random rotation for our turret
-        mTurretRotation = RandomNumber.between(0.f, 360.f);
+        mTurretRotation = 0;
         
     }
     

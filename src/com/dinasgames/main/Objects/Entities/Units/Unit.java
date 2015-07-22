@@ -7,14 +7,12 @@ import com.dinasgames.main.Scenes.Scene;
 
 public class Unit extends Entity {
     
-    protected Vector2f mSize;
     protected Vector2f mTargetPosition;
     protected float mVelocity;
     
     
     protected Unit() {
         mTargetPosition = new Vector2f(0.f,0.f);
-        mSize = new Vector2f(0.f,0.f);
     }
     
     protected Unit(Scene scene) {
@@ -72,27 +70,6 @@ public class Unit extends Entity {
     public void setTargetPosition(float x, float y){
       this.mTargetPosition.x = x;
       this.mTargetPosition.y = y;
-    }
-    
-    public void setSize(Vector2f size) {
-        mSize = size;
-    }
-    
-    public void setSize(float width, float height) {
-        mSize.x = width;
-        mSize.y = height;
-    }
-    
-    public float getWidth() {
-        return mSize.x;
-    }
-    
-    public float getHeight() {
-        return mSize.y;
-    }
-    
-    public Vector2f getSize() {
-        return mSize;
     }
     
 }
