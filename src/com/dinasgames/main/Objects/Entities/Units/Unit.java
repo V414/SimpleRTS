@@ -34,14 +34,14 @@ public class Unit extends Entity {
     protected void moveUnit(){
 
         if(Point.distance(mPosition, mTargetPosition) > mSpeed) {
-          Vector2f oldPosition = new Vector2f(mPosition);
+//          Vector2f oldPosition = new Vector2f(mPosition);
           
           mPosition.add( Point.inDirection(mSpeed, Point.direction(mPosition, mTargetPosition)) );
           mRotation = -(float)Point.direction(mPosition, mTargetPosition);
           
-          if(checkColliding() == true){
-            mPosition = oldPosition;
-          }
+//          if(checkColliding() == true){
+//            mPosition = oldPosition;
+//          }
         }
         
 //        if(Math.abs(Point.distance(mPosition, mTargetPosition)) > mSpeed) {
@@ -76,27 +76,27 @@ public class Unit extends Entity {
 //      }
     }
     
-    protected boolean checkColliding(){
-      for(GameObject gameObject : mScene.getObjectsList()){
-        if(gameObject != null && gameObject.hasType(GameObjectType.Entity)){
-          Entity entity = (Entity) gameObject;
-          if(entity.getID() != mID){
-            
-            Box.Points box2 = Box.calculateMatrix(new Box.MatrixInput(
-                    entity.getPosition().x, entity.getPosition().y, 
-                    entity.getSize().x, entity.getSize().y, entity.getRotation(), 
-                    entity.getSize().x/2, entity.getSize().y/2
-            ));
-
-            if(mBoundingBox.containsAny(box2)){
-               return true;
-            }
-          }
-        }
-      }
-      
-      return false;
-    }
+//    protected boolean checkColliding(){
+//      for(GameObject gameObject : mScene.getObjectsList()){
+//        if(gameObject != null && gameObject.hasType(GameObjectType.Entity)){
+//          Entity entity = (Entity) gameObject;
+//          if(entity.getID() != mID){
+//            
+//            Box.Points box2 = Box.calculateMatrix(new Box.MatrixInput(
+//                    entity.getPosition().x, entity.getPosition().y, 
+//                    entity.getSize().x, entity.getSize().y, entity.getRotation(), 
+//                    entity.getSize().x/2, entity.getSize().y/2
+//            ));
+//
+//            if(mBoundingBox.containsAny(box2)){
+//               return true;
+//            }
+//          }
+//        }
+//      }
+//      
+//      return false;
+//    }
     
     protected void setTarget(GameObject[] list){
       
