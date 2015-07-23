@@ -27,7 +27,7 @@ public class Unit extends Entity {
         
         if(Point.distance(mPosition, mTargetPosition) > mSpeed) {
             mPosition.add( Point.inDirection(mSpeed, Point.direction(mPosition, mTargetPosition)) );
-            mRotation = (float)Point.direction(mPosition, mTargetPosition);
+            mRotation = -(float)Point.direction(mPosition, mTargetPosition);
         }
         
 //        if(Math.abs(Point.distance(mPosition, mTargetPosition)) > mSpeed) {
