@@ -3,17 +3,21 @@ package com.dinasgames.main.Objects.Entities.Units;
 import com.dinasgames.main.Math.Point;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
+import java.util.List;
 
 public class Unit extends Entity {
     
     protected Vector2f mTargetPosition;
     protected float mSpeed;
+    protected Unit target;
     
     
     protected Unit() {
         mTargetPosition = new Vector2f(0.f,0.f);
+        target = null;
     }
     
     protected Unit(Scene scene) {
@@ -60,6 +64,48 @@ public class Unit extends Entity {
 //        mPosition.x = nX;
 //        mPosition.y = nY;
 //      }
+    }
+    
+    public void setTarget(GameObject[] list){
+      
+      int distanceToEnemy = 99999;
+      
+      for(GameObject gameObject : list){
+        if(gameObject != null && gameObject.hasType(GameObjectType.Unit)){
+          Unit unit = (Unit) gameObject;
+          
+          if(unit.getOwner() != this.getOwner()){
+            Vector2f thisOrigin = new Vector2f(mPosition.x + mSize.x/2, 
+                    mPosition.y + mSize.y/2);
+            
+            Vector2f unitOrigin = new Vector2f(unit.getPosition().x + unit.getSize().x/2, 
+                    unit.getPosition().y + unit.getSize().y/2);
+            
+            
+            int distanceX;
+            if(unitOrigin.x > thisOrigin.x){
+                distanceX = Math.round(thisOrigin.x - unitOrigin.x);
+            }else{
+                distanceX = Math.round(thisOrigin.x - unitOrigin.x);
+            }
+
+            int distanceY;
+            if(unitOrigin.y > thisOrigin.y){
+                distanceY = Math.round(thisOrigin.y - unitOrigin.y);
+            }else{
+                distanceY = Math.round(thisOrigin.y - unitOrigin.y);
+            }
+
+            int distanceFromUnitSquared = (distanceX*distanceX) + (distanceY*distanceY);
+            int distanceFromUnit = (int) Math.sqrt(distanceFromUnitSquared);
+
+            if(distanceFromUnit < distanceToEnemy){
+                target = unit;
+                distanceToEnemy = distanceFromUnit;
+            }
+          }
+        }
+      }
     }
     
     @Override

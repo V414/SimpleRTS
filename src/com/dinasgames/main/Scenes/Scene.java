@@ -6,7 +6,9 @@ import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Games.WindowGame;
 import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Units.Unit;
 import com.dinasgames.main.Objects.GameObject;
+import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Players.LocalPlayer;
 import java.awt.Dimension;
 import java.util.ArrayList;
@@ -167,6 +169,11 @@ public class Scene {
                 if(mObjects[i] != null) {
                     mObjects[i].onTick(time);
                     mObjects[i].onRender();
+                    if(mObjects[i].hasType(GameObjectType.Unit)){
+                      Unit unit = (Unit) mObjects[i];
+                      
+                      unit.setTarget(mObjects);
+                    }
                 }
             }
         }
