@@ -6,7 +6,10 @@ import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Games.WindowGame;
 import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.Unit;
+import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Players.LocalPlayer;
@@ -169,11 +172,6 @@ public class Scene {
                 if(mObjects[i] != null) {
                     mObjects[i].onTick(time);
                     mObjects[i].onRender();
-                    if(mObjects[i].hasType(GameObjectType.Unit)){
-                      Unit unit = (Unit) mObjects[i];
-                      
-                      unit.setTarget(mObjects);
-                    }
                 }
             }
         }
@@ -200,6 +198,10 @@ public class Scene {
     
     public Renderer getRenderer() {
         return mRenderer;
+    }
+    
+    public GameObject[] getObjectsList(){
+      return mObjects;
     }
     
 }

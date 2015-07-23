@@ -96,6 +96,7 @@ public class LightTank extends Vehicle {
     public void onTick(double time) {
         
         super.onTick(time);
+        setTarget(mScene.getObjectsList());
         moveUnit();
         
     }

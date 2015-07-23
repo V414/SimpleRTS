@@ -70,6 +70,7 @@ public class Rifleman extends Infantry {
     public void onTick(double time) {
         
         super.onTick(time);
+        setTarget(mScene.getObjectsList());
         moveUnit();
         
     }

@@ -57,6 +57,7 @@ public class TestScene extends Scene {
         for(int i = 0; i < localGame.getPlayerList().getMaxPlayers(); i++) {
             LightTank tank = new LightTank(this);
             tank.setPosition(200, 300 + (i * 50));
+            tank.setTargetPosition(200, 300 + (i*50));
             tank.setOwner(localGame.getPlayerList().get(i));
         }
         
