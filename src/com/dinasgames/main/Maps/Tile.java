@@ -1,7 +1,7 @@
 package com.dinasgames.main.Maps;
 
 import com.dinasgames.main.Math.Vector2f;
-import com.sun.prism.paint.Color;
+import java.awt.Color;
 
 public class Tile {
   
@@ -9,7 +9,8 @@ public class Tile {
     enum Type {
         Nothing,
         Grassland,
-        Water
+        Water,
+        Mountain
     }
 
     protected Type mType;
@@ -37,10 +38,13 @@ public class Tile {
       switch(mType){
 
         case Grassland:
-          return new Color(50, 200, 50, 255).getIntArgbPre();
+          return new Color(38, 127, 0, 255).getRGB();
             
         case Water:
-            return Color.BLUE.getIntArgbPre();
+          return new Color(0,  74, 127).getRGB();
+          
+        case Mountain:
+          return new Color(34, 34, 34, 255).getRGB();
 
       }
 
