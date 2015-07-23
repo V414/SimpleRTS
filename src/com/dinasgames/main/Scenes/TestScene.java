@@ -29,6 +29,16 @@ public class TestScene extends Scene {
     
     @Override
     public Scene onCreate() {
+      Map map = new SymmetricalMap();
+      map.createMap();
+      Player[] players = new Player[map.getMaxPlayers()];
+      
+      for(int i = 0; i < map.getMaxPlayers()-1; i++){
+        players[i] = new RemotePlayer();
+        ((LocalGame)mGame).getPlayerList().add(players[i]);
+      }
+      
+      Vector2f[] playerStart = map.getPlayerStart();
         
         LocalGame localGame = (LocalGame)mGame;
         for(int i = 0; i < localGame.getPlayerList().getMaxPlayers() - 1; i++) {
@@ -56,13 +66,22 @@ public class TestScene extends Scene {
         //lightTank.setOwner(newPlayer);
         //lightTank.setTargetPosition(lightTank.getPosition());
         
-        PowerPlant powerPlant = new PowerPlant(this);
-        powerPlant.setPosition(500, 400);
-        powerPlant.setOwner(getLocalPlayer());
+        PowerPlant powerPlant1 = new PowerPlant(this);
+        powerPlant1.setPosition(playerStart[0]);
+        powerPlant1.setOwner(getLocalPlayer());
         
-        Map map = new SymmetricalMap();
-        map.createMap();
+        PowerPlant powerPlant2 = new PowerPlant(this);
+        powerPlant2.setPosition(playerStart[1]);
+        powerPlant2.setOwner(players[0]);
         
+        PowerPlant powerPlant3 = new PowerPlant(this);
+        powerPlant3.setPosition(playerStart[2]);
+        powerPlant3.setOwner(players[1]);
+        
+        PowerPlant powerPlant4 = new PowerPlant(this);
+        powerPlant4.setPosition(playerStart[3]);
+        powerPlant4.setOwner(players[2]);
+
         
         new MapShape(map).setDepth(100).setScene(this).setRenderer(mRenderer);
         //mRenderer.add(new MapShape(map).setDepth(100).setRenderer(mRenderer).setScene(this));

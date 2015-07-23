@@ -1,6 +1,5 @@
 package com.dinasgames.main.Maps;
 
-import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
@@ -26,12 +25,17 @@ public class Map {
     protected final int mTileSize;
     protected List<Tile> mTileList;
     protected List<MapChunk> mChunkList;
+    protected int maxPlayers;
+    protected Vector2f[] playerStart;
+    
     
     public Map() {
-        mMapSize = new Vector2f(500, 500);  // << Map is 100x100 tiles
-        mTileSize = 10;                     // << Each tile is 10x10 pixels
+        mMapSize = new Vector2f(128, 128);  // << Map is 100x100 tiles
+        mTileSize = 8;                     // << Each tile is 10x10 pixels
                                             // << 100x10 = 1000 pixels (actual size of map image)
         mChunkSize = 256;                   // << Chunk size in pixels
+        maxPlayers = 1;
+        playerStart = null;
     }
 
     /**
@@ -87,6 +91,14 @@ public class Map {
      */
     public int getChunkSize() {
         return mChunkSize;
+    }
+    
+    public int getMaxPlayers() {
+      return maxPlayers;
+    }
+    
+    public Vector2f[] getPlayerStart(){
+      return playerStart;
     }
     
     /**
