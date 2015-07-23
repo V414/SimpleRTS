@@ -1,5 +1,6 @@
 package com.dinasgames.main.Graphics;
 
+import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Keyboard;
 import javax.swing.JFrame;
@@ -9,6 +10,7 @@ import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
 import java.awt.Color;
 import java.awt.RenderingHints;
+//import java.awt.Toolkit;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
@@ -22,6 +24,8 @@ public class Renderer {
     
     public final int MAX_RENDER_OBJECTS = 1024;
     
+    protected long mDrawCount;
+    protected BoundingBox mView;
     protected Color mBackgroundColor;
     protected boolean[] mRenderFlag;
     protected Renderable[] mRenderObjects;
@@ -37,6 +41,7 @@ public class Renderer {
         mRenderObjects  = new Renderable[MAX_RENDER_OBJECTS];
         mRenderFlag     = new boolean[MAX_RENDER_OBJECTS];
         mBackgroundColor = Color.white;
+        mDrawCount      = 0;
         
         // Init render list
         for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
@@ -111,6 +116,11 @@ public class Renderer {
         
     }
     
+    public Renderer setView(BoundingBox view) {
+        mView = view;
+        return this;
+    }
+    
     public MouseAdapter getMouseAdapter() {
         return mMouseAdapter;
     }
@@ -119,18 +129,20 @@ public class Renderer {
         return mKeyboardAdapter;
     }
     
-    public void setBackgroundColor(Color color) {
+    public Renderer setBackgroundColor(Color color) {
         mBackgroundColor = color;
+        return this;
     }
     
     public Color getBackgroundColor() {
         return mBackgroundColor;
     }
     
-    public void clear() {
+    public Renderer clear() {
         for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
             mRenderObjects[i] = null;
         }
+        return this;
     }
     
     public int add(Renderable r) {
@@ -138,6 +150,8 @@ public class Renderer {
             if(mRenderObjects[i] == null) {
                 
                 mRenderObjects[i] = r;
+                r.onAdd();
+                
                 return i;
                 
             }
@@ -145,11 +159,15 @@ public class Renderer {
         return -1;
     }
     
-    public void remove(int idx) {
+    public Renderer remove(int idx) {
         if(idx < 0 || idx >= MAX_RENDER_OBJECTS) {
-            return;
+            return this;
+        }
+        if(mRenderObjects[idx] != null) {
+            mRenderObjects[idx].onRemove();
         }
         mRenderObjects[idx] = null;
+        return this;
     }
     
     public Renderable get(int idx) {
@@ -157,6 +175,10 @@ public class Renderer {
             return null;
         }
         return mRenderObjects[idx];
+    }
+    
+    public long getDrawCount() {
+        return mDrawCount;
     }
     
     public void render(JFrame window) {
@@ -167,6 +189,8 @@ public class Renderer {
             mGraphics.setColor(mBackgroundColor);
             mGraphics.fillRect( 0, 0, 1279, 719 );
             
+            mDrawCount = 0;
+            
             // Reset render flags
             synchronized(mRenderFlag) {
                 for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
@@ -176,7 +200,6 @@ public class Renderer {
             
             // Draw shapes in order of highest to lowest (negative is toward the screen)
             Graphics2D g = (Graphics2D)mGraphics;
-            
             g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
                     RenderingHints.VALUE_ANTIALIAS_ON);
             while(true) {
@@ -186,7 +209,7 @@ public class Renderer {
                 
                 // Find the render object with the lowest depth
                 for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
-                    if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible()) {
+                    if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible() && mRenderObjects[i].inView(mView)) {
                         if(renderObject == -1) {
                             renderObject = i;
                             highestDepth = mRenderObjects[i].getDepth();
@@ -206,6 +229,7 @@ public class Renderer {
                 
                 // Draw it
                 mRenderObjects[renderObject].render(g);
+                mDrawCount++;
                 
                 // Flag it as being rendered
                 mRenderFlag[renderObject] = true;
@@ -226,6 +250,8 @@ public class Renderer {
             if(!mBuffer.contentsLost()) {
                 
                 mBuffer.show();
+                
+                //Toolkit.getDefaultToolkit().sync();
                 
             }
             

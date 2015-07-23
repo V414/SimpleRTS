@@ -5,6 +5,8 @@
  */
 package com.dinasgames.main.Graphics;
 
+import com.dinasgames.main.Math.BoundingBox;
+import com.dinasgames.main.Math.Box;
 import java.awt.Color;
 import com.dinasgames.main.Math.Matrix3f;
 import com.dinasgames.main.Math.Vector2f;
@@ -74,6 +76,25 @@ public class Shape extends Renderable {
      * Whether the inverse transform should be recalculated;
      */
     protected boolean mInverseTransformNeedsUpdate;
+    
+    @Override
+    public boolean inView(BoundingBox view) {        
+        Box.Points box = Box.calculateMatrix(new Box.MatrixInput(
+                
+                mPosition.x,
+                mPosition.y,
+                
+                mSize.x,
+                mSize.y,
+                
+                mRotation,
+                
+                mOrigin.x,
+                mOrigin.y
+                
+        ));
+        return view.containsAny(box);
+    }
     
     protected Shape() {
         mOutlineColor = Color.black;

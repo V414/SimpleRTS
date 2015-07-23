@@ -33,10 +33,10 @@ public class LocalPlayer extends Player {
       List<Entity> entityList = mScene.findObjects();
 
       for (Entity entity : entityList) {
-        if((mousePosition.x > entity.getBoundingBox().left 
-            && mousePosition.x < entity.getBoundingBox().left + entity.getWidth()) 
-            && (mousePosition.y > entity.getBoundingBox().top
-            && mousePosition.y < entity.getBoundingBox().top + entity.getHeight())){
+        if((mousePosition.x > entity.getBoundingBox().x 
+            && mousePosition.x < entity.getBoundingBox().x + entity.getWidth()) 
+            && (mousePosition.y > entity.getBoundingBox().y
+            && mousePosition.y < entity.getBoundingBox().y + entity.getHeight())){
           return entity;
         }
       }

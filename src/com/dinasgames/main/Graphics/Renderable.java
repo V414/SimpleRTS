@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main.Graphics;
 
+import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Scenes.Scene;
 import java.awt.Graphics2D;
 
@@ -48,6 +49,10 @@ public class Renderable {
     
     public Renderer getRenderer() {
         return mRenderer;
+    }
+    
+    public boolean inView(BoundingBox view) {
+        return true;
     }
     
 //    public boolean isReference() {
@@ -107,6 +112,14 @@ public class Renderable {
     
     public void show() {
         mVisible = true;
+    }
+    
+    public void onAdd() {
+        
+    }
+    
+    public void onRemove() {
+        
     }
     
     public void render(Graphics2D g) {

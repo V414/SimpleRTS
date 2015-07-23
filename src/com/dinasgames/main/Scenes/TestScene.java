@@ -51,8 +51,9 @@ public class TestScene extends Scene {
         Map map2 = new BlankMap();
         map2.createMap();
         
-        mRenderer.add(new MapShape(map).setDepth(100).setRenderer(mRenderer).setScene(this));
-        mRenderer.add(new MapShape(map2).setPosition(1000.f, 0.f).setDepth(100).setRenderer(mRenderer).setScene(this));
+        new MapShape(map).setDepth(100).setScene(this).setRenderer(mRenderer);
+        //mRenderer.add(new MapShape(map).setDepth(100).setRenderer(mRenderer).setScene(this));
+        //mRenderer.add(new MapShape(map2).setPosition(1000.f, 0.f).setDepth(100).setRenderer(mRenderer).setScene(this));
         //mRenderer.add(new Image(map.getChunkList().get(0).mImage));
         
         return this;

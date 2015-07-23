@@ -19,6 +19,7 @@ public class LocalGame extends WindowGame {
     protected Scene mScene;
         
     // Frame indepentant
+    protected long mStepCount;
     protected LocalPlayer mPlayer;
     protected double mAccumulator, mCurrentTime, mT, mDT;
     protected int mFps, mFpsCounter;
@@ -33,6 +34,7 @@ public class LocalGame extends WindowGame {
         
         //mFpsClock       = null;
         
+        mStepCount = 0;
         mAccumulator    = 0.0;
         mCurrentTime    = 0.0;
         mT              = 0.0;
@@ -59,7 +61,8 @@ public class LocalGame extends WindowGame {
         mAccumulator    = 0.0;
         mCurrentTime    = 0.0;
         mT              = 0.0;
-        mDT             = 0.01;
+        //mDT             = 0.01;
+        mDT = 1.0 / 60.0;
         mFps            = 0;
         mFpsCounter     = 0;
         
@@ -84,6 +87,9 @@ public class LocalGame extends WindowGame {
             mFpsCounter = 0;
             
             System.out.println("FPS: " + mFps);
+            System.out.println("Step Count: " + mStepCount);
+            
+            mStepCount = 0;
             
         });
         
@@ -136,6 +142,7 @@ public class LocalGame extends WindowGame {
         }
         
         // Render the game window
+        mWindow.getRenderer().setView(mScene.getCamera().getView());
         mWindow.render();
         
         // Calculate FPS
@@ -152,6 +159,8 @@ public class LocalGame extends WindowGame {
         if(mScene != null) {
             mScene.tick(mCurrentTime);
         }
+        
+        mStepCount++;
         
     }
     

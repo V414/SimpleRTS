@@ -5,6 +5,7 @@
  */
 package com.dinasgames.main;
 
+import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Networking.Network;
@@ -15,40 +16,72 @@ import com.dinasgames.main.Networking.Network;
  */
 public class Camera {
     
-    protected Vector2f mPosition;
+    protected BoundingBox mView;
     
-    public Camera() {
-        mPosition = new Vector2f(0.f,0.f);
+    public Camera(float width, float height) {
+        mView = new BoundingBox(0.f, 0.f, width, height);
     }
     
     public void tick() {
         
     }
     
-    // Setters
-    public void setPosition(Vector2f position) {
-        mPosition = position;
+    public BoundingBox getView() {
+        return mView;
     }
     
-    public void setPosition(float x, float y) {
-        mPosition.x = x;
-        mPosition.y = y;
+    // Setters
+    public Camera setPosition(Vector2f position) {
+        mView.setPosition(position);
+        return this;
+    }
+    
+    public Camera setPosition(float x, float y) {
+        mView.setPosition(x, y);
+        return this;
+    }
+    
+    public Camera setSize(float x, float y) {
+        mView.width = x;
+        mView.height = y;
+        return this;
+    }
+    
+    public Camera setSize(Vector2f size) {
+        mView.width = size.x;
+        mView.height = size.y;
+        return this;
+    }
+    
+    public Camera setRectangle(float left, float top, float right, float bottom) {
+        mView.x = left;
+        mView.y = top;
+        mView.width = right - left;
+        mView.height = bottom - top;
+        return this;
+    }
+    
+    public Camera setView(BoundingBox view) {
+        mView = view;
+        return this;
     }
     
     // Getters
     public Vector2f getPosition() {
-        return mPosition;
+        return mView.getPosition();
     }
     
     // Other
-    public void move(Vector2f offset) {
-        mPosition.x += offset.x;
-        mPosition.y += offset.y;
+    public Camera move(Vector2f offset) {
+        mView.x += offset.x;
+        mView.y += offset.y;
+        return this;
     }
     
-    public void move(float x, float y) {
-        mPosition.x += x;
-        mPosition.y += y;
+    public Camera move(float x, float y) {
+        mView.x += x;
+        mView.y += y;
+        return this;
     }
     
 }

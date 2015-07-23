@@ -165,7 +165,7 @@ public class Player {
     }
     
     protected void updateSelectionShape() {
-        mSelectionShape.setPosition(mSelectionBox.left, mSelectionBox.top);
+        mSelectionShape.setPosition(mSelectionBox.x, mSelectionBox.y);
         mSelectionShape.setSize(mSelectionBox.width, mSelectionBox.height);
     }
     

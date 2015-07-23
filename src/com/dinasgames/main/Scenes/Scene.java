@@ -3,9 +3,12 @@ package com.dinasgames.main.Scenes;
 import com.dinasgames.main.Camera;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
+import com.dinasgames.main.Games.WindowGame;
 import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Players.LocalPlayer;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,7 +30,7 @@ public class Scene {
         mGame = null;
         mObjects = new GameObject[MAX_OBJECTS];
         //mObjects = Collections.synchronizedList(new ArrayList<GameObject>());
-        mCamera = new Camera();
+        mCamera = new Camera(640, 480);
         
         for(int i = 0; i < MAX_OBJECTS; i ++) {
             mObjects[i] = null;
@@ -38,6 +41,18 @@ public class Scene {
     protected Scene(Game game) {
         this();
         mGame = game;
+        
+        // Attempt to get the window size
+        try {
+            WindowGame windowGame = (WindowGame)mGame;
+            if(game != null) {
+                Dimension windowSize = windowGame.getWindow().getFrame().getSize();
+                mCamera.setSize(new Vector2f(windowSize.width, windowSize.height));
+            }
+        } catch(Exception e) {
+            // Ignore
+        }
+        
     }
     
     public Scene setGame(Game game) {

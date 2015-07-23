@@ -6,6 +6,8 @@
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.main.System.Time;
+import com.dinasgames.main.System.Timer;
 import com.dinasgames.main.System.Window;
 
 /**
@@ -14,11 +16,13 @@ import com.dinasgames.main.System.Window;
  */
 public class WindowGame extends Game {
     
+    protected Timer mDrawCountTimer;
     protected Window mWindow;
     
     protected WindowGame() {
         
         mWindow = null;
+        mDrawCountTimer = null;
         
     }
     
@@ -29,6 +33,11 @@ public class WindowGame extends Game {
         
         // Open the window
         mWindow = new Window( "Simple RTS", 1280, 720 );
+        mDrawCountTimer = Timer.every(Time.seconds(1.f), () -> {
+            
+            System.out.println("Draw Count: " + mWindow.getRenderer().getDrawCount());
+            
+        });
         
     }
     
@@ -43,6 +52,8 @@ public class WindowGame extends Game {
     public void unload() {
         
         super.unload();
+        
+        mDrawCountTimer.stop();
         
         // Close the game window
         if(mWindow.isOpen()) {

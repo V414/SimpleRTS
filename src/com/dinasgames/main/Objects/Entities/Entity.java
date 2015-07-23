@@ -104,7 +104,7 @@ public class Entity extends GameObject {
         
         // Update healthbar
         if(mSelected) {
-            mHealthbar.setPosition(mBoundingBox.left, mBoundingBox.top-10);
+            mHealthbar.setPosition(mBoundingBox.x, mBoundingBox.y-10);
             mHealthbar.setHealth(mHealth);
             mHealthbar.setSize(mBoundingBox.width, mHealthbar.getSize().y);
             mHealthbar.show();

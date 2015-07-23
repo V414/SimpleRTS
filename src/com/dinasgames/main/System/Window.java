@@ -32,12 +32,13 @@ public class Window implements WindowListener {
         mFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
         mFrame.setMinimumSize(new Dimension(640, 480));
         mFrame.setResizable(false);
-        mFrame.setLocationRelativeTo(null);
         
         mIsOpen = true;
         
         // Initialize the renderer
         mRenderer = new Renderer(mFrame);
+        
+        mFrame.setLocationRelativeTo(null);
         
         // Make the JFrame visible
         mFrame.setVisible(true);
