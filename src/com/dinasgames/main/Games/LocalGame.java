@@ -115,11 +115,11 @@ public class LocalGame extends WindowGame {
         // Update mouse
         Mouse.tick();
         
-        // Update players
-        mPlayerList.update();
+        
         
         // Update game logic
-        double newTime = System.currentTimeMillis() / 1000.0;
+        //double newTime = System.currentTimeMillis() / 1000.0;
+        double newTime = mStartClock.getElapsedTime().asSeconds();
         double frameTime = newTime - mCurrentTime;
         
         // Stop the game going into an infinite loop of DOOOM!
@@ -154,6 +154,9 @@ public class LocalGame extends WindowGame {
      * Does a single game step (logic step).
      */
     protected void singleStep() {
+        
+        // Update players (Bug fix: camera moving slow -.-)
+        mPlayerList.update();
         
         // Tick the scene logic
         if(mScene != null) {
