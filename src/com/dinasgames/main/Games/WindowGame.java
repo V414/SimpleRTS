@@ -6,6 +6,7 @@
 package com.dinasgames.main.Games;
 
 import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.System.Time;
 import com.dinasgames.main.System.Timer;
 import com.dinasgames.main.System.Window;

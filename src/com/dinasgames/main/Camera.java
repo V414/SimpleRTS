@@ -6,9 +6,7 @@
 package com.dinasgames.main;
 
 import com.dinasgames.main.Math.BoundingBox;
-import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Math.Vector2f;
-import com.dinasgames.main.Networking.Network;
 
 /**
  *

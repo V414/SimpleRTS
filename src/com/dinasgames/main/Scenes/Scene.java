@@ -55,6 +55,10 @@ public class Scene {
         
     }
     
+    public Game getGame() {
+        return mGame;
+    }
+    
     public Scene setGame(Game game) {
         mGame = game;
         return this;

@@ -1,6 +1,7 @@
 package com.dinasgames.main.Graphics;
 
 import com.dinasgames.main.Math.BoundingBox;
+import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Keyboard;
 import javax.swing.JFrame;
@@ -35,7 +36,7 @@ public class Renderer {
     protected MouseAdapter mMouseAdapter;
     protected KeyAdapter mKeyboardAdapter;
 
-    public Renderer(JFrame window) {
+    public Renderer(JFrame window, float width, float height) {
         
         mRenderObjects  = new Renderable[MAX_RENDER_OBJECTS];
         mRenderFlag     = new boolean[MAX_RENDER_OBJECTS];
@@ -51,7 +52,7 @@ public class Renderer {
         // Initialize the Canvas
         mCanvas = new Canvas();
         mCanvas.setIgnoreRepaint(true);
-        mCanvas.setSize(window.getSize());
+        mCanvas.setSize((int)width, (int)height);
         
         // Add the canvas to the JFrame
         window.add(mCanvas);
@@ -113,14 +114,21 @@ public class Renderer {
         mCanvas.requestFocus();
         mCanvas.requestFocusInWindow();
         
-        mCanvas.setListener(new Canvas.Listener() {
-
-            @Override
-            public void render(Graphics2D g) {
-                onRender(g);
-            }
+        mCanvas.setListener((Graphics2D g) -> {
+            
+            onRender(g);
+            
         });
         
+    }
+    
+    public Vector2f getSize() {
+        return new Vector2f(mCanvas.getWidth(), mCanvas.getHeight());
+    }
+    
+    public Renderer setSize(float width, float height) {
+        mCanvas.setSize((int)width, (int)height);
+        return this;
     }
     
     protected void onRender(Graphics2D g) {

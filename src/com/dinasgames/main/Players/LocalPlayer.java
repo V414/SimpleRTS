@@ -1,14 +1,19 @@
 package com.dinasgames.main.Players;
 
 import com.dinasgames.main.Controllers.LocalController;
+import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Inputs.LocalInput;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.System.Mouse;
+import com.dinasgames.main.System.Window;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import javax.swing.JFrame;
 
 /**
  * Functions relating to the local player
@@ -87,8 +92,15 @@ public class LocalPlayer extends Player {
         
         // Handle local player input
         LocalInput input = new LocalInput(getLocalInput());
+        LocalGame localGame = null;
         
+        try {
+            localGame = (LocalGame)mScene.getGame();
+        } catch( Exception e ) {
+            // Ignore
+        }
         
+        // Camera movement via keyboard keys
         float speed = 5.f;
         
         if(input.shift) {
@@ -115,7 +127,41 @@ public class LocalPlayer extends Player {
             mScene.getCamera().move(0.f, speed);
         }
         
+        // Camera movement via mouse being near the edge of the screen
+        if(localGame != null && localGame.getWindow() != null) {
+            
+            float nearBorder    = 20.f; // <<< Pixels away from border that causes the view to move in this direction
+            float moveSpeed     = 20.f; // <<< Pixels that the camera will move when the mouse touches a border
+            Vector2f windowSize = localGame.getWindow().getRenderer().getSize();
+            Vector2f uiMousePos = new Vector2f(input.mousePosition)
+                                  .subtract(mScene.getCamera().getPosition());
+            
+            // Left border
+            if( uiMousePos.x <= nearBorder ) {
+                mScene.getCamera().move( -moveSpeed, 0.f );
+            }
+            
+            // Right border
+            if( uiMousePos.x >= windowSize.x - nearBorder ) {
+                mScene.getCamera().move( moveSpeed, 0.f );
+            }
+            
+            // Top border
+            if( uiMousePos.y <= nearBorder ) {
+                mScene.getCamera().move( 0.f, -moveSpeed );
+            }
+            
+            // Bottom border
+            if( uiMousePos.y >= windowSize.y - nearBorder ) {
+                mScene.getCamera().move( 0.f, moveSpeed );
+            }
+            
+            System.out.println(uiMousePos.y);
+            
+            
+        }
         
+        // Handle selection box
         if(isSelectionBoxShowing()) {
             
             updateSelection(input.mousePosition);

@@ -5,10 +5,8 @@
  */
 package com.dinasgames.main.System;
 
-import com.dinasgames.main.Games.Game;
-import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Graphics.Renderer;
-import com.dinasgames.main.Networking.Network;
+import com.dinasgames.main.Math.Vector2f;
 import java.awt.Dimension;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowListener;
@@ -24,19 +22,20 @@ public class Window implements WindowListener {
     protected JFrame mFrame;
     protected Renderer mRenderer;
     
-    public Window() {
+    public Window(String title, float width, float height) {
         
         // Initalize the JFrame
         mFrame = new JFrame();
         mFrame.setIgnoreRepaint(true);
         mFrame.setDefaultCloseOperation( JFrame.EXIT_ON_CLOSE );
-        mFrame.setMinimumSize(new Dimension(640, 480));
+        //mFrame.setMinimumSize(new Dimension(width, height));
         mFrame.setResizable(false);
+        mFrame.setTitle(title);
         
         mIsOpen = true;
         
         // Initialize the renderer
-        mRenderer = new Renderer(mFrame);
+        mRenderer = new Renderer(mFrame, width, height);
         
         mFrame.setLocationRelativeTo(null);
         
@@ -51,26 +50,32 @@ public class Window implements WindowListener {
         
     }
     
-    public Window(String title) {
-        
-        // Construct the window
-        this();
-        
-        // Setup using parameters
-        mFrame.setTitle(title);
-        
-    }
+//    public Window(String title) {
+//        
+//        // Construct the window
+//        this(1280, 720);
+//        
+//        // Setup using parameters
+//        mFrame.setTitle(title);
+//        
+//    }
     
-    public Window(String title, int width, int height) {
-        
-        // Construct the window
-        this();
-        
-        // Setup using parameters
-        mFrame.setTitle(title);
-        mFrame.setSize(width, height);
-        mFrame.setLocationRelativeTo(null);
-        
+//    public Window(String title, int width, int height) {
+//        
+//        // Construct the window
+//        this();
+//        
+//        // Setup using parameters
+//        mFrame.setTitle(title);
+//        //mFrame.setSize(width, height);
+//        mFrame.setLocationRelativeTo(null);
+//        
+//        //mRenderer.setSize(width, height);
+//        
+//    }
+    
+    public Vector2f getSize() {
+        return new Vector2f(mFrame.getSize().width, mFrame.getSize().height);
     }
     
     public void setTitle(String title) {
