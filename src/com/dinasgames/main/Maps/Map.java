@@ -28,7 +28,7 @@ public class Map {
     protected List<MapChunk> mChunkList;
     
     public Map() {
-        mMapSize = new Vector2f(500, 500);  // << Map is 100x100 tiles
+        mMapSize = new Vector2f(100, 100);  // << Map is 100x100 tiles
         mTileSize = 10;                     // << Each tile is 10x10 pixels
                                             // << 100x10 = 1000 pixels (actual size of map image)
         mChunkSize = 256;                   // << Chunk size in pixels

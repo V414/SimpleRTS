@@ -1,5 +1,6 @@
 package com.dinasgames.main.Objects.Entities.Units;
 
+import com.dinasgames.main.Math.Point;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
 import com.dinasgames.main.Objects.GameObjectType;
@@ -21,25 +22,44 @@ public class Unit extends Entity {
     }
     
     protected void moveUnit(){
-      if((mPosition.x < mTargetPosition.x - mSpeed ||
-              mPosition.x > mTargetPosition.x + mSpeed) &&
-              (mPosition.y < mTargetPosition.y - mSpeed ||
-              mPosition.y > mTargetPosition.y + mSpeed)){
-        double b = mTargetPosition.y - mPosition.y;
-        double a = mTargetPosition.x - mPosition.x;
-        mRotation = Math.round(Math.toDegrees(Math.atan2(b, a)));
-
-        //Preventing angles going into minus numbers when travelling backwards
-        if(mRotation < 0){
-            mRotation += 360;
+        
+        
+        
+        if(Point.distance(mPosition, mTargetPosition) > mSpeed) {
+            mPosition.add( Point.inDirection(mSpeed, Point.direction(mPosition, mTargetPosition)) );
+            mRotation = (float)Point.direction(mPosition, mTargetPosition);
         }
         
-        float nX = (float) (mPosition.x + (mSpeed * Math.cos(Math.toRadians(mRotation))));
-        float nY = (float) (mPosition.y + (mSpeed * Math.sin(Math.toRadians(mRotation))));
-
-        mPosition.x = nX;
-        mPosition.y = nY;
-      }
+//        if(Math.abs(Point.distance(mPosition, mTargetPosition)) > mSpeed) {
+//            
+//            float angle = (float)Point.direction(mPosition, mTargetPosition);
+//            
+//            mPosition.x += Point.inDirectionX ( mSpeed, angle );
+//            mPosition.y += Point.inDirectionY( mSpeed, angle );
+//            
+//            System.out.println(angle);
+//            
+//        }
+//        
+//      if((mPosition.x < mTargetPosition.x - mSpeed ||
+//              mPosition.x > mTargetPosition.x + mSpeed) &&
+//              (mPosition.y < mTargetPosition.y - mSpeed ||
+//              mPosition.y > mTargetPosition.y + mSpeed)){
+//        double b = mTargetPosition.y - mPosition.y;
+//        double a = mTargetPosition.x - mPosition.x;
+//        mRotation = Math.round(Math.toDegrees(Math.atan2(b, a)));
+//
+//        //Preventing angles going into minus numbers when travelling backwards
+//        if(mRotation < 0){
+//            mRotation += 360;
+//        }
+//        
+//        float nX = (float) (mPosition.x + (mSpeed * Math.cos(Math.toRadians(mRotation))));
+//        float nY = (float) (mPosition.y + (mSpeed * Math.sin(Math.toRadians(mRotation))));
+//
+//        mPosition.x = nX;
+//        mPosition.y = nY;
+//      }
     }
     
     @Override
