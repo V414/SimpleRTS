@@ -6,6 +6,7 @@ import com.dinasgames.main.Graphics.MapShape;
 import com.dinasgames.main.Maps.BlankMap;
 import com.dinasgames.main.Maps.FunkyMap;
 import com.dinasgames.main.Maps.Map;
+import com.dinasgames.main.Maps.SymmetricalMap;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
@@ -45,11 +46,9 @@ public class TestScene extends Scene {
         powerPlant.setPosition(500, 400);
         powerPlant.setOwner(getLocalPlayer());
         
-        Map map = new FunkyMap();
+        Map map = new SymmetricalMap();
         map.createMap();
         
-        Map map2 = new BlankMap();
-        map2.createMap();
         
         new MapShape(map).setDepth(100).setScene(this).setRenderer(mRenderer);
         //mRenderer.add(new MapShape(map).setDepth(100).setRenderer(mRenderer).setScene(this));
