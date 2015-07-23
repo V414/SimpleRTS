@@ -4,7 +4,6 @@ import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Keyboard;
 import javax.swing.JFrame;
-import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.image.BufferStrategy;
@@ -15,6 +14,7 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.image.VolatileImage;
 
 /**
  * A class used to render a list to a window.
@@ -37,7 +37,6 @@ public class Renderer {
 
     public Renderer(JFrame window) {
         
-        //mRenderList = Collections.synchronizedList(new ArrayList<Renderable>());
         mRenderObjects  = new Renderable[MAX_RENDER_OBJECTS];
         mRenderFlag     = new boolean[MAX_RENDER_OBJECTS];
         mBackgroundColor = Color.white;
@@ -114,6 +113,68 @@ public class Renderer {
         mCanvas.requestFocus();
         mCanvas.requestFocusInWindow();
         
+        mCanvas.setListener(new Canvas.Listener() {
+
+            @Override
+            public void render(Graphics2D g) {
+                onRender(g);
+            }
+        });
+        
+    }
+    
+    protected void onRender(Graphics2D g) {
+        
+        // Background color
+        g.setColor(mBackgroundColor);
+        g.fillRect( 0, 0, 1279, 719 );
+        g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        
+        // Render objects
+        mDrawCount = 0;
+            
+        // Reset render flags
+        synchronized(mRenderFlag) {
+            for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
+                mRenderFlag[i] = false;
+            }
+        }
+
+        // Draw shapes in order of highest to lowest (negative is toward the screen)
+        while(true) {
+
+            int renderObject = -1;
+            int highestDepth  = 0;
+
+            // Find the render object with the lowest depth
+            for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
+                if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible() && mRenderObjects[i].inView(mView)) {
+                    if(renderObject == -1) {
+                        renderObject = i;
+                        highestDepth = mRenderObjects[i].getDepth();
+                    }else{
+                        if(mRenderObjects[i].getDepth() > highestDepth) {
+                            renderObject = i;
+                            highestDepth = mRenderObjects[i].getDepth();    
+                        }
+                    }
+                }
+            }
+
+            // Check if all the objects have been drawn
+            if(renderObject == -1) {
+                break;
+            }
+
+            // Draw it
+            mRenderObjects[renderObject].render(g);
+            mDrawCount++;
+
+            // Flag it as being rendered
+            mRenderFlag[renderObject] = true;
+
+        }
+        
     }
     
     public Renderer setView(BoundingBox view) {
@@ -181,89 +242,92 @@ public class Renderer {
         return mDrawCount;
     }
     
+    
+    
     public void render(JFrame window) {
         
-        try {
-            
-            mGraphics = mBuffer.getDrawGraphics();
-            mGraphics.setColor(mBackgroundColor);
-            mGraphics.fillRect( 0, 0, 1279, 719 );
-            
-            mDrawCount = 0;
-            
-            // Reset render flags
-            synchronized(mRenderFlag) {
-                for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
-                    mRenderFlag[i] = false;
-                }
-            }
-            
-            // Draw shapes in order of highest to lowest (negative is toward the screen)
-            Graphics2D g = (Graphics2D)mGraphics;
-            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
-                    RenderingHints.VALUE_ANTIALIAS_ON);
-            while(true) {
-                
-                int renderObject = -1;
-                int highestDepth  = 0;
-                
-                // Find the render object with the lowest depth
-                for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
-                    if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible() && mRenderObjects[i].inView(mView)) {
-                        if(renderObject == -1) {
-                            renderObject = i;
-                            highestDepth = mRenderObjects[i].getDepth();
-                        }else{
-                            if(mRenderObjects[i].getDepth() > highestDepth) {
-                                renderObject = i;
-                                highestDepth = mRenderObjects[i].getDepth();    
-                            }
-                        }
-                    }
-                }
-                
-                // Check if all the objects have been drawn
-                if(renderObject == -1) {
-                    break;
-                }
-                
-                // Draw it
-                mRenderObjects[renderObject].render(g);
-                mDrawCount++;
-                
-                // Flag it as being rendered
-                mRenderFlag[renderObject] = true;
-                
-            }
-            
-//            // Iterate through the render list & render each thing
-//            Graphics2D g = (Graphics2D)mGraphics;
-//            synchronized(mRenderList) {
-//                Iterator<Renderable> it = mRenderList.iterator();
-//                while(it.hasNext()) {
-//                    Renderable r = it.next();
-//                    r.render(g);
+//        mGraphics = mBuffer.getDrawGraphics();
+        
+        mCanvas.update(mCanvas.getGraphics());
+        
+//        if(!mBuffer.contentsLost()) {
+//            mBuffer.show();
+//        }
+//        
+//        mGraphics.dispose();
+        
+//        try {
+//            
+//            mGraphics = mBuffer.getDrawGraphics();
+//            mGraphics.setColor(mBackgroundColor);
+//            mGraphics.fillRect( 0, 0, 1279, 719 );
+//            
+//            mDrawCount = 0;
+//            
+//            // Reset render flags
+//            synchronized(mRenderFlag) {
+//                for(int i = 0; i < MAX_RENDER_OBJECTS; i ++) {
+//                    mRenderFlag[i] = false;
 //                }
 //            }
-            
-            // Blit the back buffer to the screen... ?
-            if(!mBuffer.contentsLost()) {
-                
-                mBuffer.show();
-                
-                //Toolkit.getDefaultToolkit().sync();
-                
-            }
-            
-            Thread.yield();
-            
-        } finally {
-            
-            if(mGraphics != null) {
-                mGraphics.dispose();
-            }
-            
-        }
+//            
+//            // Draw shapes in order of highest to lowest (negative is toward the screen)
+//            Graphics2D g = (Graphics2D)mGraphics;
+//            g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, 
+//                    RenderingHints.VALUE_ANTIALIAS_ON);
+//            while(true) {
+//                
+//                int renderObject = -1;
+//                int highestDepth  = 0;
+//                
+//                // Find the render object with the lowest depth
+//                for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
+//                    if(mRenderObjects[i] != null && !mRenderFlag[i] && mRenderObjects[i].isVisible() && mRenderObjects[i].inView(mView)) {
+//                        if(renderObject == -1) {
+//                            renderObject = i;
+//                            highestDepth = mRenderObjects[i].getDepth();
+//                        }else{
+//                            if(mRenderObjects[i].getDepth() > highestDepth) {
+//                                renderObject = i;
+//                                highestDepth = mRenderObjects[i].getDepth();    
+//                            }
+//                        }
+//                    }
+//                }
+//                
+//                // Check if all the objects have been drawn
+//                if(renderObject == -1) {
+//                    break;
+//                }
+//                
+//                // Draw it
+//                mRenderObjects[renderObject].render(g);
+//                mDrawCount++;
+//                
+//                // Flag it as being rendered
+//                mRenderFlag[renderObject] = true;
+//                
+//            }
+//            
+//            
+//            // Blit the back buffer to the screen... ?
+//            if(!mBuffer.contentsLost()) {
+//                
+//                mBuffer.show();
+//                
+//                //Toolkit.getDefaultToolkit().sync();
+//                
+//            }
+//            
+//            //Thread.yield();
+//            
+//        } finally {
+//            
+//            if(mGraphics != null) {
+//                mGraphics.dispose();
+//            }
+//            
+//        }
         
     }
     

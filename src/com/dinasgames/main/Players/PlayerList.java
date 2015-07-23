@@ -42,6 +42,10 @@ public class PlayerList {
         return this;
     }
     
+    public final int getMaxPlayers() {
+        return MAX_PLAYERS;
+    }
+    
     public PlayerList() {
         mPlayers = new Player[MAX_PLAYERS];
         for(int i = 0; i < MAX_PLAYERS; i++) {

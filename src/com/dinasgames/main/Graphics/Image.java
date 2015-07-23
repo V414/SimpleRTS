@@ -11,7 +11,6 @@ import java.awt.Graphics2D;
 import java.awt.Rectangle;
 import java.awt.Stroke;
 import java.awt.geom.AffineTransform;
-import java.awt.image.BufferedImage;
 
 /**
  *
@@ -19,24 +18,26 @@ import java.awt.image.BufferedImage;
  */
 public class Image extends Shape {
     
-    protected BufferedImage mImage;
+    //protected BufferedImage mImage;
+    protected java.awt.Image mImage;
     
     public Image() {
         mImage = null;
+        
     }
     
-    public Image(BufferedImage image) {
+    public Image(java.awt.Image image) {
         mImage = image;
-        mSize = new Vector2f(image.getWidth(), image.getHeight());
+        mSize = new Vector2f(image.getWidth(null), image.getHeight(null));
     }
     
-    public Image setImage(BufferedImage image) {
+    public Image setImage(java.awt.Image image) {
         mImage = image;
-        mSize = new Vector2f(image.getWidth(), image.getHeight());
+        mSize = new Vector2f(image.getWidth(null), image.getHeight(null));
         return this;
     }
     
-    public BufferedImage getImage() {
+    public java.awt.Image getImage() {
         return mImage;
     }
     
@@ -74,7 +75,8 @@ public class Image extends Shape {
         g.scale(mScale.x, mScale.y);
         
         // Draw the image
-        g.drawImage(mImage, null, 0, 0);
+        g.drawImage(mImage, 0, 0, null);
+        //g.drawImage(mImage, null, 0, 0);
         
         // Reset transform
         g.setTransform(oldTransform);

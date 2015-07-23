@@ -1,6 +1,7 @@
 package com.dinasgames.main.Scenes;
 
 import com.dinasgames.main.Games.Game;
+import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Graphics.Image;
 import com.dinasgames.main.Graphics.MapShape;
 import com.dinasgames.main.Maps.BlankMap;
@@ -12,6 +13,8 @@ import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
+import com.dinasgames.main.Players.Player;
+import com.dinasgames.main.Players.RemotePlayer;
 
 
 /**
@@ -27,6 +30,11 @@ public class TestScene extends Scene {
     @Override
     public Scene onCreate() {
         
+        LocalGame localGame = (LocalGame)mGame;
+        for(int i = 0; i < localGame.getPlayerList().getMaxPlayers() - 1; i++) {
+            localGame.getPlayerList().add(new RemotePlayer());
+        }
+        
         //Spawn 10 units for the local player
         for(int i = 0; i < 10; i++) {
             Rifleman rifleman = new Rifleman(this);
@@ -36,11 +44,17 @@ public class TestScene extends Scene {
             rifleman.setTargetPosition(rifleman.getPosition());
         }
         
+        for(int i = 0; i < localGame.getPlayerList().getMaxPlayers(); i++) {
+            LightTank tank = new LightTank(this);
+            tank.setPosition(200, 300 + (i * 50));
+            tank.setOwner(localGame.getPlayerList().get(i));
+        }
+        
         // Create a light tank of another team
-        LightTank lightTank = new LightTank(this);
-        lightTank.setPosition(200, 300);
-        lightTank.setOwner(getLocalPlayer());
-        lightTank.setTargetPosition(lightTank.getPosition());
+        //LightTank lightTank = new LightTank(this);
+        //lightTank.setPosition(200, 300);
+        //lightTank.setOwner(newPlayer);
+        //lightTank.setTargetPosition(lightTank.getPosition());
         
         PowerPlant powerPlant = new PowerPlant(this);
         powerPlant.setPosition(500, 400);
