@@ -37,7 +37,9 @@ public class LocalPlayer extends Player {
             && mousePosition.x < entity.getBoundingBox().x + entity.getWidth()) 
             && (mousePosition.y > entity.getBoundingBox().y
             && mousePosition.y < entity.getBoundingBox().y + entity.getHeight())){
-          return entity;
+          if(entity.getOwner().getID() == mID){
+            return entity;
+          }
         }
       }
       
