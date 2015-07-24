@@ -11,6 +11,8 @@ import com.dinasgames.main.Maps.SymmetricalMap;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Bazooka;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Flamethrower;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.Bulldozer;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
@@ -66,6 +68,16 @@ public class TestScene extends Scene {
         bulldozer.setPosition(600, 400);
         bulldozer.setTargetPosition(600, 400);
         bulldozer.setOwner(getLocalPlayer());
+        
+        Flamethrower flamethrower = new Flamethrower(this);
+        flamethrower.setPosition(650, 400);
+        flamethrower.setTargetPosition(650, 400);
+        flamethrower.setOwner(getLocalPlayer());
+        
+        Bazooka bazooka = new Bazooka(this);
+        bazooka.setPosition(500, 400);
+        bazooka.setTargetPosition(500, 400);
+        bazooka.setOwner(getLocalPlayer());
         
         // Create a light tank of another team
         //LightTank lightTank = new LightTank(this);

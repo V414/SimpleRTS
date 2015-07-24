@@ -38,7 +38,7 @@ public class Bulldozer extends Vehicle {
 
       super.onCreate();
 
-      setSize(25.f, 15.f);
+      setSize(20.f, 10.f);
       //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
       
       mShapeTracks = new RectangleShape();

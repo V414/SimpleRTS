@@ -23,7 +23,9 @@ public enum GameObjectType {
     LightTank   (0x00000100),
     Vehicle     (0x00000200),
     PowerPlant  (0x00000400),
-    Bulldozer   (0x00000800);
+    Bulldozer   (0x00000800),
+    Flamethrower(0x00001000),
+    Bazooka     (0x00002000);
     
     // Constructor
     private final int mId;

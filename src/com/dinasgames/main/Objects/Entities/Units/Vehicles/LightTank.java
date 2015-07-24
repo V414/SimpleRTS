@@ -13,11 +13,14 @@ public class LightTank extends Vehicle {
   RectangleShape mShapeBody;
   RectangleShape mShapeBody2;
   RectangleShape mShapeTurret;
+  RectangleShape mShapeTracks;
+  
   float mTurretRotation;
   //Vector2f mTurretSize;
 
   public LightTank(Scene scene){
     mScene = scene;
+    mShapeTracks = null;
     mShapeBody = null;
     mShapeTurret = null;
     //mTurretSize = null;
@@ -44,8 +47,18 @@ public class LightTank extends Vehicle {
         
         super.onCreate();
         
-        setSize(40.f, 20.f);
+        setSize(35.f, 15.f);
         //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
+        
+        mShapeTracks = new RectangleShape();
+        
+        mShapeTracks.setFillColor(Color.black);
+        mShapeTracks.setOutlineColor(Color.black);
+        mShapeTracks.setOutlineThickness(2.f);
+        mShapeTracks.setSize(mSize.x/1.1f, mSize.y*1.5f);
+        mShapeTracks.setScene(mScene);
+        mShapeTracks.setRenderer(mRenderer);
+        mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape();
         
@@ -105,6 +118,9 @@ public class LightTank extends Vehicle {
     public void onRender() {
         
         super.onRender();
+        
+        mShapeTracks.setPosition(mPosition);
+        mShapeTracks.setRotation(mRotation);
         
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
