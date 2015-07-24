@@ -12,6 +12,7 @@ import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
+import com.dinasgames.main.Objects.Entities.Units.Vehicles.Bulldozer;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 import com.dinasgames.main.Players.Player;
 import com.dinasgames.main.Players.RemotePlayer;
@@ -60,6 +61,11 @@ public class TestScene extends Scene {
             tank.setTargetPosition(200, 300 + (i*50));
             tank.setOwner(localGame.getPlayerList().get(i));
         }
+        
+        Bulldozer bulldozer = new Bulldozer(this);
+        bulldozer.setPosition(600, 400);
+        bulldozer.setTargetPosition(600, 400);
+        bulldozer.setOwner(getLocalPlayer());
         
         // Create a light tank of another team
         //LightTank lightTank = new LightTank(this);
