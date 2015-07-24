@@ -27,7 +27,7 @@ public class Player {
     // Player colors
     public final Color[] PLAYER_COLORS = {
         
-        Color.red,
+        new Color(140, 0, 0, 255),
         Color.blue,
         Color.yellow,
         Color.pink,
