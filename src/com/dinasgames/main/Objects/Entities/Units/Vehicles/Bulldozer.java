@@ -111,7 +111,6 @@ public class Bulldozer extends Vehicle {
     public void onTick(double time) {
         
         super.onTick(time);
-        setTarget(mScene.getObjectsList());
         moveUnit();
         
     }

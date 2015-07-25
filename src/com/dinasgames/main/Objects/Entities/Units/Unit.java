@@ -19,6 +19,11 @@ public class Unit extends Entity {
     protected Vector2f mTargetPosition;
     protected float mSpeed;
     protected Entity target;
+    protected int mDamage;
+    protected int mTargetDistance;
+    protected int mMaxRange;
+    protected int mMaxReloadingTime;
+    protected int mReloadingTime;
     
     
     protected Unit() {
@@ -98,6 +103,22 @@ public class Unit extends Entity {
 //      return false;
 //    }
     
+    protected void shootTarget(){
+      
+      if(mTargetDistance < mMaxRange){
+        if(mReloadingTime < 0){
+          target.damage(mDamage);
+          if(target.getHealth() <= 0){
+            target.kill();
+            mScene.remove(target);
+          }
+          mReloadingTime = mMaxReloadingTime;
+        }else{
+          --mReloadingTime;
+        }
+      }
+    }
+    
     protected void setTarget(GameObject[] list){
       
       int distanceToEnemy = 99999;
@@ -133,6 +154,7 @@ public class Unit extends Entity {
 
             if(distanceFromUnit < distanceToEnemy){
                 target = unit;
+                mTargetDistance = distanceFromUnit;
                 distanceToEnemy = distanceFromUnit;
             }
           }

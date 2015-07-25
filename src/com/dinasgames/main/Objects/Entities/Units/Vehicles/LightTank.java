@@ -28,6 +28,9 @@ public class LightTank extends Vehicle {
     mHealth = mHealthMax;
     mSpeed = 2.f;
     mTurretRotation = 0.f;
+    mMaxRange = 150;
+    mDamage = 20;
+    mMaxReloadingTime = 120;
     
     addToScene();
     
@@ -110,8 +113,18 @@ public class LightTank extends Vehicle {
         
         super.onTick(time);
         setTarget(mScene.getObjectsList());
+        shootTarget();
         moveUnit();
         
+    }
+    
+    @Override
+    public void onDestroy() {
+      mShapeTracks.remove();
+      mShapeBody.remove();
+      mShapeBody2.remove();
+      mShapeTurret.remove();
+      mHealthbar.remove();
     }
     
     @Override
