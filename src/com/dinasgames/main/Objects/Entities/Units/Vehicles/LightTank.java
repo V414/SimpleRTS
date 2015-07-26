@@ -55,7 +55,7 @@ public class LightTank extends Vehicle {
         
         mShapeTracks = new RectangleShape();
         
-        mShapeTracks.setFillColor(Color.black);
+        mShapeTracks.setFillColor(new Color(20, 20, 20));
         mShapeTracks.setOutlineColor(Color.black);
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setSize(mSize.x/1.1f, mSize.y*1.5f);

@@ -43,7 +43,7 @@ public class Bulldozer extends Vehicle {
       
       mShapeTracks = new RectangleShape();
       
-      mShapeTracks.setFillColor(Color.black);
+      mShapeTracks.setFillColor(new Color(20, 20, 20));
       mShapeTracks.setOutlineColor(Color.black);
       mShapeTracks.setOutlineThickness(2.f);
       mShapeTracks.setSize(mSize.x/1.2f, mSize.y+8);

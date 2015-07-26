@@ -82,7 +82,7 @@ public class PowerPlant extends Building{
     
     mCoolingTowerInside1 = new CircleShape();
         
-    mCoolingTowerInside1.setFillColor(Color.black);
+    mCoolingTowerInside1.setFillColor(new Color(20, 20, 20));
     mCoolingTowerInside1.setOutlineColor(Color.black);
     mCoolingTowerInside1.setOutlineThickness(2.f);
     mCoolingTowerInside1.setSize(ctiSize);
@@ -92,7 +92,7 @@ public class PowerPlant extends Building{
     
     mCoolingTowerInside2 = new CircleShape();
         
-    mCoolingTowerInside2.setFillColor(Color.black);
+    mCoolingTowerInside2.setFillColor(new Color(20, 20, 20));
     mCoolingTowerInside2.setOutlineColor(Color.black);
     mCoolingTowerInside2.setOutlineThickness(2.f);
     mCoolingTowerInside2.setSize(ctiSize);
