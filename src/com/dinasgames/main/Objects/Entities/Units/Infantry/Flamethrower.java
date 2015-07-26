@@ -127,6 +127,15 @@ public class Flamethrower extends Infantry {
     }
     
     @Override
+    public void onDestroy() {
+      mShapeBody.remove();
+      mShapeGun.remove();
+      mShapeGunEnd.remove();
+      mShapeBackpack.remove();
+      mHealthbar.remove();
+    }
+    
+    @Override
     public int getTypeID() {
         return super.getTypeID() | GameObjectType.Flamethrower.getID();
     }

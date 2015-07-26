@@ -1,18 +1,11 @@
 package com.dinasgames.main.Objects.Entities.Units;
 
-import com.dinasgames.main.Math.BoundingBox;
-import com.dinasgames.main.Math.Box;
-import com.dinasgames.main.Math.Box.MatrixInput;
-import com.dinasgames.main.Math.Box.Points;
 import com.dinasgames.main.Math.Point;
-import com.dinasgames.main.Math.Vector2d;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Polygon;
-import java.awt.Rectangle;
 
 public class Unit extends Entity {
     

@@ -157,6 +157,16 @@ public class Bulldozer extends Vehicle {
     }
     
     @Override
+    public void onDestroy() {
+      mShapeTracks.remove();
+      mShapeBody.remove();
+      mShapeCabin.remove();
+      mShapeBucketConnector.remove();
+      mShapeBucket.remove();
+      mHealthbar.remove();
+    }
+    
+    @Override
     public int getTypeID() {
         return super.getTypeID() | GameObjectType.Bulldozer.getID();
     }

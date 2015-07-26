@@ -84,7 +84,13 @@ public class Bazooka extends Infantry {
         
         mShapeGun.setPosition(mPosition);
         mShapeGun.setRotation(mRotation + mGunRotation);
-
+    }
+    
+    @Override
+    public void onDestroy() {
+      mShapeBody.remove();
+      mShapeGun.remove();
+      mHealthbar.remove();
     }
     
     @Override

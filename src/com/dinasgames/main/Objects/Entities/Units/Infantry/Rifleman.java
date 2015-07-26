@@ -98,6 +98,13 @@ public class Rifleman extends Infantry {
     }
     
     @Override
+    public void onDestroy() {
+      mShapeBody.remove();
+      mShapeGun.remove();
+      mHealthbar.remove();
+    }
+    
+    @Override
     public int getTypeID() {
         return super.getTypeID() | GameObjectType.Rifleman.getID();
     }
