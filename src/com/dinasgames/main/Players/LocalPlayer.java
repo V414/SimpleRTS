@@ -127,7 +127,7 @@ public class LocalPlayer extends Player {
         }
         
         // Camera movement via mouse being near the edge of the screen
-        if(localGame != null && localGame.getWindow() != null && false) {
+        if(localGame != null && localGame.getWindow() != null) {
             
             float nearBorder    = 20.f; // <<< Pixels away from border that causes the view to move in this direction
             float moveSpeed     = 20.f; // <<< Pixels that the camera will move when the mouse touches a border

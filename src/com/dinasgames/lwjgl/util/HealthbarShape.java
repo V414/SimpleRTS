@@ -156,6 +156,9 @@ public class HealthbarShape extends Shape {
         mBackground.setRotation(mRotation);
         mForeground.setRotation(mRotation);
         
+        mBackground.setVisible(mVisible);
+        mForeground.setVisible(mVisible);
+        
     }
     
     protected void updateAll() {

@@ -32,8 +32,8 @@ public class Mouse {
         
         Vector2f camera = currentView.getPosition();
         
-        x = windowX - camera.x;
-        y = windowY - camera.y;
+        x = windowX + camera.x;
+        y = windowY + camera.y;
         
     }
     
