@@ -25,6 +25,9 @@ public class Rifleman extends Infantry {
     mHealth = mHealthMax;
     mSpeed = 0.2f;
     mGunRotation = 270.f;
+    mMaxRange = 50;
+    mDamage = 3;
+    mMaxReloadingTime = 10;
     
     addToScene();
     
@@ -71,6 +74,8 @@ public class Rifleman extends Infantry {
     public void onTick(double time) {
         
         super.onTick(time);
+        setTarget(mScene.getObjectsList());
+        shootTarget();
         moveUnit();
         
     }
@@ -91,6 +96,13 @@ public class Rifleman extends Infantry {
         
         mShapeGun.setPosition(gunPosition);
         
+    }
+    
+    @Override
+    public void onDestroy() {
+      mShapeBody.remove();
+      mShapeGun.remove();
+      mHealthbar.remove();
     }
     
     @Override

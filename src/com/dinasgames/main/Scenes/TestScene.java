@@ -8,7 +8,11 @@ import com.dinasgames.main.Maps.SymmetricalMap;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
+import com.dinasgames.main.Objects.Entities.Buildings.Warehouse;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Bazooka;
+import com.dinasgames.main.Objects.Entities.Units.Infantry.Flamethrower;
 import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
+import com.dinasgames.main.Objects.Entities.Units.Vehicles.Bulldozer;
 import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
 import com.dinasgames.main.Players.Player;
 import com.dinasgames.main.Players.RemotePlayer;
@@ -53,9 +57,25 @@ public class TestScene extends Scene {
         for(int i = 0; i < localGame.getPlayerList().getMaxPlayers(); i++) {
             LightTank tank = new LightTank(this);
             tank.setPosition(200, 300 + (i * 50));
+            tank.setTargetPosition(200, 300 + (i*50));
             tank.setOwner(localGame.getPlayerList().get(i));
             tank.setRenderer(mRenderer);
         }
+        
+        Bulldozer bulldozer = new Bulldozer(this);
+        bulldozer.setPosition(600, 400);
+        bulldozer.setTargetPosition(600, 400);
+        bulldozer.setOwner(getLocalPlayer());
+        
+        Flamethrower flamethrower = new Flamethrower(this);
+        flamethrower.setPosition(650, 400);
+        flamethrower.setTargetPosition(650, 400);
+        flamethrower.setOwner(getLocalPlayer());
+        
+        Bazooka bazooka = new Bazooka(this);
+        bazooka.setPosition(500, 400);
+        bazooka.setTargetPosition(500, 400);
+        bazooka.setOwner(getLocalPlayer());
         
         // Create a light tank of another team
         //LightTank lightTank = new LightTank(this);
@@ -66,6 +86,10 @@ public class TestScene extends Scene {
         PowerPlant powerPlant1 = new PowerPlant(this);
         powerPlant1.setPosition(playerStart[0]);
         powerPlant1.setOwner(getLocalPlayer());
+        
+        Warehouse warehouse = new Warehouse(this);
+        warehouse.setPosition(playerStart[0].x+100, playerStart[0].y-100);
+        warehouse.setOwner(getLocalPlayer());
         
         PowerPlant powerPlant2 = new PowerPlant(this);
         powerPlant2.setPosition(playerStart[1]);

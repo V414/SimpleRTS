@@ -3,6 +3,7 @@ package com.dinasgames.main.Objects.Entities.Units;
 import com.dinasgames.main.Math.Point;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Entity;
+import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
 
@@ -10,10 +11,17 @@ public class Unit extends Entity {
     
     protected Vector2f mTargetPosition;
     protected float mSpeed;
+    protected Entity target;
+    protected int mDamage;
+    protected int mTargetDistance;
+    protected int mMaxRange;
+    protected int mMaxReloadingTime;
+    protected int mReloadingTime;
     
     
     protected Unit() {
         mTargetPosition = new Vector2f(0.f,0.f);
+        target = null;
     }
     
     protected Unit(Scene scene) {
@@ -24,12 +32,16 @@ public class Unit extends Entity {
     }
     
     protected void moveUnit(){
-        
-        
-        
+
         if(Point.distance(mPosition, mTargetPosition) > mSpeed) {
-            mPosition.add( Point.inDirection(mSpeed, Point.direction(mPosition, mTargetPosition)) );
-            mRotation = -(float)Point.direction(mPosition, mTargetPosition);
+//          Vector2f oldPosition = new Vector2f(mPosition);
+          
+          mPosition.add( Point.inDirection(mSpeed, Point.direction(mPosition, mTargetPosition)) );
+          mRotation = -(float)Point.direction(mPosition, mTargetPosition);
+          
+//          if(checkColliding() == true){
+//            mPosition = oldPosition;
+//          }
         }
         
 //        if(Math.abs(Point.distance(mPosition, mTargetPosition)) > mSpeed) {
@@ -62,6 +74,87 @@ public class Unit extends Entity {
 //        mPosition.x = nX;
 //        mPosition.y = nY;
 //      }
+    }
+    
+//    protected boolean checkColliding(){
+//      for(GameObject gameObject : mScene.getObjectsList()){
+//        if(gameObject != null && gameObject.hasType(GameObjectType.Entity)){
+//          Entity entity = (Entity) gameObject;
+//          if(entity.getID() != mID){
+//            
+//            Box.Points box2 = Box.calculateMatrix(new Box.MatrixInput(
+//                    entity.getPosition().x, entity.getPosition().y, 
+//                    entity.getSize().x, entity.getSize().y, entity.getRotation(), 
+//                    entity.getSize().x/2, entity.getSize().y/2
+//            ));
+//
+//            if(mBoundingBox.containsAny(box2)){
+//               return true;
+//            }
+//          }
+//        }
+//      }
+//      
+//      return false;
+//    }
+    
+    protected void shootTarget(){
+      
+      if(mTargetDistance < mMaxRange){
+        if(mReloadingTime < 0){
+          target.damage(mDamage);
+          if(target.getHealth() <= 0){
+            target.kill();
+            mScene.remove(target);
+          }
+          mReloadingTime = mMaxReloadingTime;
+        }else{
+          --mReloadingTime;
+        }
+      }
+    }
+    
+    protected void setTarget(GameObject[] list){
+      
+      int distanceToEnemy = 99999;
+      
+      for(GameObject gameObject : list){
+        if(gameObject != null && gameObject.hasType(GameObjectType.Unit)){
+          Entity unit = (Entity) gameObject;
+          
+          if(unit.getOwner() != this.getOwner()){
+            Vector2f thisOrigin = new Vector2f(mPosition.x + mSize.x/2, 
+                    mPosition.y + mSize.y/2);
+            
+            Vector2f unitOrigin = new Vector2f(unit.getPosition().x + unit.getSize().x/2, 
+                    unit.getPosition().y + unit.getSize().y/2);
+            
+            
+            int distanceX;
+            if(unitOrigin.x > thisOrigin.x){
+                distanceX = Math.round(thisOrigin.x - unitOrigin.x);
+            }else{
+                distanceX = Math.round(thisOrigin.x - unitOrigin.x);
+            }
+
+            int distanceY;
+            if(unitOrigin.y > thisOrigin.y){
+                distanceY = Math.round(thisOrigin.y - unitOrigin.y);
+            }else{
+                distanceY = Math.round(thisOrigin.y - unitOrigin.y);
+            }
+
+            int distanceFromUnitSquared = (distanceX*distanceX) + (distanceY*distanceY);
+            int distanceFromUnit = (int) Math.sqrt(distanceFromUnitSquared);
+
+            if(distanceFromUnit < distanceToEnemy){
+                target = unit;
+                mTargetDistance = distanceFromUnit;
+                distanceToEnemy = distanceFromUnit;
+            }
+          }
+        }
+      }
     }
     
     @Override

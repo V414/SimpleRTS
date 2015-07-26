@@ -13,6 +13,8 @@ public class LightTank extends Vehicle {
   RectangleShape mShapeBody;
   RectangleShape mShapeBody2;
   RectangleShape mShapeTurret;
+  RectangleShape mShapeTracks;
+  
   float mTurretRotation;
   //Vector2f mTurretSize;
 
@@ -27,6 +29,9 @@ public class LightTank extends Vehicle {
     mHealth = mHealthMax;
     mSpeed = 2.f;
     mTurretRotation = 0.f;
+    mMaxRange = 150;
+    mDamage = 20;
+    mMaxReloadingTime = 120;
     
     addToScene();
     
@@ -46,8 +51,18 @@ public class LightTank extends Vehicle {
         
         super.onCreate();
         
-        setSize(40.f, 20.f);
+        setSize(35.f, 15.f);
         //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
+        
+        mShapeTracks = new RectangleShape();
+        
+        mShapeTracks.setFillColor(new Color(20, 20, 20));
+        mShapeTracks.setOutlineColor(Color.black);
+        mShapeTracks.setOutlineThickness(2.f);
+        mShapeTracks.setSize(mSize.x/1.1f, mSize.y*1.5f);
+        mShapeTracks.setScene(mScene);
+        mShapeTracks.setRenderer(mRenderer);
+        mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape(mSize);
         
@@ -98,8 +113,19 @@ public class LightTank extends Vehicle {
     public void onTick(double time) {
         
         super.onTick(time);
+        setTarget(mScene.getObjectsList());
+        shootTarget();
         moveUnit();
         
+    }
+    
+    @Override
+    public void onDestroy() {
+      mShapeTracks.remove();
+      mShapeBody.remove();
+      mShapeBody2.remove();
+      mShapeTurret.remove();
+      mHealthbar.remove();
     }
     
     @Override
@@ -107,11 +133,29 @@ public class LightTank extends Vehicle {
         
         super.onRender();
         
+        mShapeTracks.setPosition(mPosition);
+        mShapeTracks.setRotation(mRotation);
+        
         mShapeBody.setPosition(mPosition);
         mShapeBody.setRotation(mRotation);
         
         mShapeBody2.setPosition(mPosition);
-        mShapeBody2.setRotation(mTurretRotation);
+        
+        if(target != null){
+          double b = target.getPosition().y - mPosition.y;
+          double a = target.getPosition().x - mPosition.x;
+          float targetAngle = Math.round(Math.toDegrees(Math.atan2(b, a)));
+          
+          if(targetAngle < 0){
+              targetAngle += 360;
+          }
+          
+          mShapeBody2.setRotation(targetAngle);
+        }else{
+           mShapeBody2.setRotation(mTurretRotation);
+        }
+        
+       
         
         // Move the turret so that it is at the end of the 2nd body shape
         

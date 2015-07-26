@@ -6,6 +6,7 @@ import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Games.WindowGame;
 import com.dinasgames.main.Objects.GameObject;
+import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Players.LocalPlayer;
 import java.util.ArrayList;
 import java.util.List;
@@ -207,6 +208,10 @@ public class Scene {
     
     public Renderer getRenderer() {
         return mRenderer;
+    }
+    
+    public GameObject[] getObjectsList(){
+      return mObjects;
     }
     
 }

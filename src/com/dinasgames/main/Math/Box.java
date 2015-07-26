@@ -25,7 +25,7 @@ public class Box {
     };
     
     public static class Points {
-        Vector2d point[] = new Vector2d[4];
+        public Vector2d point[] = new Vector2d[4];
     };
     
     public static Points calculateMatrix(MatrixInput in) {
