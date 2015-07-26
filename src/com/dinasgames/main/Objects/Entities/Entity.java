@@ -1,14 +1,13 @@
 package com.dinasgames.main.Objects.Entities;
 
-import com.dinasgames.main.Graphics.HealthbarShape;
-import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.HealthbarShape;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Players.Player;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 
 /**
  *
@@ -36,8 +35,17 @@ public class Entity extends GameObject {
     }
     
     protected Entity(Scene scene) {
-        this();
-        mScene = scene;
+        
+        super(scene);
+        
+        mHealth = mHealthMax = 0.f;
+        mHealthbar = null;
+        mBoundingBox = new BoundingBox();
+        mDead = false;
+        mSelected = false;
+        mOwner = null;
+        mSize = new Vector2f(0.f,0.f);
+        
     }
     
     @Override
@@ -61,18 +69,18 @@ public class Entity extends GameObject {
         mHealthbar = new HealthbarShape();
         
         mHealthbar.setHeight(5.f);
-        mHealthbar.setFillColor(Color.black);
-        mHealthbar.setForegroundColor(Color.red);
+        mHealthbar.setFillColor(Color.BLACK);
+        mHealthbar.setForegroundColor(Color.RED);
         mHealthbar.setOutlineThickness(1.f);
-        mHealthbar.setOutlineColor(Color.black);
+        mHealthbar.setOutlineColor(Color.BLACK);
         mHealthbar.setHealth(mHealth);
         mHealthbar.setMaxHealth(mHealthMax);
-        mHealthbar.setRenderer(mRenderer);
         mHealthbar.setScene(mScene);
         
         
         // Make sure the healthbar renders in front of other things
         mHealthbar.setDepth(-100);
+        mHealthbar.render(mRenderer);
         
         //mSelectionBox = RectangleShape.create();
         //mSelectionBox.setFillColor(new Color(0,0,0,0));

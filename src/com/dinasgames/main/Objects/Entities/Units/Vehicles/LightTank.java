@@ -1,12 +1,12 @@
 package com.dinasgames.main.Objects.Entities.Units.Vehicles;
 
-import com.dinasgames.main.Graphics.RectangleShape;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.RectangleShape;
 import com.dinasgames.main.Math.Point;
 import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 
 public class LightTank extends Vehicle {
   
@@ -17,7 +17,9 @@ public class LightTank extends Vehicle {
   //Vector2f mTurretSize;
 
   public LightTank(Scene scene){
-    mScene = scene;
+    
+      super(scene);
+      
     mShapeBody = null;
     mShapeTurret = null;
     //mTurretSize = null;
@@ -47,36 +49,36 @@ public class LightTank extends Vehicle {
         setSize(40.f, 20.f);
         //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
         
-        mShapeBody = new RectangleShape();
+        mShapeBody = new RectangleShape(mSize);
         
-        mShapeBody.setFillColor(Color.white);
-        mShapeBody.setOutlineColor(Color.black);
+        mShapeBody.setFillColor(Color.WHITE);
+        mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setSize(mSize);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setScene(mScene);
-        mShapeBody.setRenderer(mRenderer);
         mShapeBody.setOriginCenter();
+        mShapeBody.render(mRenderer);
         
-        mShapeBody2 = new RectangleShape();
+        mShapeBody2 = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(2.f,1.f).subtract(0.f,4.f));
         
-        mShapeBody2.setFillColor(Color.white);
-        mShapeBody2.setOutlineColor(Color.black);
+        mShapeBody2.setFillColor(Color.WHITE);
+        mShapeBody2.setOutlineColor(Color.BLACK);
         mShapeBody2.setOutlineThickness(2.f);
         mShapeBody2.setSize(new Vector2f(mShapeBody.getSize()).divide(2.f,1.f).subtract(0.f,4.f));
         mShapeBody2.setScene(mScene);
-        mShapeBody2.setRenderer(mRenderer);
         mShapeBody2.setOriginCenter();
+        mShapeBody2.render(mRenderer);
         
-        mShapeTurret = new RectangleShape();
+        mShapeTurret = new RectangleShape(mShapeBody.getWidth() / 2.f, mShapeBody2.getHeight() / 4.f);
         
-        mShapeTurret.setFillColor(Color.black);
-        mShapeTurret.setOutlineColor(Color.black);
+        mShapeTurret.setFillColor(Color.BLACK);
+        mShapeTurret.setOutlineColor(Color.BLACK);
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setSize(mShapeBody.getWidth() / 2.f, mShapeBody2.getHeight() / 4.f);
         mShapeTurret.setScene(mScene);
-        mShapeTurret.setRenderer(mRenderer);
         mShapeTurret.setOrigin(0.f, mShapeTurret.getHeight() / 2.f);
+        mShapeTurret.render(mRenderer);
         
         // Set a random rotation for our turret
         mTurretRotation = 0;

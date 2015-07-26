@@ -36,14 +36,16 @@ public class Timer {
     }
     
     public static void update() {
-        Iterator<Timer> it = timers.iterator();
-        while(it.hasNext()) {
-            Timer timer = it.next();
-            if(timer.isReady()) {
-                if(timer.isRepeated()) {
-                    timer.run().restart();
-                }else{
-                    timer.run().stop();
+        synchronized(timers) {
+            Iterator<Timer> it = timers.iterator();
+            while(it.hasNext()) {
+                Timer timer = it.next();
+                if(timer.isReady()) {
+                    if(timer.isRepeated()) {
+                        timer.run().restart();
+                    }else{
+                        timer.run().stop();
+                    }
                 }
             }
         }

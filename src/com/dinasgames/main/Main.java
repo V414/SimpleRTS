@@ -2,26 +2,26 @@
 
 package com.dinasgames.main;
 
-import com.dinasgames.main.Games.Game;
+import com.dinasgames.lwjgl.util.LWJGL;
 import com.dinasgames.main.Games.TestGame;
 
 public class Main {
     
     public static void main(String args[]) {
         
-        //try {
+        try {
             
-            // Create a new game instance
-            Game.current = new TestGame();
-
-            // Run the game
-            Game.current.run();
-        
-//        } catch(Exception e) {
-//            System.out.println("Exception: " + e.toString());
-//        } finally {
-//            Game.current = null;
-//        }
+            LWJGL.init();
+            
+            // Run Test Game
+            TestGame test = new TestGame();
+            test.run();
+            
+        } catch(RuntimeException e) {
+            e.printStackTrace();
+        } finally {
+            LWJGL.free();
+        }
         
     };
     

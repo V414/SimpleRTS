@@ -1,6 +1,6 @@
 package com.dinasgames.main.Objects;
 
-import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.Scenes.Scene;
 import com.dinasgames.main.Math.Vector2f;
 
@@ -43,6 +43,7 @@ public class GameObject {
     protected GameObject(Scene scene) {
         this();
         mScene = scene;
+        mRenderer = mScene.getRenderer();
     }
 
     protected GameObject addToScene() {

@@ -17,8 +17,10 @@ public class Unit extends Entity {
     }
     
     protected Unit(Scene scene) {
-        this();
-        mScene = scene;
+        super(scene);
+        
+        mTargetPosition = new Vector2f(0.f,0.f);
+        
     }
     
     protected void moveUnit(){

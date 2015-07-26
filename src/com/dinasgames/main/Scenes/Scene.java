@@ -1,14 +1,12 @@
 package com.dinasgames.main.Scenes;
 
-import com.dinasgames.main.Camera;
+import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.lwjgl.util.View;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
 import com.dinasgames.main.Games.WindowGame;
-import com.dinasgames.main.Graphics.Renderer;
-import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObject;
 import com.dinasgames.main.Players.LocalPlayer;
-import java.awt.Dimension;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,15 +20,12 @@ public class Scene {
     
     protected Renderer mRenderer;
     protected Game mGame;
-    protected Camera mCamera;
     protected GameObject[] mObjects;
     
     protected Scene() {
         mRenderer = null;
         mGame = null;
         mObjects = new GameObject[MAX_OBJECTS];
-        //mObjects = Collections.synchronizedList(new ArrayList<GameObject>());
-        mCamera = new Camera(640, 480);
         
         for(int i = 0; i < MAX_OBJECTS; i ++) {
             mObjects[i] = null;
@@ -42,16 +37,26 @@ public class Scene {
         this();
         mGame = game;
         
-        // Attempt to get the window size
+        // Attempt to get the renderer
         try {
             WindowGame windowGame = (WindowGame)mGame;
-            if(game != null) {
-                Dimension windowSize = windowGame.getWindow().getFrame().getSize();
-                mCamera.setSize(new Vector2f(windowSize.width, windowSize.height));
+            if(windowGame != null) {
+                mRenderer = windowGame.getRenderer();
             }
-        } catch(Exception e) {
-            // Ignore
+        } catch( Exception e ) {
+            System.out.println("No renderer present.");
         }
+        
+        // Attempt to get the window size
+//        try {
+//            WindowGame windowGame = (WindowGame)mGame;
+//            if(game != null) {
+//                //Dimension windowSize = windowGame.getWindow().getFrame().getSize();
+//                //mCamera.setSize(new Vector2f(windowSize.width, windowSize.height));
+//            }
+//        } catch(Exception e) {
+//            // Ignore
+//        }
         
     }
     
@@ -104,7 +109,6 @@ public class Scene {
                 
                 mObjects[i] = obj;
                 
-                obj.setRenderer(mRenderer);
                 obj.setScene(this);
                 obj.setID(i);
                 obj.onCreate();
@@ -150,7 +154,7 @@ public class Scene {
     public Scene tick(double time) {
         
         // Update camera
-        mCamera.tick();
+        //mCamera.tick();
         
         // Update game objects
 //        synchronized(mObjects) {
@@ -174,9 +178,19 @@ public class Scene {
         return this;
         
     }
+
+    public Scene setView(View view) {
+        try {
+            ((WindowGame)mGame).getWindow().setView(view);
+        } catch( Exception e ) {}
+        return this;
+    }
     
-    public Camera getCamera() {
-        return mCamera;
+    public View getView() {
+        try {
+            return ((WindowGame)mGame).getWindow().getView();
+        } catch( Exception e ) {}
+        return null;
     }
     
     public LocalPlayer getLocalPlayer() {

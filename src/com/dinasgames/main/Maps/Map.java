@@ -1,7 +1,8 @@
 package com.dinasgames.main.Maps;
 
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.Image;
 import com.dinasgames.main.Math.Vector2f;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,9 @@ public class Map {
     public class MapChunk {
         
         public int mChunkX, mChunkY;
-        public BufferedImage mImage;
+        public Image mImage;
         
-        public MapChunk(BufferedImage img, int cx, int cy) {
+        public MapChunk(Image img, int cx, int cy) {
             mChunkX = cx;
             mChunkY = cy;
             mImage = img;
@@ -76,9 +77,10 @@ public class Map {
         }
         
         // This chunk hasn't been made yet. So make it
-        BufferedImage image = new BufferedImage(mChunkSize, mChunkSize, 
-                                                BufferedImage.TYPE_INT_RGB);
-        MapChunk chunk = new MapChunk(image, cx, cy);
+        Image img = new Image();
+        img.create(mChunkSize, mChunkSize, Color.BLACK);
+        
+        MapChunk chunk = new MapChunk(img, cx, cy);
         mChunkList.add(chunk);
         
         return chunk;
@@ -149,9 +151,9 @@ public class Map {
                     
                     //System.out.println((x - (thisChunk.mChunkX*mChunkSize)) + "," + (y - (thisChunk.mChunkY*mChunkSize)));
                     
-                    thisChunk.mImage.setRGB(x - (thisChunk.mChunkX*mChunkSize),
-                                            y - (thisChunk.mChunkY*mChunkSize),
-                                            tile.getColor());
+                    thisChunk.mImage.setPixel(  x - (thisChunk.mChunkX*mChunkSize),
+                                                y - (thisChunk.mChunkY*mChunkSize),
+                                                tile.getColor());
                     
                 }
             }

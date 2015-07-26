@@ -1,7 +1,7 @@
 package com.dinasgames.main.Maps;
 
+import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.main.Math.Vector2f;
-import java.awt.Color;
 
 public class Tile {
   
@@ -33,22 +33,22 @@ public class Tile {
       return mType;
     }
 
-    public int getColor(){
+    public Color getColor(){
 
       switch(mType){
 
         case Grassland:
-          return new Color(38, 127, 0, 255).getRGB();
+          return new Color(38, 127, 0, 255);
             
         case Water:
-          return new Color(0,  74, 127).getRGB();
+          return new Color(0,  74, 127);
           
         case Mountain:
-          return new Color(34, 34, 34, 255).getRGB();
+          return new Color(34, 34, 34, 255);
 
       }
 
-      return 0;
+      return Color.BLACK;
     }
 
     public Vector2f getPosition(){

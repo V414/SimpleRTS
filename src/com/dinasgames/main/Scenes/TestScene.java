@@ -1,11 +1,8 @@
 package com.dinasgames.main.Scenes;
 
+import com.dinasgames.lwjgl.util.MapDrawer;
 import com.dinasgames.main.Games.Game;
 import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.main.Graphics.Image;
-import com.dinasgames.main.Graphics.MapShape;
-import com.dinasgames.main.Maps.BlankMap;
-import com.dinasgames.main.Maps.FunkyMap;
 import com.dinasgames.main.Maps.Map;
 import com.dinasgames.main.Maps.SymmetricalMap;
 import com.dinasgames.main.Math.RandomNumber;
@@ -50,14 +47,14 @@ public class TestScene extends Scene {
             Rifleman rifleman = new Rifleman(this);
             rifleman.setPosition(RandomNumber.between(new Vector2f(100.f, 100.f), new Vector2f(300.f, 300.f)));
             rifleman.setOwner(getLocalPlayer());
-            
-            rifleman.setTargetPosition(rifleman.getPosition());
+            rifleman.setRenderer(mRenderer);
         }
         
         for(int i = 0; i < localGame.getPlayerList().getMaxPlayers(); i++) {
             LightTank tank = new LightTank(this);
             tank.setPosition(200, 300 + (i * 50));
             tank.setOwner(localGame.getPlayerList().get(i));
+            tank.setRenderer(mRenderer);
         }
         
         // Create a light tank of another team
@@ -83,7 +80,11 @@ public class TestScene extends Scene {
         powerPlant4.setOwner(players[2]);
 
         
-        new MapShape(map).setDepth(100).setScene(this).setRenderer(mRenderer);
+        MapDrawer mapDrawer = new MapDrawer(map);
+        mapDrawer.setScene(this);
+        mapDrawer.render(mRenderer);
+        
+        //new MapShape(map).setDepth(100).setScene(this).setRenderer(mRenderer);
         //mRenderer.add(new MapShape(map).setDepth(100).setRenderer(mRenderer).setScene(this));
         //mRenderer.add(new MapShape(map2).setPosition(1000.f, 0.f).setDepth(100).setRenderer(mRenderer).setScene(this));
         //mRenderer.add(new Image(map.getChunkList().get(0).mImage));

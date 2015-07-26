@@ -1,14 +1,12 @@
 package com.dinasgames.main.Games;
 
-import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.Mouse;
 import com.dinasgames.main.Players.LocalPlayer;
 import com.dinasgames.main.Players.PlayerList;
 import com.dinasgames.main.Scenes.Scene;
-import com.dinasgames.main.System.Clock;
-import com.dinasgames.main.System.Mouse;
 import com.dinasgames.main.System.Time;
 import com.dinasgames.main.System.Timer;
-import java.awt.Color;
 
 /**
  * The template for all games underneath
@@ -78,7 +76,7 @@ public class LocalGame extends WindowGame {
         //mPlayerList.add(mPlayer);
         
         // Set the background color
-        getWindow().getRenderer().setBackgroundColor(new Color(128,128,128,255));
+        getWindow().setBackgroundColor(new Color(128,128,128,255));
         
         // Keep track of fps
         mFpsTimer = Timer.every(Time.seconds(1.f), () -> {
@@ -110,12 +108,10 @@ public class LocalGame extends WindowGame {
     @Override
     public void tick() {
         
-        super.tick();
+        super.tick();      
         
         // Update mouse
-        Mouse.tick();
-        
-        
+        Mouse.tick(mScene);
         
         // Update game logic
         //double newTime = System.currentTimeMillis() / 1000.0;
@@ -142,8 +138,9 @@ public class LocalGame extends WindowGame {
         }
         
         // Render the game window
-        mWindow.getRenderer().setView(mScene.getCamera().getView());
-        mWindow.render();
+        // Rendering is done higher up the ladder!
+//        mWindow.getRenderer().setView(mScene.getCamera().getView());
+//        mWindow.render();
         
         // Calculate FPS
         mFpsCounter++;
@@ -175,11 +172,11 @@ public class LocalGame extends WindowGame {
         
         mScene = scene;
         mScene.setGame(this);
-        mScene.setRenderer(mWindow.getRenderer());
+        //mScene.setRenderer(mWindow.getRenderer());
         mScene.onCreate();
         
         // The mouse should use this scene
-        Mouse.setScene(scene);
+        //Mouse.setScene(scene);
         mPlayerList.setScene(mScene);
         
     }

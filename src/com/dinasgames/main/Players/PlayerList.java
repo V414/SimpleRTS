@@ -4,10 +4,7 @@
  * and open the template in the editor.
  */
 package com.dinasgames.main.Players;
-
-import com.dinasgames.main.Games.Game;
-import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.main.Graphics.Renderer;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.Scenes.Scene;
 
 /**

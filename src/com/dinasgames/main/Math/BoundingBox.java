@@ -120,6 +120,10 @@ public class BoundingBox {
         return this.y;
     }
     
+    public boolean equals(BoundingBox other) {
+        return (x == other.x && y == other.y && width == other.width && height == other.height);
+    }
+    
     /**
      * Checks whether a Point (x,y) is within the bounding box.
      * @param x

@@ -216,5 +216,37 @@ public class Vector2f extends Tuple2f implements java.io.Serializable {
     public Vector2f divide(Vector2f other) {
         return divide(other.x,other.y);
     }
+    
+    public Vector2f add(float other) {
+        return add(other,other);
+    }
+    
+    public Vector2f subtract(float other) {
+        return subtract(other,other);
+    }
+    
+    public Vector2f multiply(float other) {
+        return multiply(other,other);
+    }
+    
+    public Vector2f divide(float other) {
+        return divide(other,other);
+    }
 
+    public static Vector2f add(Vector2f left, Vector2f right) {
+        return new Vector2f(left).add(right);
+    }
+    
+    public static Vector2f subtract(Vector2f left, Vector2f right) {
+        return new Vector2f(left).subtract(right);
+    }
+    
+    public static Vector2f multiply(Vector2f left, Vector2f right) {
+        return new Vector2f(left).multiply(right);
+    }
+    
+    public static Vector2f divide(Vector2f left, Vector2f right) {
+        return new Vector2f(left).divide(right);
+    }
+    
 }

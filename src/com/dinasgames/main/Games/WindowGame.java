@@ -5,11 +5,10 @@
  */
 package com.dinasgames.main.Games;
 
-import com.dinasgames.main.Graphics.Renderer;
-import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.lwjgl.util.RenderWindow;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.System.Time;
 import com.dinasgames.main.System.Timer;
-import com.dinasgames.main.System.Window;
 
 /**
  *
@@ -18,7 +17,7 @@ import com.dinasgames.main.System.Window;
 public class WindowGame extends Game {
     
     protected Timer mDrawCountTimer;
-    protected Window mWindow;
+    protected RenderWindow mWindow;
     
     protected WindowGame() {
         
@@ -33,7 +32,11 @@ public class WindowGame extends Game {
         super.load();
         
         // Open the window
-        mWindow = new Window( "Simple RTS", 1280, 720 );
+        mWindow = new RenderWindow();
+        mWindow.setTitle("Simple RTS");
+        mWindow.setSize(1280, 720);
+        mWindow.center();
+
         mDrawCountTimer = Timer.every(Time.seconds(1.f), () -> {
             
             System.out.println("Draw Count: " + mWindow.getRenderer().getDrawCount());
@@ -47,6 +50,14 @@ public class WindowGame extends Game {
         
         super.tick();
         
+        mWindow.update();
+        mWindow.display();
+        
+        // Stop the game when the window is closed
+        if(mWindow.shouldClose()) {
+            stop();
+        }
+        
     }
     
     @Override
@@ -57,13 +68,13 @@ public class WindowGame extends Game {
         mDrawCountTimer.stop();
         
         // Close the game window
-        if(mWindow.isOpen()) {
+        if(mWindow.isVisible()) {
             mWindow.close();
         }
         
     }
     
-    public Window getWindow() {
+    public RenderWindow getWindow() {
         return mWindow;
     }
     

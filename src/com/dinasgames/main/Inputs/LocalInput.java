@@ -5,8 +5,8 @@
  */
 package com.dinasgames.main.Inputs;
 
-import com.dinasgames.main.System.Keyboard;
-import com.dinasgames.main.System.Mouse;
+import com.dinasgames.lwjgl.util.Keyboard;
+import com.dinasgames.lwjgl.util.Mouse;
 
 /**
  *
@@ -30,8 +30,8 @@ public class LocalInput extends Input {
         right           = Keyboard.isKeyPressed(Keyboard.Key.Right);
         down            = Keyboard.isKeyPressed(Keyboard.Key.Down);
         up              = Keyboard.isKeyPressed(Keyboard.Key.Up);
-        control         = Keyboard.isKeyPressed(Keyboard.Key.Control);
-        shift           = Keyboard.isKeyPressed(Keyboard.Key.Shift);
+        control         = Keyboard.isKeyPressed(Keyboard.Key.LeftControl);
+        shift           = Keyboard.isKeyPressed(Keyboard.Key.LeftShift);
         mousePosition   = Mouse.getPosition();
         
     }

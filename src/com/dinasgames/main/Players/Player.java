@@ -1,19 +1,16 @@
 package com.dinasgames.main.Players;
 
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.RectangleShape;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.Controllers.Controller;
-import com.dinasgames.main.Games.Game;
-import com.dinasgames.main.Games.LocalGame;
-import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Graphics.Renderer;
 import com.dinasgames.main.Math.BoundingBox;
 import com.dinasgames.main.Math.Vector2f;
-import com.dinasgames.main.Networking.Network;
 import com.dinasgames.main.Objects.Entities.Entity;
 import com.dinasgames.main.Objects.Entities.Units.Unit;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Objects.Utils.EntitySelection;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 import java.util.List;
 
 /**
@@ -27,14 +24,15 @@ public class Player {
     // Player colors
     public final Color[] PLAYER_COLORS = {
         
-        Color.red,
-        Color.blue,
-        Color.yellow,
-        Color.pink,
-        Color.cyan,
-        Color.orange,
-        Color.green,
-        Color.magenta
+        //Color.RED,
+        new Color(140, 0, 0, 255),
+        Color.BLUE,
+        Color.YELLOW,
+        Color.PINK,
+        Color.CYAN,
+        Color.ORANGE,
+        Color.GREEN,
+        Color.MEGENTA
         
     };
     
@@ -57,7 +55,7 @@ public class Player {
     
     public Player setRenderer(Renderer renderer) {
         mRenderer = renderer;
-        mSelectionShape.setRenderer(mRenderer);
+        mSelectionShape.render(mRenderer);
         return this;
     }
     
@@ -74,13 +72,13 @@ public class Player {
         mIsReference = false;
         
         // Setup selection box
-        mSelectionShape = new RectangleShape();
+        mSelectionShape = new RectangleShape(0.f, 0.f);
         mSelectionShape.setDepth(-1000);
         mSelectionShape.setPosition(0.f,0.f);
         mSelectionShape.setSize(0.f,0.f);
         mSelectionShape.hide();
         mSelectionShape.setScene(mScene);
-        mSelectionShape.setRenderer(mRenderer);
+        mSelectionShape.render(mRenderer);
         
         mSelectionBox = new BoundingBox();
         mSelectionStart = new Vector2f();
@@ -130,7 +128,7 @@ public class Player {
     
     public Color getColor() {
         if(mID < 0) {
-            return Color.white;
+            return Color.WHITE;
         }
         return PLAYER_COLORS[mID];
     }

@@ -2,11 +2,16 @@ package com.dinasgames.main.Objects.Entities.Buildings;
 
 import com.dinasgames.main.Objects.Entities.Entity;
 import com.dinasgames.main.Objects.GameObjectType;
+import com.dinasgames.main.Scenes.Scene;
 
 public class Building extends Entity {
   
-  public Building(){
+  protected Building(){
     
+  }
+  
+  protected Building(Scene scene) {
+      super(scene);
   }
   
   @Override
