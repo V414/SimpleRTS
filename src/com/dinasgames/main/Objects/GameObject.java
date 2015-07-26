@@ -118,7 +118,7 @@ public class GameObject {
     }
     
     public void setPosition(Vector2f position) {
-        mPosition = position;
+        setPosition(position.x, position.y);
     }
     
     public void setPosition(float x, float y) {

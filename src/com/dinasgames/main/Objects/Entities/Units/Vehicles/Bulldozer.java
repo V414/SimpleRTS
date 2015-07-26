@@ -1,12 +1,10 @@
 package com.dinasgames.main.Objects.Entities.Units.Vehicles;
 
-import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Math.Point;
-import com.dinasgames.main.Math.RandomNumber;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.RectangleShape;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 
 public class Bulldozer extends Vehicle {
   
@@ -18,7 +16,9 @@ public class Bulldozer extends Vehicle {
   
   
   public Bulldozer(Scene scene){
-    mScene = scene;
+    
+      super(scene);
+      
     mShapeBody = null;
     mShapeCabin = null;
     mShapeBucketConnector = null;
@@ -41,59 +41,54 @@ public class Bulldozer extends Vehicle {
       setSize(20.f, 10.f);
       //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
       
-      mShapeTracks = new RectangleShape();
+      mShapeTracks = new RectangleShape(new Vector2f(mSize).divide(1.2f, 1.f).subtract(0.f,8.f));
       
       mShapeTracks.setFillColor(new Color(20, 20, 20));
-      mShapeTracks.setOutlineColor(Color.black);
+      mShapeTracks.setOutlineColor(Color.BLACK);
       mShapeTracks.setOutlineThickness(2.f);
-      mShapeTracks.setSize(mSize.x/1.2f, mSize.y+8);
       mShapeTracks.setRotation(0);
       mShapeTracks.setScene(mScene);
-      mShapeTracks.setRenderer(mRenderer);
       mShapeTracks.setOriginCenter();
+      mShapeTracks.render(mRenderer);
       
       
 
-      mShapeBody = new RectangleShape();
+      mShapeBody = new RectangleShape(mSize);
 
-      mShapeBody.setFillColor(Color.white);
-      mShapeBody.setOutlineColor(Color.black);
+      mShapeBody.setFillColor(Color.WHITE);
+      mShapeBody.setOutlineColor(Color.BLACK);
       mShapeBody.setOutlineThickness(2.f);
-      mShapeBody.setSize(mSize);
       mShapeBody.setRotation(0);
       mShapeBody.setScene(mScene);
-      mShapeBody.setRenderer(mRenderer);
       mShapeBody.setOriginCenter();
+      mShapeBody.render(mRenderer);
 
-      mShapeCabin = new RectangleShape();
+      mShapeCabin = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(2.f, 1.f).subtract(4.f));
 
-      mShapeCabin.setFillColor(Color.white);
-      mShapeCabin.setOutlineColor(Color.black);
+      mShapeCabin.setFillColor(Color.WHITE);
+      mShapeCabin.setOutlineColor(Color.BLACK);
       mShapeCabin.setOutlineThickness(2.f);
-      mShapeCabin.setSize(new Vector2f(mShapeBody.getSize().x/2-4, mShapeBody.getSize().y-4));
       mShapeCabin.setScene(mScene);
-      mShapeCabin.setRenderer(mRenderer);
       mShapeCabin.setOrigin(mSize.x/2-2, mShapeBody.getSize().y/2-2f);
+      mShapeCabin.render(mRenderer);
       
-      mShapeBucketConnector = new RectangleShape();
+      mShapeBucketConnector = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(6.f, 2.f));
       
-      mShapeBucketConnector.setFillColor(Color.black);
-      mShapeBucketConnector.setOutlineColor(Color.black);
+      mShapeBucketConnector.setFillColor(Color.BLACK);
+      mShapeBucketConnector.setOutlineColor(Color.BLACK);
       mShapeBucketConnector.setOutlineThickness(2.f);
-      mShapeBucketConnector.setSize(new Vector2f(mShapeBody.getSize().x/6, mShapeBody.getSize().y/2));
       mShapeBucketConnector.setScene(mScene);
-      mShapeBucketConnector.setRenderer(mRenderer);
       mShapeBucketConnector.setOrigin(-mSize.x/2, mSize.y/2-mShapeBody.getSize().y/4);
+      mShapeBucketConnector.render(mRenderer);
 
-      mShapeBucket = new RectangleShape();
+      mShapeBucket = new RectangleShape(new Vector2f(mShapeBody.getSize().x/6, mShapeBody.getSize().y+6));
 
-      mShapeBucket.setFillColor(Color.white);
-      mShapeBucket.setOutlineColor(Color.black);
+      mShapeBucket.setFillColor(Color.WHITE);
+      mShapeBucket.setOutlineColor(Color.BLACK);
       mShapeBucket.setOutlineThickness(2.f);
-      mShapeBucket.setSize(new Vector2f(mShapeBody.getSize().x/6, mShapeBody.getSize().y+6));
       mShapeBucket.setScene(mScene);
-      mShapeBucket.setRenderer(mRenderer);
       mShapeBucket.setOrigin(-mSize.x/2-5, mSize.y/2+3);
+      mShapeBucket.render(mRenderer);
         
     }
     

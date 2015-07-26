@@ -54,15 +54,15 @@ public class LightTank extends Vehicle {
         setSize(35.f, 15.f);
         //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
         
-        mShapeTracks = new RectangleShape();
+        mShapeTracks = new RectangleShape(mSize.x/1.1f, mSize.y*1.5f);
         
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.black);
+        mShapeTracks.setOutlineColor(Color.BLACK);
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setSize(mSize.x/1.1f, mSize.y*1.5f);
         mShapeTracks.setScene(mScene);
-        mShapeTracks.setRenderer(mRenderer);
         mShapeTracks.setOriginCenter();
+        mShapeTracks.render(mRenderer);
         
         mShapeBody = new RectangleShape(mSize);
         

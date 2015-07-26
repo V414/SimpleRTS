@@ -1,12 +1,11 @@
 package com.dinasgames.main.Objects.Entities.Buildings;
 
-import com.dinasgames.main.Graphics.CircleShape;
-import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Math.Point;
+import com.dinasgames.lwjgl.util.CircleShape;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.RectangleShape;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 
 public class PowerPlant extends Building{
   
@@ -18,7 +17,9 @@ public class PowerPlant extends Building{
   RectangleShape mShapeConnector;
   
   public PowerPlant(Scene scene){
-    mScene = scene;
+    
+      super(scene);
+      
     mShapeBody = null;
     mCoolingTower1 = null;
     mCoolingTower2 = null;
@@ -29,6 +30,7 @@ public class PowerPlant extends Building{
     mHealth = mHealthMax;
     
     addToScene();
+    
   }
   
   @Override
@@ -37,68 +39,62 @@ public class PowerPlant extends Building{
         
     setSize(50.f, 30.f);
     
-    mShapeBody = new RectangleShape();
+    mShapeBody = new RectangleShape(mSize);
         
-    mShapeBody.setFillColor(Color.black);
-    mShapeBody.setOutlineColor(Color.black);
+    mShapeBody.setFillColor(Color.BLACK);
+    mShapeBody.setOutlineColor(Color.BLACK);
     mShapeBody.setOutlineThickness(2.f);
-    mShapeBody.setSize(mSize);
     mShapeBody.setOriginCenter();
     mShapeBody.setScene(mScene);
-    mShapeBody.setRenderer(mRenderer);
+    mShapeBody.render(mRenderer);
     
-    mShapeConnector = new RectangleShape();
+    mShapeConnector = new RectangleShape(new Vector2f(mSize).divide(5.f, 2.f));
         
-    mShapeConnector.setFillColor(Color.white);
-    mShapeConnector.setOutlineColor(Color.black);
+    mShapeConnector.setFillColor(Color.WHITE);
+    mShapeConnector.setOutlineColor(Color.BLACK);
     mShapeConnector.setOutlineThickness(2.f);
-    mShapeConnector.setSize(mSize.x/5, mSize.y/2);
     mShapeConnector.setOriginCenter();
     mShapeConnector.setScene(mScene);
-    mShapeConnector.setRenderer(mRenderer);
+    mShapeConnector.render(mRenderer);
     
-    Vector2f ctSize = new Vector2f((mSize.x/5)*2.2f, (mSize.x/5)*2.2f);
-    Vector2f ctiSize = new Vector2f((mSize.x/5)*1.5f, (mSize.x/5)*1.5f);
+    Vector2f ctSize = new Vector2f((mSize.x/5)*2.2f, (mSize.x/5)*2.2f).divide(2);
+    Vector2f ctiSize = new Vector2f((mSize.x/5)*1.5f, (mSize.x/5)*1.5f).divide(2);
     
-    mCoolingTower1 = new CircleShape();
+    mCoolingTower1 = new CircleShape(ctSize.x);
         
-    mCoolingTower1.setFillColor(Color.white);
-    mCoolingTower1.setOutlineColor(Color.black);
+    mCoolingTower1.setFillColor(Color.WHITE);
+    mCoolingTower1.setOutlineColor(Color.BLACK);
     mCoolingTower1.setOutlineThickness(2.f);
-    mCoolingTower1.setSize(ctSize);
     mCoolingTower1.setOrigin(ctSize.x/2+mSize.x/4, ctSize.y/2);
     mCoolingTower1.setScene(mScene);
-    mCoolingTower1.setRenderer(mRenderer);
+    mCoolingTower1.render(mRenderer);
     
-    mCoolingTower2 = new CircleShape();
+    mCoolingTower2 = new CircleShape(ctSize.x);
         
-    mCoolingTower2.setFillColor(Color.white);
-    mCoolingTower2.setOutlineColor(Color.black);
+    mCoolingTower2.setFillColor(Color.WHITE);
+    mCoolingTower2.setOutlineColor(Color.BLACK);
     mCoolingTower2.setOutlineThickness(2.f);
-    mCoolingTower2.setSize(ctSize);
     mCoolingTower2.setOrigin(ctSize.x/2-mSize.x/4, ctSize.y/2);
     mCoolingTower2.setScene(mScene);
-    mCoolingTower2.setRenderer(mRenderer);
+    mCoolingTower2.render(mRenderer);
     
-    mCoolingTowerInside1 = new CircleShape();
+    mCoolingTowerInside1 = new CircleShape(ctiSize.x);
         
     mCoolingTowerInside1.setFillColor(new Color(20, 20, 20));
-    mCoolingTowerInside1.setOutlineColor(Color.black);
+    mCoolingTowerInside1.setOutlineColor(Color.BLACK);
     mCoolingTowerInside1.setOutlineThickness(2.f);
-    mCoolingTowerInside1.setSize(ctiSize);
     mCoolingTowerInside1.setOrigin(ctiSize.x/2+mSize.x/4, ctiSize.y/2);
     mCoolingTowerInside1.setScene(mScene);
-    mCoolingTowerInside1.setRenderer(mRenderer);
+    mCoolingTowerInside1.render(mRenderer);
     
-    mCoolingTowerInside2 = new CircleShape();
+    mCoolingTowerInside2 = new CircleShape(ctiSize.x);
         
     mCoolingTowerInside2.setFillColor(new Color(20, 20, 20));
-    mCoolingTowerInside2.setOutlineColor(Color.black);
+    mCoolingTowerInside2.setOutlineColor(Color.BLACK);
     mCoolingTowerInside2.setOutlineThickness(2.f);
-    mCoolingTowerInside2.setSize(ctiSize);
     mCoolingTowerInside2.setOrigin(ctiSize.x/2-mSize.x/4, ctiSize.y/2);
     mCoolingTowerInside2.setScene(mScene);
-    mCoolingTowerInside2.setRenderer(mRenderer);
+    mCoolingTowerInside2.render(mRenderer);
     
     
   }

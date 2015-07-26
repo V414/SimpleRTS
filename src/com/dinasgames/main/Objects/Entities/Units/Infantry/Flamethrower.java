@@ -1,12 +1,11 @@
 package com.dinasgames.main.Objects.Entities.Units.Infantry;
 
-import com.dinasgames.main.Graphics.CircleShape;
-import com.dinasgames.main.Graphics.RectangleShape;
-import com.dinasgames.main.Math.Point;
+import com.dinasgames.lwjgl.util.CircleShape;
+import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.RectangleShape;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
-import java.awt.Color;
 
 public class Flamethrower extends Infantry {
   
@@ -19,7 +18,8 @@ public class Flamethrower extends Infantry {
 
   public Flamethrower(Scene scene){
       
-    mScene = scene;
+    super(scene);
+    
     mShapeBody = null;
     mShapeGun = null;
     mShapeGunEnd = null;
@@ -41,45 +41,41 @@ public class Flamethrower extends Infantry {
         setSize(10.f, 10.f);
         mGunSize = new Vector2f(2, 10);
         
-        mShapeBody = new CircleShape();
+        mShapeBody = new CircleShape(mSize.x);
         
-        mShapeBody.setFillColor(Color.white);
-        mShapeBody.setOutlineColor(Color.black);
+        mShapeBody.setFillColor(Color.WHITE);
+        mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
-        mShapeBody.setSize(mSize);
         mShapeBody.setOriginCenter();
         mShapeBody.setScene(mScene);
-        mShapeBody.setRenderer(mRenderer);
+        mShapeBody.render(mRenderer);
         
-        mShapeGun = new RectangleShape();
+        mShapeGun = new RectangleShape(mGunSize);
         
-        mShapeGun.setFillColor(Color.black);
-        mShapeGun.setOutlineColor(Color.black);
+        mShapeGun.setFillColor(Color.BLACK);
+        mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
-        mShapeGun.setSize(mGunSize);
         mShapeGun.setScene(mScene);
-        mShapeGun.setRenderer(mRenderer);
         mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
+        mShapeGun.render(mRenderer);
         
-        mShapeGunEnd = new RectangleShape();
+        mShapeGunEnd = new RectangleShape(mGunSize.x*2, mGunSize.x*2);
         
-        mShapeGunEnd.setFillColor(Color.black);
-        mShapeGunEnd.setOutlineColor(Color.black);
+        mShapeGunEnd.setFillColor(Color.BLACK);
+        mShapeGunEnd.setOutlineColor(Color.BLACK);
         mShapeGunEnd.setOutlineThickness(0.f);
-        mShapeGunEnd.setSize(mGunSize.x*2, mGunSize.x*2);
         mShapeGunEnd.setScene(mScene);
-        mShapeGunEnd.setRenderer(mRenderer);
         mShapeGunEnd.setOrigin(mShapeBody.getPosition().x+mGunSize.x/2, mShapeBody.getPosition().y/2-mGunSize.y+mGunSize.x*1.5f);
+        mShapeGunEnd.render(mRenderer);
         
-        mShapeBackpack = new RectangleShape();
+        mShapeBackpack = new RectangleShape(mSize.x/2, mSize.y);
         
-        mShapeBackpack.setFillColor(Color.black);
-        mShapeBackpack.setOutlineColor(Color.black);
+        mShapeBackpack.setFillColor(Color.BLACK);
+        mShapeBackpack.setOutlineColor(Color.BLACK);
         mShapeBackpack.setOutlineThickness(0.f);
-        mShapeBackpack.setSize(mSize.x/2, mSize.y);
         mShapeBackpack.setScene(mScene);
-        mShapeBackpack.setRenderer(mRenderer);
         mShapeBackpack.setOrigin(mSize.x-(mSize.x/3), mSize.y/2);
+        mShapeBackpack.render(mRenderer);
         
     }
     

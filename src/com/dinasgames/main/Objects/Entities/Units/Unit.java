@@ -187,6 +187,12 @@ public class Unit extends Entity {
       this.mTargetPosition.y = y;
     }
     
+    @Override
+    public void setPosition(float x, float y) {
+        super.setPosition(x,y);
+        setTargetPosition(x,y);
+    }
+    
 }
 
 //package com.dinasgames.objects;
