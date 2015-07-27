@@ -1,6 +1,5 @@
 package com.dinasgames.main.games;
 
-import com.dinasgames.lwjgl.util.LWJGL;
 import com.dinasgames.main.system.Clock;
 import com.dinasgames.main.system.Timer;
 
