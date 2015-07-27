@@ -5,7 +5,7 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.math.Vector2f;
 import java.util.ArrayList;
 import java.util.List;
 

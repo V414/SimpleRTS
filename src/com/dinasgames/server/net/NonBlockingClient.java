@@ -5,8 +5,8 @@
  */
 package com.dinasgames.server.net;
 
-import com.dinasgames.main.System.Clock;
-import com.dinasgames.main.System.Time;
+import com.dinasgames.main.system.Clock;
+import com.dinasgames.main.system.Time;
 import com.dinasgames.main.Version;
 import java.io.IOException;
 import java.net.InetSocketAddress;

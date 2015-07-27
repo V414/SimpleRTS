@@ -5,8 +5,8 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.BoundingBox;
-import com.dinasgames.main.Math.Vector2i;
+import com.dinasgames.main.math.BoundingBox;
+import com.dinasgames.main.math.Vector2i;
 import java.nio.ByteBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;

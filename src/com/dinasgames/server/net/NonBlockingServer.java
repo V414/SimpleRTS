@@ -5,9 +5,9 @@
  */
 package com.dinasgames.server.net;
 
-import com.dinasgames.main.System.Clock;
-import com.dinasgames.main.System.Time;
-import com.dinasgames.main.System.Timer;
+import com.dinasgames.main.system.Clock;
+import com.dinasgames.main.system.Time;
+import com.dinasgames.main.system.Timer;
 import com.dinasgames.main.Version;
 import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import java.io.IOException;

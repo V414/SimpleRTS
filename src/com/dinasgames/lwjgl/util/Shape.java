@@ -5,8 +5,8 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.BoundingBox;
-import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.math.BoundingBox;
+import com.dinasgames.main.math.Vector2f;
 
 /**
  *
@@ -170,7 +170,8 @@ public class Shape extends Renderable {
     }
     
     public BoundingBox getGlobalBounds() {
-        return new BoundingBox(mBounds);
+        //return new BoundingBox(mBounds);
+        return getTransform().transformRect(getLocalBounds());
     }
     
     public Vector2f getPoint(int idx) {
@@ -383,8 +384,7 @@ public class Shape extends Renderable {
     
     @Override
     public boolean inView(View view) {
-        BoundingBox bounds = new BoundingBox(getLocalBounds());
-        bounds.move(mPositionX, mPositionY);
+        BoundingBox bounds = new BoundingBox(getGlobalBounds());
         return view.intersects(bounds);
     }
     

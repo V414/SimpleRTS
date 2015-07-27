@@ -140,7 +140,7 @@ public class Keyboard {
         
     };
     
-    public static final int KEY_COUNT = 10;
+    
     public static final int[] nativeList = new int[]{ 
         
         GLFW_KEY_ESCAPE,
@@ -390,6 +390,8 @@ public class Keyboard {
         Key.World2
         
     };
+    
+    public static final int KEY_COUNT = nativeList.length;
     
     public static boolean[] stateList;
     

@@ -5,8 +5,8 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Maps.Map;
-import com.dinasgames.main.Maps.Map.MapChunk;
+import com.dinasgames.main.maps.Map;
+import com.dinasgames.main.maps.Map.MapChunk;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,8 +5,8 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.BoundingBox;
-import com.dinasgames.main.Math.Vector2f;
+import com.dinasgames.main.math.BoundingBox;
+import com.dinasgames.main.math.Vector2f;
 
 /**
  *

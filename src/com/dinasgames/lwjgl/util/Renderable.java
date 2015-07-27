@@ -5,7 +5,7 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Scenes.Scene;
+import com.dinasgames.main.scenes.Scene;
 
 /**
  *

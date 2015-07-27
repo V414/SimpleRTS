@@ -2,7 +2,7 @@
 
 package com.dinasgames.client;
 
-import com.dinasgames.main.Games.ClientGame;
+import com.dinasgames.main.games.ClientGame;
 
 public class Main {
     

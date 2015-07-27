@@ -5,12 +5,12 @@
 // */
 package com.dinasgames.server;
 
-import com.dinasgames.main.Games.Game;
-import com.dinasgames.main.Networking.Network;
-import com.dinasgames.main.Players.PlayerList;
-import com.dinasgames.main.Scenes.Scene;
-import com.dinasgames.main.Scenes.TestScene;
-import com.dinasgames.main.System.Clock;
+import com.dinasgames.main.games.Game;
+import com.dinasgames.main.networking.Network;
+import com.dinasgames.main.players.PlayerList;
+import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.scenes.TestScene;
+import com.dinasgames.main.system.Clock;
 import com.dinasgames.main.Version;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingServer;

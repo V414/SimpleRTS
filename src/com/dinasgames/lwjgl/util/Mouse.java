@@ -1,7 +1,7 @@
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.Vector2f;
-import com.dinasgames.main.Scenes.Scene;
+import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.main.scenes.Scene;
 
 /**
  *

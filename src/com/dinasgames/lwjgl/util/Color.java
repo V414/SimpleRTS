@@ -5,7 +5,7 @@
  */
 package com.dinasgames.lwjgl.util;
 
-import com.dinasgames.main.Math.RandomNumber;
+import com.dinasgames.main.math.RandomNumber;
 
 /**
  *

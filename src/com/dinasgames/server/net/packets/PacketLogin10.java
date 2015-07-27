@@ -5,8 +5,8 @@
  */
 package com.dinasgames.server.net.packets;
 
-import com.dinasgames.main.System.Time;
-import com.dinasgames.main.System.Timer;
+import com.dinasgames.main.system.Time;
+import com.dinasgames.main.system.Timer;
 import com.dinasgames.main.Version;
 import com.dinasgames.server.net.Buffer;
 import com.dinasgames.server.net.NonBlockingClient;
