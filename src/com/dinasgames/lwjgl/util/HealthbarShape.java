@@ -18,60 +18,118 @@ public class HealthbarShape extends Shape {
     protected float mHealth, mHealthMax, mWidth, mHeight;
     
     public HealthbarShape() {
-        mForegroundColor = Color.RED;
+        
+        mForegroundColor = Color.WHITE;
+        
         mWidth = 100.f;
         mHeight = 10.f;
         mHealth = 100.f;
         mHealthMax = 100.f;
         mBackground = new RectangleShape(mWidth, mHeight);
         mForeground = new RectangleShape(mWidth, mHeight);
+        mBackground.hide();
+        mForeground.hide();
+        
+    }
+    
+    public void onHeightChange( float oldValue, float newValue ) {
+        updateSize( mWidth, newValue );
+    }
+    
+    public void onWidthChange( float oldValue, float newValue ) {
+        updateSize( newValue, mHeight );
+    }
+    
+    public void onMaxHealthChange( float oldValue, float newValue ) {
+        
+    }
+    
+    public void onHealthChange( float oldValue, float newValue ) {
+        
+    }
+    
+    public void onForegroundColorChange( Color oldValue, Color newValue ) {
+        updateForegroundColor(newValue);
+    }
+    
+    @Override
+    public void onScaleChange( Vector2f oldValue, Vector2f newValue ) {
+        updateScale(newValue);
+    }
+    
+    @Override
+    public void onOriginChange( Vector2f oldValue, Vector2f newValue ) {
+        updateOrigin( newValue );
+    }
+    
+    @Override
+    public void onPositionChange( Vector2f oldValue, Vector2f newValue ) {
+        updatePosition(newValue);
+    }
+    
+    @Override
+    public void onFillColorChange( Color oldValue, Color newValue ) {
+        updateFillColor( newValue );
+    }
+    
+    @Override
+    public void onOutlineColorChange( Color oldValue, Color newValue ) {
+        updateOutlineColor( newValue );
+    }
+    
+    @Override
+    public void onOutlineThicknessChange( float oldValue, float newValue ) {
+        updateOutlineThickness(newValue);
+    }
+    
+    @Override
+    public void onVisibilityChange(boolean oldValue, boolean newValue) {
+        updateVisibility(newValue);
     }
     
     public HealthbarShape setHealth(float hp) {
-        if(mHealth != hp) {
-            mHealth = hp;
-            updateSize();
+        
+        if(mHealth == hp) {
+            return this;
         }
+        
+        onHealthChange( mHealth, hp );
+        mHealth = hp;
+        
+        updateForeground(mWidth, mHeight);
+        
         return this;
     }
     
     public HealthbarShape setMaxHealth(float max) {
-        if(mHealthMax != max) {
-            mHealthMax = max;
-            updateSize();
+        
+        if(mHealthMax == max) {
+            return this;
         }
+        
+        onMaxHealthChange( mHealthMax, max );
+        mHealthMax = max;
+        
+        updateForeground(mWidth, mHeight);
+        
         return this;
-    }
-    
-    @Override
-    public HealthbarShape setFillColor(Color color) {
-        super.setFillColor(color);
-        updateColors();
-        return this;
-    }
-    
-    @Override
-    public HealthbarShape setOutlineColor(Color color) {
-        super.setOutlineColor(color);
-        updateColors();
-        return this;
-    }
-    
-    @Override
-    public HealthbarShape setOutlineThickness(float val) {
-        super.setOutlineThickness(val);
-        updateColors();
-        return this;
+        
     }
     
     public HealthbarShape setForegroundColor(Color color) {
+        
+        if(mForegroundColor.equals(color)) {
+            return this;
+        }
+        
+        onForegroundColorChange( mForegroundColor, color );
         mForegroundColor = color;
-        updateColors();
+        
         return this;
     }
     
     public Color getForegroundColor() {
-        return mForegroundColor;
+        return new Color(mForegroundColor);
     }
     
     public float getHealth() {
@@ -100,19 +158,40 @@ public class HealthbarShape extends Shape {
         
     }
     
-    protected void updateColors() {
-        
-        mBackground.setFillColor(mFillColor);
-        mBackground.setOutlineColor(mOutlineColor);
-        mBackground.setOutlineThickness(mOutlineThickness);
-        
-        mForeground.setFillColor(mForegroundColor);
-        mForeground.setOutlineColor(mOutlineColor);
-        mForeground.setOutlineThickness(mOutlineThickness);
-        
+    protected void updateFillColor(Color fillColor) {
+        mBackground.setFillColor(fillColor);
     }
     
-    protected void updateSize() {
+    protected void updateOutlineColor(Color outlineColor) {
+        mBackground.setOutlineColor(outlineColor);
+        mForeground.setOutlineColor(outlineColor);
+    }
+    
+    protected void updateOutlineThickness(float val) {
+        mBackground.setOutlineThickness(val);
+        mForeground.setOutlineThickness(val);
+    }
+    
+    protected void updateForegroundColor(Color foreColor) {
+        mForeground.setFillColor(foreColor);
+    }
+    
+    protected void updatePosition(Vector2f pos) {
+        mBackground.setPosition(pos);
+        mForeground.setPosition(pos);
+    }
+    
+    protected void updateScale(Vector2f scale) {
+        mBackground.setScale(scale);
+        mForeground.setScale(scale);
+    }
+    
+    protected void updateOrigin(Vector2f origin) {
+        mBackground.setOrigin(origin);
+        mForeground.setOrigin(origin);
+    }
+    
+    protected void updateForeground(float width, float height) {
         
         // Calculate foreground size
         Vector2f foregroundSize = new Vector2f();
@@ -121,12 +200,9 @@ public class HealthbarShape extends Shape {
             // Don't divide by zero!
             foregroundSize.x = 0;
         }else{
-            foregroundSize.x = Math.max(0.f, Math.min(mWidth, (mHealth / mHealthMax) * mWidth));
+            foregroundSize.x = Math.max(0.f, Math.min(width, (mHealthMax / mHealth) * width));
         }
-        foregroundSize.y = mHeight;
-        
-        // Create background
-        mBackground.setSize(mWidth, mHeight);
+        foregroundSize.y = height;
         
         // Create foreground
         if(foregroundSize.x > 0.f) {
@@ -138,50 +214,53 @@ public class HealthbarShape extends Shape {
         
     }
     
-    protected void updatePosition() {
+    protected void updateVisibility(boolean vis) {
         
-        // Position
-        mBackground.setPosition(mPosition);
-        mForeground.setPosition(mPosition);
+        mBackground.setVisible(vis);
+        mForeground.setVisible(vis);
         
-        // Scale
-        mBackground.setScale(mScale);
-        mForeground.setScale(mScale);
-        
-        // Origin
-        mBackground.setOrigin(mOrigin);
-        mForeground.setOrigin(mOrigin);
-        
-        // Rotation
-        mBackground.setRotation(mRotation);
-        mForeground.setRotation(mRotation);
-        
-        mBackground.setVisible(mVisible);
-        mForeground.setVisible(mVisible);
+        if(vis) {
+            updateForeground(mWidth, mHeight);
+        }
         
     }
     
-    protected void updateAll() {
+    protected void updateSize( float width, float height ) {
         
-        updatePosition();
-        updateSize();
-        updateColors();
+        // Create background
+        mBackground.setSize(width, height);
+        updateForeground( width, height );
         
     }
 
     public HealthbarShape setWidth(float width) {
+        
+        if(mWidth == width) {
+            return this;
+        }
+        
+        onWidthChange( mWidth, width );
         mWidth = width;
+        
         return this;
+        
     }
     
     public HealthbarShape setHeight(float height) {
+        
+        if(mHeight == height) {
+            return this;
+        }
+        
+        onHeightChange( mHeight, height );
         mHeight = height;
+        
         return this;
     }
     
     public HealthbarShape setSize(float width, float height) {
-        mWidth = width;
-        mHeight = height;
+        setWidth(width);
+        setHeight(height);
         return this;
     }
     
@@ -203,9 +282,6 @@ public class HealthbarShape extends Shape {
     
     @Override
     public void draw(RenderTarget target, RenderStates states) {
-        
-        // Update shapes
-        updateAll();
         
         // Draw background
         mBackground.draw(target, states);

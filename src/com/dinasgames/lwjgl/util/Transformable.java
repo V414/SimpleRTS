@@ -13,27 +13,61 @@ import com.dinasgames.main.Math.Vector2f;
  */
 public class Transformable {
     
-    protected Vector2f mOrigin, mPosition, mScale;
-    protected float mRotation;
+    protected float mOriginX, mOriginY, mPositionX, mPositionY, mScaleX, mScaleY, mRotation;
     protected Transform mTransform, mInverseTransform;
     protected boolean mTransformNeedUpdate, mInverseTransformNeedUpdate;
     
     public Transformable() {
-        this.mOrigin                        = new Vector2f(0.f, 0.f);
-        this.mPosition                      = new Vector2f(0.f, 0.f);
-        this.mScale                         = new Vector2f(1.f, 1.f);
-        this.mRotation                      = 0.f;
+        
+        this.mOriginX   = 0.f;
+        this.mOriginY   = 0.f;
+        this.mPositionX = 0.f;
+        this.mPositionY = 0.f;
+        this.mScaleX    = 1.f;
+        this.mScaleY    = 1.f;
+        this.mRotation  = 0.f;
+
         this.mTransform                     = new Transform();
         this.mInverseTransform              = new Transform();
         this.mTransformNeedUpdate           = true;
         this.mInverseTransformNeedUpdate    = true;
     }
     
+    // Events
+    public void onPositionChange( Vector2f oldValue, Vector2f newValue ) {
+        
+    }
+    
+    public void onRotationChange( float oldValue, float newValue ) {
+        
+    }
+    
+    public void onScaleChange( Vector2f oldValue, Vector2f newValue ) {
+        
+    }
+    
+    public void onOriginChange( Vector2f oldValue, Vector2f newValue ) {
+        
+    }
+    
     public Transformable setPosition(float x, float y) {
-        this.mPosition.x = x;
-        this.mPosition.y = y;
+        
+        // Check if the position has changes
+        if(mPositionX == x && mPositionY == y) {
+            // No change
+            return this;
+        }
+        
+        onPositionChange( new Vector2f(mPositionX, mPositionY), new Vector2f(x,y) );
+        
+        // Update the position
+        this.mPositionX = x;
+        this.mPositionY = y;
+        
+        // We need to update our transform
         mTransformNeedUpdate = true;
         mInverseTransformNeedUpdate = true;
+        
         return this;
     }
     
@@ -42,23 +76,43 @@ public class Transformable {
     }
     
     public Transformable setRotation(float rotation) {
-        this.mRotation = rotation;
+        
+        if(mRotation == rotation) {
+            // No change
+            return this;
+        }
+        
+        onRotationChange( mRotation, rotation );
+        
+        mRotation = rotation;
+        
         while(this.mRotation > 360.f) {
             this.mRotation -= 360.f;
         }
         while(this.mRotation > 360.f) {
             this.mRotation += 360.f;
         }
+        
         this.mTransformNeedUpdate = true;
         this.mInverseTransformNeedUpdate = true;
+        
         return this;
     }
     
     public Transformable setScale(float x, float y) {
-        this.mScale.x = x;
-        this.mScale.y = y;
+        
+        if(mScaleX == x && mScaleY == y) {
+            return this;
+        }
+        
+        onScaleChange( new Vector2f(mScaleX, mScaleY), new Vector2f(x,y) );
+        
+        this.mScaleX = x;
+        this.mScaleY = y;
+        
         this.mTransformNeedUpdate = true;
         this.mInverseTransformNeedUpdate = true;
+        
         return this;
     }
     
@@ -67,10 +121,19 @@ public class Transformable {
     }
     
     public Transformable setOrigin(float x, float y) {
-        this.mOrigin.x = x;
-        this.mOrigin.y = y;
+        
+        if(mOriginX == x && mOriginY == y) {
+            return this;
+        }
+        
+        onOriginChange( new Vector2f(mOriginX, mOriginY), new Vector2f(x,y) );
+        
+        this.mOriginX = x;
+        this.mOriginY = y;
+        
         this.mTransformNeedUpdate = true;
         this.mInverseTransformNeedUpdate = true;
+        
         return this;
     }
     
@@ -84,15 +147,39 @@ public class Transformable {
     }
     
     public Vector2f getPosition() {
-        return mPosition;
+        return new Vector2f( mPositionX, mPositionY );
     }
     
     public Vector2f getScale() {
-        return mScale;
+        return new Vector2f( mScaleX, mScaleY );
     }
     
     public Vector2f getOrigin() {
-        return mScale;
+        return new Vector2f(mOriginX, mOriginY);
+    }
+    
+    public float getX() {
+        return mPositionX;
+    }
+    
+    public float getY() {
+        return mPositionY;
+    }
+    
+    public float getOriginX() {
+        return mOriginX;
+    }
+    
+    public float getOriginY() {
+        return mOriginY;
+    }
+    
+    public float getScaleX() {
+        return mScaleX;
+    }
+    
+    public float getScaleY() {
+        return mScaleY;
     }
     
     public float getRotation() {
@@ -100,18 +187,11 @@ public class Transformable {
     }
     
     public Transformable rotate(float angle) {
-        mRotation += angle;
-        this.mTransformNeedUpdate = true;
-        this.mInverseTransformNeedUpdate = true;
-        return this;
+        return setRotation( mRotation + angle );
     }
     
     public Transformable move(float x, float y) {
-        mPosition.x += x;
-        mPosition.y += y;
-        this.mTransformNeedUpdate = true;
-        this.mInverseTransformNeedUpdate = true;
-        return this;
+        return setPosition( mPositionX + x, mPositionY + y );
     }
     
     public Transformable move(Vector2f offset) {
@@ -119,11 +199,7 @@ public class Transformable {
     }
     
     public Transformable scale(float x, float y) {
-        mScale.x += x;
-        mScale.y += y;
-        this.mTransformNeedUpdate = true;
-        this.mInverseTransformNeedUpdate = true;
-        return this;
+        return setScale( mScaleX + x, mScaleY + y );
     }
     
     public Transformable scale(Vector2f factor) {
@@ -131,17 +207,18 @@ public class Transformable {
     }
        
     public Transform getTransform() {
+        
         if(mTransformNeedUpdate) {
             
             float angle     = -(float)Math.toRadians(mRotation);
             float cosine    = (float)Math.cos(angle);
             float sine      = (float)Math.sin(angle);
-            float sxc       = mScale.x * cosine;
-            float syc       = mScale.y * cosine;
-            float sxs       = mScale.x * sine;
-            float sys       = mScale.y * sine;
-            float tx        = -mOrigin.x * sxc - mOrigin.y * sys + mPosition.x;
-            float ty        =  mOrigin.x * sxs - mOrigin.y * syc + mPosition.y;
+            float sxc       = mScaleX * cosine;
+            float syc       = mScaleY * cosine;
+            float sxs       = mScaleX * sine;
+            float sys       = mScaleY * sine;
+            float tx        = -mOriginX * sxc - mOriginY * sys + mPositionX;
+            float ty        =  mOriginX * sxs - mOriginY * syc + mPositionY;
             
             mTransform = new Transform(  sxc, sys, tx,
                                         -sxs, syc, ty,
@@ -150,7 +227,9 @@ public class Transformable {
             mTransformNeedUpdate = false;
             
         }
+        
         return mTransform;
+        
     }
     
     public Transform getInverseTransform() {

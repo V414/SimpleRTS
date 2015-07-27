@@ -6,7 +6,6 @@
 package com.dinasgames.lwjgl.util;
 
 import com.dinasgames.main.Scenes.Scene;
-import org.lwjgl.opengl.GL11;
 
 /**
  *
@@ -82,7 +81,10 @@ public class Renderable extends Transformable implements Drawable {
     }
     
     public Renderable setDepth(int depth) {
-        mDepth = depth;
+        if(mDepth != depth) {
+            onDepthChange(mDepth, depth);
+            mDepth = depth;
+        }
         return this;
     }
     
@@ -95,22 +97,34 @@ public class Renderable extends Transformable implements Drawable {
     }
     
     public void setVisible(boolean vis) {
-        mVisible = vis;
+        if(mVisible != vis) {
+            onVisibilityChange(mVisible, vis);
+            mVisible = vis;
+        }
     }
     
     public void hide() {
-        mVisible = false;
+        setVisible(false);
     }
     
     public void show() {
-        mVisible = true;
+        setVisible(true);
     }
     
+    // Events
     public void onAdd() {
         
     }
     
     public void onRemove() {
+        
+    }
+    
+    public void onDepthChange(int oldValue, int newValue) {
+        
+    }
+    
+    public void onVisibilityChange(boolean oldValue, boolean newValue) {
         
     }
 

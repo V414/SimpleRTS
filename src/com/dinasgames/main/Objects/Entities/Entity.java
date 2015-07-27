@@ -96,7 +96,10 @@ public class Entity extends GameObject {
     
     @Override
     public void onDestroy() {
+        
+        // Remove the healthbar
         mHealthbar.remove();
+        
     }
     
     @Override
@@ -112,12 +115,28 @@ public class Entity extends GameObject {
         
         // Update healthbar
         if(mSelected) {
+            
+            // Update the healthbar position
             mHealthbar.setPosition(mBoundingBox.x, mBoundingBox.y-10);
+            
+            // Update the healthbar health
             mHealthbar.setHealth(mHealth);
+            
+            // Update the healthbar size
             mHealthbar.setSize(mBoundingBox.width, mHealthbar.getSize().y);
-            mHealthbar.show();
+            
+            // Make sure the healthbar is visible
+            if(!mHealthbar.isVisible()) {
+                mHealthbar.show();
+            }
+            
         }else{
-            mHealthbar.hide();
+            
+            // Hide the healthbar when this entity isn't selected
+            if(mHealthbar.isVisible()) {
+                mHealthbar.hide();
+            }
+            
         }
 
     }

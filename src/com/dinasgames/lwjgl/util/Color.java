@@ -81,4 +81,8 @@ public class Color {
         return new Color( RandomNumber.between(0, 255), RandomNumber.between(0, 255), RandomNumber.between(0, 255), RandomNumber.between(0, 255) );
     }
     
+    public boolean equals(Color other) {
+        return (other.getRed() == r && other.getGreen() == g && other.getBlue() == b && other.getAlpha() == a);
+    }
+    
 }

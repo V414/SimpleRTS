@@ -37,6 +37,26 @@ public class Shape extends Renderable {
         mTexture = null;
     }
     
+    // Events
+    public void onTextureChange( Texture oldValue, Texture newValue ) {
+        
+    }
+    
+    public void onTextureRectChange( BoundingBox oldValue, BoundingBox newValue ) {
+        
+    }
+    
+    public void onFillColorChange( Color oldValue, Color newValue ) {
+    }
+    
+    public void onOutlineColorChange( Color oldValue, Color newValue ) {
+        
+    }
+    
+    public void onOutlineThicknessChange( float oldValue, float newValue ) {
+        
+    }
+    
     public BoundingBox getTextureRect() {
         return mTextureRect;
     }
@@ -46,8 +66,16 @@ public class Shape extends Renderable {
     }
     
     public Shape setTextureRect(BoundingBox rect) {
+        
+        if(mTextureRect.equals(rect)) {
+            return this;
+        }
+        
+        onTextureRectChange( mTextureRect, rect );
         mTextureRect = rect;
+        
         updateTexCoords();
+
         return this;
     }
     
@@ -57,12 +85,23 @@ public class Shape extends Renderable {
     
     public Shape setTexture(Texture texture, boolean resetRect) {
         
-        if(texture != null) {
-            if(resetRect || (mTexture == null && (mTextureRect.equals(new BoundingBox())))) {
-                setTextureRect(new BoundingBox( 0, 0, texture.getWidth(), texture.getHeight() ));
+        if( texture == null ) {
+            if(mTexture != null) {
+                onTextureChange( mTexture, texture );
+                mTexture = null;
             }
+            return this;
         }
         
+        if(mTexture != null && mTexture.equals(texture)) {
+            return this;
+        }
+        
+        if(resetRect || (mTexture == null && (mTextureRect.equals(new BoundingBox())))) {
+            setTextureRect(new BoundingBox( 0, 0, texture.getWidth(), texture.getHeight() ));
+        }
+        
+        onTextureChange( mTexture, texture );
         mTexture = texture;
         
         return this;
@@ -76,8 +115,15 @@ public class Shape extends Renderable {
     }
     
     public Shape setFillColor(Color color) {
+        
+        if(mFillColor.equals(color)) {
+            return this;
+        }
+        
+        onFillColorChange( mFillColor, color );
         mFillColor = color;
         updateFillColors();
+        
         return this;
     }
     
@@ -86,8 +132,15 @@ public class Shape extends Renderable {
     }
     
     public Shape setOutlineColor(Color color) {
+        
+        if(mOutlineColor.equals(color)) {
+            return this;
+        }
+        
+        onOutlineColorChange( mOutlineColor, color );
         mOutlineColor = color;
         updateOutlineColors();
+        
         return this;
     }
     
@@ -96,8 +149,15 @@ public class Shape extends Renderable {
     }
     
     public Shape setOutlineThickness(float thickness) {
+        
+        if(mOutlineThickness == thickness) {
+            return this;
+        }
+        
+        onOutlineThicknessChange( mOutlineThickness, thickness );
         mOutlineThickness = thickness;
         update();
+        
         return this;
     }
     
@@ -173,17 +233,19 @@ public class Shape extends Renderable {
     @Override
     public void draw(RenderTarget target, RenderStates states) {
         
-        states.transform.multiply(getTransform());
+        RenderStates copy = new RenderStates(states);
+        
+        copy.transform.multiply(getTransform());
         
         //target.draw(mVerts, states);
-        states.texture = mTexture;
-        target.draw(mShapeCache, states);
+        copy.texture = mTexture;
+        target.draw(mShapeCache, copy);
         
         if(mOutlineThickness != 0) {
             //states.texture = null;
             //target.draw(mOutlineVerts, states);
-            states.texture = null;
-            target.draw(mOutlineCache, states);
+            copy.texture = null;
+            target.draw(mOutlineCache, copy);
         }
         
     }
@@ -322,7 +384,7 @@ public class Shape extends Renderable {
     @Override
     public boolean inView(View view) {
         BoundingBox bounds = new BoundingBox(getLocalBounds());
-        bounds.move(mPosition);
+        bounds.move(mPositionX, mPositionY);
         return view.intersects(bounds);
     }
     

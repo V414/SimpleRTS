@@ -436,4 +436,12 @@ public class Texture {
         
     }
     
+    public long getCacheId() {
+        return mCacheId;
+    }
+    
+    public boolean equals(Texture other) {
+        return other.getCacheId() == mCacheId;
+    }
+    
 }
