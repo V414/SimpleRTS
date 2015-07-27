@@ -9,11 +9,11 @@ import com.dinasgames.main.Math.RandomNumber;
 import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.Entities.Buildings.PowerPlant;
 import com.dinasgames.main.Objects.Entities.Buildings.Warehouse;
-import com.dinasgames.main.Objects.Entities.Units.Infantry.Bazooka;
-import com.dinasgames.main.Objects.Entities.Units.Infantry.Flamethrower;
-import com.dinasgames.main.Objects.Entities.Units.Infantry.Rifleman;
-import com.dinasgames.main.Objects.Entities.Units.Vehicles.Bulldozer;
-import com.dinasgames.main.Objects.Entities.Units.Vehicles.LightTank;
+import com.dinasgames.main.Objects.Entities.Units.infantry.Bazooka;
+import com.dinasgames.main.Objects.Entities.Units.infantry.Flamethrower;
+import com.dinasgames.main.Objects.Entities.Units.infantry.Rifleman;
+import com.dinasgames.main.Objects.Entities.Units.vehicles.land.Bulldozer;
+import com.dinasgames.main.Objects.Entities.Units.vehicles.land.LightTank;
 import com.dinasgames.main.Players.Player;
 import com.dinasgames.main.Players.RemotePlayer;
 

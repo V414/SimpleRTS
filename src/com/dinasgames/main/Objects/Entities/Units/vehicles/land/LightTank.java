@@ -1,4 +1,4 @@
-package com.dinasgames.main.Objects.Entities.Units.Vehicles;
+package com.dinasgames.main.Objects.Entities.Units.vehicles.land;
 
 import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.RectangleShape;
@@ -8,7 +8,7 @@ import com.dinasgames.main.Math.Vector2f;
 import com.dinasgames.main.Objects.GameObjectType;
 import com.dinasgames.main.Scenes.Scene;
 
-public class LightTank extends Vehicle {
+public class LightTank extends LandVehicle {
   
   RectangleShape mShapeBody;
   RectangleShape mShapeBody2;
