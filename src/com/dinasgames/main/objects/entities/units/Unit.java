@@ -19,10 +19,10 @@ public class Unit extends Entity {
     protected int mReloadingTime;
     
     
-    protected Unit() {
-        mTargetPosition = new Vector2f(0.f,0.f);
-        target = null;
-    }
+//    protected Unit() {
+//        mTargetPosition = new Vector2f(0.f,0.f);
+//        target = null;
+//    }
     
     protected Unit(Scene scene) {
         super(scene);

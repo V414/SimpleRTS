@@ -7,7 +7,7 @@ import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
-import com.dinasgames.main.objects.entities.units.Vehicles.land.Bulldozer;
+import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.players.RemotePlayer;

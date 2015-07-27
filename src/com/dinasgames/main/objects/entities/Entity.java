@@ -4,8 +4,8 @@ import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.HealthbarShape;
 import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
-import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.NetworkedObject;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
 
@@ -13,7 +13,7 @@ import com.dinasgames.main.scenes.Scene;
  *
  * @author Jack
  */
-public class Entity extends GameObject {
+public class Entity extends NetworkedObject {
     
     protected Player mOwner;
     protected boolean mSelected;
@@ -24,15 +24,15 @@ public class Entity extends GameObject {
     protected BoundingBox mBoundingBox;
     protected boolean mDead;
     
-    protected Entity() {
-        mHealth = mHealthMax = 0.f;
-        mHealthbar = null;
-        mBoundingBox = new BoundingBox();
-        mDead = false;
-        mSelected = false;
-        mOwner = null;
-        mSize = new Vector2f(0.f,0.f);
-    }
+//    protected Entity() {
+//        mHealth = mHealthMax = 0.f;
+//        mHealthbar = null;
+//        mBoundingBox = new BoundingBox();
+//        mDead = false;
+//        mSelected = false;
+//        mOwner = null;
+//        mSize = new Vector2f(0.f,0.f);
+//    }
     
     protected Entity(Scene scene) {
         

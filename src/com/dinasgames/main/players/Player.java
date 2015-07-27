@@ -7,7 +7,7 @@ import com.dinasgames.main.controllers.Controller;
 import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.entities.Entity;
-import com.dinasgames.main.objects.entities.Units.Unit;
+import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;

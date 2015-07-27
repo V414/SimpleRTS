@@ -6,10 +6,6 @@ import com.dinasgames.main.scenes.Scene;
 
 public class Building extends Entity {
   
-  protected Building(){
-    
-  }
-  
   protected Building(Scene scene) {
       super(scene);
   }
