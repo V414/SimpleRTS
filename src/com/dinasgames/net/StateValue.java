@@ -117,7 +117,7 @@ public class StateValue {
             return point;
         }
         
-        // Interpolate       
+        // Interpolate
         float dt = Math.max( 0.f, Math.min( 1.f, ((float)(currentTime - point.time) / (float)(nextPoint.time - point.time))  ) );
         
         if(Float.isNaN(dt)) {

@@ -6,6 +6,7 @@
 package com.dinasgames.main.players;
 import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
 
 /**
  *
@@ -91,11 +92,11 @@ public class PlayerList {
         return mPlayers[idx];
     }
     
-    public void update() {
+    public void update(Time timePassed) {
         
         for(int i = 0; i < MAX_PLAYERS; i++) {
             if(mPlayers[i] != null) {
-                mPlayers[i].update();
+                mPlayers[i].update(timePassed);
             }
         }
         

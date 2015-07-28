@@ -161,14 +161,18 @@ public class LocalGame extends WindowGame {
      */
     protected void singleStep() {
         
+        Time timePassed = mTimePassedClock.getElapsedTime();
+        
         // Update players (Bug fix: camera moving slow -.-)
-        mPlayerList.update();
+        mPlayerList.update(timePassed);
         
         // Tick the scene logic
         if(mScene != null) {
-            mScene.tick(mTimePassedClock.getElapsedTime());
-            mTimePassedClock.restart();
+            mScene.tick(timePassed);
+            
         }
+        
+        mTimePassedClock.restart();
         
         mStepCount++;
         

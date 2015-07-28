@@ -184,7 +184,7 @@ public class ServerGame extends Game {
         //Mouse.tick();
         
         // Update players
-        mPlayerList.update();
+        // mPlayerList.update(timePassed); // TODO: fix
         
         // Update game logic
         double newTime = System.currentTimeMillis() / 1000.0;

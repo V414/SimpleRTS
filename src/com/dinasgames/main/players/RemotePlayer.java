@@ -6,6 +6,7 @@
 package com.dinasgames.main.players;
 
 import com.dinasgames.main.controllers.RemoteController;
+import com.dinasgames.main.system.Time;
 import com.dinasgames.server.net.NonBlockingServer;
 import com.dinasgames.server.net.NonBlockingServer.Socket;
 import com.dinasgames.server.net.packets.PacketInput20;
@@ -26,8 +27,8 @@ public class RemotePlayer extends Player {
     }
     
     @Override
-    public void update() {
-        super.update();
+    public void update(Time timePassed) {
+        super.update(timePassed);
     }
     
     public Socket getSocket() {

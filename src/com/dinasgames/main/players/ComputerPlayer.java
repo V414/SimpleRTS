@@ -6,6 +6,7 @@
 package com.dinasgames.main.players;
 
 import com.dinasgames.main.controllers.ComputerController;
+import com.dinasgames.main.system.Time;
 
 /**
  *
@@ -18,8 +19,8 @@ public class ComputerPlayer extends Player {
     }
     
     @Override
-    public void update() {
-        super.update();
+    public void update(Time timePassed) {
+        super.update(timePassed);
     }
     
 }
