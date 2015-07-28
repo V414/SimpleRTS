@@ -7,6 +7,7 @@ import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
+import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.entities.units.infantry.Bazooka;
 import com.dinasgames.main.objects.entities.units.infantry.Flamethrower;
@@ -107,6 +108,9 @@ public class TestScene extends Scene {
         
         setupMap(new SymmetricalMap());
        
+        Barracks barracks = new Barracks(this);
+        barracks.setPosition(200, 200);
+        barracks.setOwner(getLocalPlayer());
         
         
 //      Map map = new SymmetricalMap();

@@ -29,7 +29,9 @@ public enum GameObjectType {
     LandVehicle     (0x00004000),
     SeaVehicle      (0x00008000),
     AirVehicle      (0x00010000),
-    NetworkedObject (0x00020000);
+    NetworkedObject (0x00020000),
+    Barracks        (0x00040000),
+    Resource        (0x00080000);
     
     // Constructor
     private final int mId;
