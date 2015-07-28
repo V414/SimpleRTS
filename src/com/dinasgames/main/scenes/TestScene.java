@@ -6,6 +6,7 @@ import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
 import com.dinasgames.main.players.Player;
@@ -82,6 +83,9 @@ public class TestScene extends Scene {
         
         setupMap(new SymmetricalMap());
        
+        Barracks barracks = new Barracks(this);
+        barracks.setPosition(200, 200);
+        barracks.setOwner(getLocalPlayer());
         
         
 //      Map map = new SymmetricalMap();
