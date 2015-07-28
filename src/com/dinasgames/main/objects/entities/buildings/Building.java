@@ -13,7 +13,7 @@ public class Building extends Entity {
   @Override
   protected void recalculateBoundingBox() {
     super.recalculateBoundingBox();
-    mBoundingBox.setSize(mSize);
+    mBoundingBox.setSize(mWidth, mHeight);
   }
   
   @Override

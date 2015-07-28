@@ -8,93 +8,180 @@ package com.dinasgames.main.objects.entities.units.infantry;
 import com.dinasgames.lwjgl.util.CircleShape;
 import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.RectangleShape;
+import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.main.math.Point;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.RenderEvents;
+import com.dinasgames.main.objects.SceneEvents;
+import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
 
-public class Bazooka extends Infantry {
+public class Bazooka extends Infantry implements RenderEvents, SceneEvents {
   
-  CircleShape mShapeBody;
-  RectangleShape mShapeGun;
-  Vector2f mGunSize;
-  float mGunRotation;
+    /**
+     * The soldiers body.
+     */
+    protected CircleShape mShapeBody;
+    
+    /**
+     * The soldiers gun
+     */
+    protected RectangleShape mShapeGun;
+    
+    /**
+     * The current gun angle in degrees.
+     */
+    protected float mGunRotation;
 
-  public Bazooka(Scene scene){
-      
-    super(scene);
-      
-    mShapeBody = null;
-    mShapeGun = null;
-    mHealthMax = 100.f;
-    mHealth = mHealthMax;
-    mSpeed = 0.2f;
-    mGunRotation = 270.f;
-    
-    addToScene();
-    
-  }
+    /**
+     * The default constructor
+     * @param scene 
+     */
+    public Bazooka(Scene scene) {
+        
+        super(scene);
+        
+        // Setup Rifleman attributes
+        this.mGunRotation = 270.f;
+        
+        // Setup Unit attributes
+        this.mHealthMax     = 100.f;
+        this.mHealth        = this.mHealthMax;
+        this.mSpeed         = 12.f;
+        this.mAttackTime    = Time.seconds(.1f);
+        this.mDamage        = 3.f;
+        this.mMaxAmmo       = 1;
+        this.mRange         = 50.f;
+        this.mReloadTime    = Time.seconds(.5f);
+        
+        // Setup Entity attributes
+        this.mWidth     = 10.f;
+        this.mHeight    = 10.f;
+        
+        // Setup listener events
+        Bazooka self = this;
+        this.addListener(new Entity.Events(){
+
+            @Override
+            public void onHealthChange(float oldHealth, float newHealth) {
+                
+            }
+
+            @Override
+            public void onMaxHealthChange(float oldMaxHealth, float newMaxHealth) {
+                
+            }
+
+            @Override
+            public void onNewOwner(Player oldOwner, Player newOwner) {
+                if(newOwner != null) {
+                    self.setBodyColor( newOwner.getColor() );
+                }else{
+                    self.setBodyColor( Color.WHITE );
+                }
+            }
+
+            @Override
+            public void onDeath() {
+                
+            }
+
+            @Override
+            public void onSizeChange(Vector2f oldSize, Vector2f newSize) {
+                
+            }
+
+            @Override
+            public void onSelected() {
+                
+            }
+
+            @Override
+            public void onDeselected() {
+                
+            }
+
+
+        });
+        
+    }
     
     @Override
-    public void onCreate() {
+    public void onSceneAdd(Scene scene) {
         
-        super.onCreate();
+        super.onSceneAdd(scene);
         
-        setSize(10.f, 10.f);
-        mGunSize = new Vector2f(4, 13);
         
-        mShapeBody = new CircleShape(mSize.x);
         
-        mShapeBody.setFillColor(Color.WHITE);
+    }
+    
+    @Override
+    public void onSceneRemove(Scene scene) {
+        super.onSceneRemove(scene);
+    }
+    
+    @Override
+    public void onRenderAdd(Renderer r) {
+        
+        super.onRenderAdd(r);
+        
+        // Create our render objects
+        mShapeBody = new CircleShape(mWidth / 2.f);
+        
+        mShapeBody.setFillColor(mOwnerColor);
         mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
-        mShapeBody.setScene(mScene);
-        mShapeBody.render(mRenderer);
         
-        mShapeGun = new RectangleShape(mGunSize);
+        mShapeGun = new RectangleShape(4.f, 12.f);
         
         mShapeGun.setFillColor(Color.BLACK);
         mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
-        mShapeGun.setSize(mGunSize);
-        mShapeGun.setScene(mScene);
-        mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2+3);
-        mShapeGun.render(mRenderer);
-    }
-    
-    @Override
-    public void onNewOwner() {
+        mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
         
-        mShapeBody.setFillColor(mOwner.getColor());
+        // Add them to the renderer
+        r.add(mShapeBody);
+        r.add(mShapeGun);
         
     }
     
     @Override
-    public void onTick(double time) {
+    public void onRenderUpdate(Renderer r) {
         
-        super.onTick(time);
-        setTarget(mScene.getObjectsList());
-        moveUnit();
+        super.onRenderUpdate(r);
         
-    }
-    
-    @Override
-    public void onRender() {
-        
-        super.onRender();
-        
-        mShapeBody.setPosition(mPosition);
+        mShapeBody.setPosition(mX, mY);
         mShapeBody.setRotation(mRotation);
         
-        mShapeGun.setPosition(mPosition);
+        mShapeGun.setPosition(mX, mY);
         mShapeGun.setRotation(mRotation + mGunRotation);
+        
+        Vector2f gunPosition = new Vector2f(mX, mY);
+        gunPosition.add(Point.inDirection( mShapeGun.getWidth(), -mShapeGun.getRotation()));
+        
+        mShapeGun.setPosition(gunPosition);
+        
     }
     
     @Override
-    public void onDestroy() {
-      mShapeBody.remove();
-      mShapeGun.remove();
-      mHealthbar.remove();
+    public void onRenderRemove(Renderer r) {
+        
+        super.onRenderRemove(r);
+        
+        // Remove our render objects
+        r.remove(mShapeBody);
+        r.remove(mShapeGun);
+        
+    }
+    
+    public void setBodyColor(Color color) {
+        if(mShapeBody != null) {
+            mShapeBody.setFillColor(color);
+        }
     }
     
     @Override

@@ -25,6 +25,10 @@ public class Mouse {
     public static void tick(Scene scene) {
         
         if(scene == null) {
+            
+            x = windowX;
+            y = windowY;
+            
             return;
         }
         

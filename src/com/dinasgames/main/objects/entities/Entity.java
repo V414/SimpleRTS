@@ -2,49 +2,68 @@ package com.dinasgames.main.objects.entities;
 
 import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.HealthbarShape;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.main.objects.behaviours.Behaviour;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.LogicEvents;
 import com.dinasgames.main.objects.NetworkedObject;
+import com.dinasgames.main.objects.RenderEvents;
+import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
  * @author Jack
  */
-public class Entity extends NetworkedObject {
+public class Entity extends NetworkedObject implements SceneEvents, RenderEvents, LogicEvents {
     
-    protected Player mOwner;
-    protected boolean mSelected;
-    protected float mHealth, mHealthMax;
-    protected HealthbarShape mHealthbar;
-    protected Vector2f mSize;
-
-    protected BoundingBox mBoundingBox;
-    protected boolean mDead;
+    protected Player mOwner;                // << The current Player object that owns this Entity.
+    protected boolean mSelected;            // << Whether this object is selected or not.
+    protected float mHealth;                // << How many health points this Entity has.
+    protected float mHealthMax;             // << The maximum amount of health points this Entity can have.
+    protected HealthbarShape mHealthbar;    // << The healthbar shape used by this Entity.
+    protected float mWidth, mHeight;        // << The size of this Entity.
+    protected BoundingBox mBoundingBox;     // << The Bounding Box surrounding this Entity.
+    protected boolean mDead;                // << Whether this object is dead.
+    protected List<Behaviour> mBehaviours;  // << A list of behaviours that this Entity will execute.
+    protected Color mOwnerColor;            // << The team color of our owner.
     
-//    protected Entity() {
-//        mHealth = mHealthMax = 0.f;
-//        mHealthbar = null;
-//        mBoundingBox = new BoundingBox();
-//        mDead = false;
-//        mSelected = false;
-//        mOwner = null;
-//        mSize = new Vector2f(0.f,0.f);
-//    }
+    public interface Events {
+        
+        public void onHealthChange( float oldHealth, float newHealth );
+        public void onMaxHealthChange( float oldMaxHealth, float newMaxHealth );
+        public void onNewOwner( Player oldOwner, Player newOwner );
+        public void onDeath();
+        public void onSizeChange( Vector2f oldSize, Vector2f newSize );
+        public void onSelected();
+        public void onDeselected();
+        
+    };
     
-    protected Entity(Scene scene) {
+    /**
+     * The default constructor for an Entity.
+     * @param scene 
+     */
+    protected Entity( Scene scene ) {
         
         super(scene);
         
-        mHealth = mHealthMax = 0.f;
-        mHealthbar = null;
-        mBoundingBox = new BoundingBox();
-        mDead = false;
-        mSelected = false;
-        mOwner = null;
-        mSize = new Vector2f(0.f,0.f);
+        mHealth         = 0.f;
+        mHealthMax      = 0.f;
+        mBoundingBox    = new BoundingBox();
+        mDead           = false;
+        mSelected       = false;
+        mOwner          = null;
+        mWidth          = 0.f;
+        mHeight         = 0.f;
+        mBehaviours     = new ArrayList();
+        mOwnerColor     = Color.WHITE;
         
     }
     
@@ -64,8 +83,20 @@ public class Entity extends NetworkedObject {
     }
     
     @Override
-    public void onCreate() {
+    public void onSceneAdd( Scene s ) {
         
+        
+    }
+    
+    @Override
+    public void onSceneRemove(Scene scene) {
+
+    }
+    
+    @Override
+    public void onRenderAdd( Renderer r ) {
+
+        // Setup our healthbar
         mHealthbar = new HealthbarShape();
         
         mHealthbar.setHeight(5.f);
@@ -75,43 +106,38 @@ public class Entity extends NetworkedObject {
         mHealthbar.setOutlineColor(Color.BLACK);
         mHealthbar.setHealth(mHealth);
         mHealthbar.setMaxHealth(mHealthMax);
-        mHealthbar.setScene(mScene);
         
-        
-        // Make sure the healthbar renders in front of other things
+        // We want to be in front!
         mHealthbar.setDepth(-100);
-        mHealthbar.render(mRenderer);
         
-        //mSelectionBox = RectangleShape.create();
-        //mSelectionBox.setFillColor(new Color(0,0,0,0));
-        //mSelectionBox.setOutlineColor(Color.white);
-        //mSelectionBox.setOutlineThickness(1.f);
-        //mSelectionBox.setDepth(-101);
-        
-    }
-    
-    public void onNewOwner() {
+        // Add our healthbar to the renderer
+        r.add(mHealthbar);
         
     }
     
     @Override
-    public void onDestroy() {
+    public void onRenderRemove( Renderer r ) {
         
-        // Remove the healthbar
-        mHealthbar.remove();
+        // Remove our healthvar from the renderer
+        r.remove(mHealthbar);
         
     }
-    
-    @Override
-    public void onTick(double time) {
-        
-        // Update bounding box
-        recalculateBoundingBox();
 
-    }
-    
     @Override
-    public void onRender() {
+    public void onTick(Time timePassed) {
+        
+        // Update the bounding box
+        recalculateBoundingBox();
+        
+        // Update behaviours
+        for(Behaviour b : mBehaviours) {
+            b.update(timePassed);
+        }
+        
+    }
+
+    @Override
+    public void onRenderUpdate( Renderer r ) {
         
         // Update healthbar
         if(mSelected) {
@@ -138,105 +164,372 @@ public class Entity extends NetworkedObject {
             }
             
         }
+        
+    }
+    
+    /**
+     * Used to calculate the BoundingBox.
+     */
+    protected void recalculateBoundingBox() {
+        //mBoundingBox.setPosition(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
+        mBoundingBox.setPosition( mX - mWidth / 2.f, mY - mHeight / 2.f );
+    }
+    
+    /**
+     * Give this entity an owner.
+     * @param owner 
+     */
+    public void setOwner(Player owner) {
+        
+        if(owner == null && mOwner == null) {
+            return;
+        }
+        
+        if(mOwner != null && this.mOwner.equals(owner)) {
+            return;
+        }
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onNewOwner( mOwner, owner );
+            }
+        }
+        
+        mOwner = owner;
+        
+        if(mOwner != null) {
+            mOwnerColor = mOwner.getColor();
+        }else{
+            mOwnerColor = Color.WHITE;
+        }
 
     }
     
-    protected void recalculateBoundingBox() {
-        mBoundingBox.setPosition(mPosition.x-mSize.x/2, mPosition.y-mSize.y/2);
-    }
-    
-    public void setOwner(Player owner) {
-        mOwner = owner;
-        if(mOwner == null) {
-            return;
-        }
-        onNewOwner();
-    }
-    
+    /**
+     * Returns the current owner of this entity.
+     * @return 
+     */
     public Player getOwner() {
         return mOwner;
     }
     
-    public void setSize(Vector2f size) {
-        mSize = size;
-    }
-    
+    /**
+     * Set the size of this entity.
+     * @param width
+     * @param height 
+     */
     public void setSize(float width, float height) {
-        mSize.x = width;
-        mSize.y = height;
+        
+        if(mWidth == width && mHeight == height) {
+            return;
+        }
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onSizeChange( new Vector2f(mWidth, mHeight), new Vector2f(width, height) );
+            }
+        }
+        
+        mWidth = width;
+        mHeight = height;
+        
     }
     
+    /**
+     * Alternative to setSize(float,float).
+     * @param size 
+     */
+    public void setSize(Vector2f size) {
+        setSize(size.x,size.y);
+    }
+    
+    /**
+     * Scale the object using a factor.
+     * @param xfactor
+     * @param yfactor 
+     */
+    public void scale(float xfactor, float yfactor) {
+        setSize( mWidth * xfactor, mHeight * yfactor );
+    }
+    
+    /**
+     * Scale the object using a factor.
+     * @param factor 
+     */
+    public void scale(Vector2f factor) {
+        scale(factor.x, factor.y);
+    }
+    
+    /**
+     * Get the width of this object.
+     * @return 
+     */
     public float getWidth() {
-        return mSize.x;
+        return mWidth;
     }
     
+    /**
+     * Get the height of this object.
+     * @return 
+     */
     public float getHeight() {
-        return mSize.y;
+        return mHeight;
     }
     
+    /**
+     * Get the size of this object.
+     * @return 
+     */
     public Vector2f getSize() {
-        return mSize;
+        return new Vector2f(mWidth, mHeight);
     }
     
+    /**
+     * Select this Entity.
+     */
     public void select() {
+        
+        if(mSelected) {
+            return;
+        }
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onSelected();
+            }
+        }
+        
         mSelected = true;
+        
     }
     
+    /**
+     * Deselect this Entity.
+     */
     public void deselect() {
+        
+        if(!mSelected) {
+            return;
+        }
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onDeselected();
+            }
+        }
+        
         mSelected = false;
+        
     }
     
+    /**
+     * Returns true if this object is selected.
+     * @return 
+     */
     public boolean isSelected() {
         return mSelected;
     }
     
+    /**
+     * Set the selected value.
+     * @param selected 
+     */
     public void setSelected(boolean selected) {
-        mSelected = selected;
+        
+        if(selected) {
+            select();
+        }else{
+            deselect();
+        }
+        
     }
     
-    // Getters
+    /**
+     * Get the current bounding box.
+     * @return 
+     */
     public BoundingBox getBoundingBox() {
         return mBoundingBox;
     }
     
+    /**
+     * Check whether this object is dead.
+     * @return 
+     */
     public boolean isDead() {
         return mDead;
     }
     
+    /**
+     * Get the current health value.
+     * @return 
+     */
     public float getHealth() {
         return mHealth;
     }
     
+    /**
+     * Get the maximum health this object can have.
+     * @return 
+     */
     public float getMaxHealth() {
         return mHealthMax;
     }
     
-    // Setters
+    /**
+     * Set the health value for this object. Note: You cannot change the health of a dead Entity.
+     * @param hp 
+     */
     public void setHealth(float hp) {
-        mHealth = Math.max(0.f, Math.min(mHealthMax, hp));
-    }
-    
-    public void setMaxHealth(float hp) {
-        mHealthMax = hp;
-    }
-    
-    // Methods
-    public void damage(float amount) {
+        
         if(mDead) {
             return;
         }
-        mHealth = Math.max(0.f, Math.min(mHealthMax, mHealth - amount));
+        
+        if(mHealth == hp) {
+            return;
+        }
+        
+        hp = Math.max( 0.f, Math.min( mHealthMax, hp ) );
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onHealthChange( mHealth, hp );
+            }
+        }
+        
+        mHealth = hp;
+        
+        // Check if this Entity is dead
         if(mHealth <= 0.f) {
-            onDeath();
+            
+            mDead = true;
+            
+            for(Object listener : mListeners) {
+                if(listener instanceof Events) {
+                    ((Events)listener).onDeath();
+                }
+            }
+            
         }
+        
     }
     
-    public void kill() {
+    /**
+     * Set the maximum health an Entity can have. Note: You cannot change the maximum health value of a dead Entity.
+     * @param max 
+     */
+    public void setMaxHealth(float max) {
+        
         if(mDead) {
             return;
         }
-        mHealth = 0.f;
-        onDeath();
+        
+        if(mHealthMax == max) {
+            return;
+        }
+        
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onMaxHealthChange( mHealthMax, max );
+            }
+        }
+        
+        mHealthMax = max;
+        
+    }
+    
+    /**
+     * Apply damage to an Entity. Note: A negative value will heal the Entity. Damage cannot be applied to a dead Entity.
+     * @param amount 
+     */
+    public void damage(float amount) {
+        setHealth( mHealth - amount );
+    }
+    
+    /**
+     * Apply healing to an Entity. Note: A negative value will damage the Entity. Healing cannot be applied to a dead Entity.
+     * @param amount 
+     */
+    public void heal(float amount) {
+        setHealth( mHealth + amount );
+    }
+    
+    /**
+     * Kill an entity. Note: This function has no effect on a dead Entity.
+     */
+    public void kill() {
+        setHealth(0.f);
+    }
+    
+    /**
+     * Check whether this object has a certain behaviour.
+     * @param other
+     * @return 
+     */
+    public boolean hasBehaviour(Behaviour other) {
+        for(Behaviour b : mBehaviours) {
+            if(b.equals(other)) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Check whether this object has a certain behaviour.
+     * @param type
+     * @return 
+     */
+    public boolean hasBehaviour(int type) {
+        for(Behaviour b : mBehaviours) {
+            if(b.getUniqueID() == type) {
+                return true;
+            }
+        }
+        return false;
+    }
+    
+    /**
+     * Get the behaviour of type for this object.
+     * @param type
+     * @return 
+     */
+    public Behaviour getBehaviour(int type) {
+        for(Behaviour b : mBehaviours) {
+            if(b.getUniqueID() == type) {
+                return b;
+            }
+        }
+        return null;
+    }
+    
+/**
+     * Get the behaviour of type for this object.
+     * @param type
+     * @return 
+     */
+    public void removeBehaviour(int type) {
+        for(Behaviour b : mBehaviours) {
+            if(b.getUniqueID() == type) {
+                mBehaviours.remove(b);
+                return;
+            }
+        }
+    }
+    
+    /**
+     * Add a new type of behaviour to this object.
+     * @param b 
+     */
+    public void addBehaviour(Behaviour b) {
+        
+        if(hasBehaviour(b)) {
+            return;
+        }
+        
+        mBehaviours.add(b);
+        
     }
     
 }

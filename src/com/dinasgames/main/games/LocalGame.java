@@ -5,6 +5,7 @@ import com.dinasgames.lwjgl.util.Mouse;
 import com.dinasgames.main.players.LocalPlayer;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Clock;
 import com.dinasgames.main.system.Time;
 import com.dinasgames.main.system.Timer;
 
@@ -17,6 +18,7 @@ public class LocalGame extends WindowGame {
     protected Scene mScene;
         
     // Frame indepentant
+    protected Clock mTimePassedClock;
     protected long mStepCount;
     protected LocalPlayer mPlayer;
     protected double mAccumulator, mCurrentTime, mT, mDT;
@@ -53,6 +55,8 @@ public class LocalGame extends WindowGame {
         
         // Initialize variables
         mRunning        = true;
+        
+        mTimePassedClock = new Clock();
         
         //mFpsClock       = new Clock();
         
@@ -127,15 +131,20 @@ public class LocalGame extends WindowGame {
         mAccumulator += frameTime;
         
         // Execute steps until we have caught up
-        while(mAccumulator >= mDT) {
-            
-            // Game logic happens in this function
-            singleStep();
-            
-            mAccumulator -= mDT;
-            mT += mDT;
-            
-        }
+//        while(mAccumulator >= mDT) {
+//            
+//            // Game logic happens in this function
+//            singleStep();
+//            
+//            mAccumulator -= mDT;
+//            mT += mDT;
+//            
+//        }
+        
+        singleStep();
+        
+        // Render scene
+        mScene.render();
         
         // Render the game window
         // Rendering is done higher up the ladder!
@@ -157,7 +166,8 @@ public class LocalGame extends WindowGame {
         
         // Tick the scene logic
         if(mScene != null) {
-            mScene.tick(mCurrentTime);
+            mScene.tick(mTimePassedClock.getElapsedTime());
+            mTimePassedClock.restart();
         }
         
         mStepCount++;

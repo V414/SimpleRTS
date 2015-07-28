@@ -9,6 +9,7 @@ import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.commands.MoveCommand;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;
 import java.util.List;
@@ -174,7 +175,8 @@ public class Player {
       for (Entity selectedEntity : selectedEntities) {
         if (selectedEntity.hasType(GameObjectType.Unit)) {
           Unit unit = (Unit) selectedEntity;
-          unit.setTargetPosition(mousePosition);
+          //unit.setTargetPosition(mousePosition);
+          unit.issueCommand(new MoveCommand(mousePosition));
         }
       }
     }
@@ -210,6 +212,10 @@ public class Player {
         
         mSelectionShape.hide();
         
+    }
+    
+    public boolean equals(Player other) {
+        return (other.getID() == mID);
     }
     
 }

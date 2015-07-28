@@ -116,10 +116,16 @@ public class Renderer {
     }
     
     public int add(Renderable r) {
+        
+        if(r == null) {
+            return -1;
+        }
+        
         for(int i = 0; i < MAX_RENDER_OBJECTS; i++) {
             if(mRenderObjects[i] == null) {
                 
                 mRenderObjects[i] = r;
+                r.setID(i);
                 r.onAdd();
                 
                 return i;
@@ -127,6 +133,13 @@ public class Renderer {
             }
         }
         return -1;
+    }
+    
+    public Renderer remove(Object o) {
+        if(o instanceof Renderable) {
+            return remove(((Renderable)o).getID());
+        }
+        return this;
     }
     
     public Renderer remove(int idx) {

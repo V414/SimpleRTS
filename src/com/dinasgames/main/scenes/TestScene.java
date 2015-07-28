@@ -6,8 +6,13 @@ import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
+import com.dinasgames.main.objects.entities.units.infantry.Bazooka;
+import com.dinasgames.main.objects.entities.units.infantry.Flamethrower;
+import com.dinasgames.main.objects.entities.units.infantry.Rifleman;
 import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
+import com.dinasgames.main.objects.entities.units.vehicles.land.LightTank;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.players.RemotePlayer;
@@ -44,9 +49,29 @@ public class TestScene extends Scene {
         w.setPosition(pos);
         w.setOwner(owner);
         
+        PowerPlant p = new PowerPlant(this);
+        p.setPosition(pos.x, pos.y - 80.f);
+        p.setOwner(owner);
+        
         Bulldozer b = new Bulldozer(this);
-        b.setPosition(pos.add(80.f, 0.f));
+        b.setPosition(pos.add(0.f, 80.f));
         b.setOwner(owner);
+        
+        LightTank t = new LightTank(this);
+        t.setPosition(pos.x + 40.f, pos.y);
+        t.setOwner(owner);
+        
+        Rifleman r = new Rifleman(this);
+        r.setPosition(pos.x - 40.f, pos.y);
+        r.setOwner(owner);
+        
+        Flamethrower f = new Flamethrower(this);
+        f.setPosition(pos.x - 80.f, pos.y);
+        f.setOwner(owner);
+        
+        Bazooka bb = new Bazooka(this);
+        bb.setPosition(pos.x + 80.f, pos.y);
+        bb.setOwner(owner);
         
     }
     
@@ -69,7 +94,7 @@ public class TestScene extends Scene {
         
         // Add some fake players
         for(int i = 0; i < spawnLocations.size() - 1; i++) {
-            playerList.add(new RemotePlayer());
+            playerList.add(new RemotePlayer(null));
         }
         
         // Spawn the players

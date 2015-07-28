@@ -1,8 +1,9 @@
 package com.dinasgames.main.objects;
 
-import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.main.math.Vector2f;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  *
@@ -10,147 +11,244 @@ import com.dinasgames.main.math.Vector2f;
  */
 public class GameObject {
     
-    /**
-     * Whether this is a reference to an object.
-     */
-    protected boolean mIsReference;
+    protected int mId;                  // << The unique ID given to this object by the scene. A negative ID means that this object hasn't been added to the scene yet
+    protected float mX, mY;             // << The position of this object in the scene.
+    protected float mRotation;          // << The rotation of this object in degrees
+    protected List<Object> mListeners;  // << A list of objects listening for events.
     
     /**
-     * The unique ID for this object.
+     * A series of events that can be used to detect changes on position, rotation & id.
      */
-    protected int mID;
+    public interface Events {
+        
+        public void onIdChange( int oldId, int newId );
+        public void onPositionChange( Vector2f oldPosition, Vector2f newPosition );
+        public void onRotationChange( float oldValue, float newValue );
+        
+    };
     
     /**
-     * The position of the game object.
+     * The default constructor for the GameObject.
      */
-    protected Vector2f mPosition;
-    
-    /**
-     * The rotation is degrees of this game object.
-     */
-    protected float mRotation;
-    
-    protected Scene mScene;
-    protected Renderer mRenderer;
-    
     protected GameObject() {
-        mPosition = new Vector2f(0.f,0.f);
-        mRotation = 0.f;
-        mID = -1;
-        mIsReference = false;
+        
+        mId         = -1;
+        mX          = 0.f;
+        mY          = 0.f;
+        mRotation   = 0.f;
+        mListeners  = new ArrayList();
+        
     }
     
+    /**
+     * A useful constructor to add this object to a scene when it is first created.
+     * @param scene 
+     */
     protected GameObject(Scene scene) {
+        
         this();
-        mScene = scene;
-        mRenderer = mScene.getRenderer();
-    }
-
-    protected GameObject addToScene() {
-        if(mScene != null) {
-            mScene.add(this);
+        
+        if(scene != null) {
+            scene.add(this);
         }
-        return this;
+        
     }
     
-    public GameObject setScene(Scene scene) {
-        mScene = scene;
-        return this;
-    }
-    
-    public GameObject setRenderer(Renderer renderer) {
-        mRenderer = renderer;
-        return this;
-    }
-    
-    public Scene getScene() {
-        return mScene;
-    }
-    
-    public Renderer getRenderer() {
-        return mRenderer;
-    }
-    
+    /**
+     * Check whether this object has a type flag. i.e. object.hasType(GameObjectType.Unit)
+     * @param type
+     * @return 
+     */
     public boolean hasType(GameObjectType type) {
         return (getTypeID() & type.getID()) > 0;
     }
     
+    /**
+     * Get the unique type id of this object. NOTE: This ID contains all the parent types.
+     * @return 
+     */
     public int getTypeID() {
         return GameObjectType.GameObject.getID();
     }
     
+    /**
+     * Get the type of this object in string form.
+     * @return 
+     */
     public String getTypeString() {
         return "GameObject";
     }
     
-    // Events
-    public void onCreate() {
-        
-    }
-    
-    public void onDestroy() {
-        // TODO: deselect unit globally!
-    }
-    
-    public void onTick(double time) {
-        
-    }
-    
-    public void onRender() {
-        
-    }
-    
-    
-    
-    // Setter methods
+    /**
+     * This function sets the unique ID of the object. NOTE: Don't use this function as it is used internally.
+     * @param id 
+     */
     public void setID(int id) {
-        mID = id;
+        
+        // Check if the ID has changed
+        if(id == this.mId) {
+            return;
+        }
+        
+        // Call onIdChange event
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onIdChange(mId, id);
+            }
+        }
+        
+        // Update our ID
+        this.mId = id;
+        
     }
     
+    /**
+     * Move the object position by offset.
+     * @param offset 
+     */
     public void move(Vector2f offset) {
-        mPosition.x += offset.x;
-        mPosition.y += offset.y;
+        setPosition( mX + offset.x, mY + offset.y );
     }
     
+    /**
+     * Move the object position by x,y.
+     * @param x
+     * @param y 
+     */
     public void move(float x, float y) {
-        mPosition.x += x;
-        mPosition.y += y;
+        setPosition( mX + x, mY + y );
     }
     
+    /**
+     * Set the position of this object to position.
+     * @param position 
+     */
     public void setPosition(Vector2f position) {
         setPosition(position.x, position.y);
     }
     
+    /**
+     * Set the position of this object to x,y.
+     * @param x
+     * @param y 
+     */
     public void setPosition(float x, float y) {
-        mPosition.x = x;
-        mPosition.y = y;
+        
+        // Check if the position has changed.
+        if(this.mX == x && this.mY == y) {
+            return;
+        }
+        
+        // Call event
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onPositionChange( new Vector2f(mX, mY), new Vector2f(x,y) );
+            }
+        }
+        
+        // Update our position
+        this.mX = x;
+        this.mY = y;
+        
     }
     
-    public void setRotation(float rotation) {
-        mRotation = rotation;
+    /**
+     * Set the rotation to angle in degrees.
+     * @param angle 
+     */
+    public void setRotation(float angle) {
+        
+        // Check if it has changed
+        if(this.mRotation == angle) {
+            return;
+        }
+        
+        // Call event
+        for(Object listener : mListeners) {
+            if(listener instanceof Events) {
+                ((Events)listener).onRotationChange( mRotation, angle );
+            }
+        }
+        
+        // Update the value
+        this.mRotation = angle;
+        
     }
     
+    /**
+     * Rotate the object by offset degrees.
+     * @param offset 
+     */
     public void rotate(float offset) {
-        mRotation += offset;
+        setRotation( mRotation + offset );
     }
     
-    // Getter methods
+    /**
+     * Returns a new Vector2f with the current position value in.
+     * @return 
+     */
     public Vector2f getPosition() {
-        return mPosition;
+        return new Vector2f( mX, mY );
     }
     
+    /**
+     * Returns the current x coordinate.
+     * @return 
+     */
+    public float getX() {
+        return mX;
+    }
+    
+    /**
+     * Returns the current y coordinate.
+     * @return 
+     */
+    public float getY() {
+        return mY;
+    }
+    
+    /**
+     * Returns the current rotation in degrees.
+     * @return 
+     */
     public float getRotation() {
         return mRotation;
     }
     
+    /**
+     * Returns the objects unique ID.
+     * @return 
+     */
     public int getID() {
-        return mID;
+        return mId;
     }
     
-    public void destroy() {
-        if(mScene != null) {
-            mScene.remove(mID);
-        }
+    /**
+     * Add a listener object.
+     * @param obj 
+     */
+    public void addListener( Object obj ) {
+        mListeners.add(obj);
+    }
+    
+    /**
+     * Remove a listener object.
+     * @param obj 
+     */
+    public void removeListener( Object obj ) {
+        mListeners.remove(obj);
+    }
+    
+    /**
+     * Get a list of objects listening for events.
+     * @return 
+     */
+    public List<Object> getListeners() {
+        return mListeners;
+    }
+    
+    public boolean equals(GameObject other) {
+        return (other.getID() == mId);
     }
     
 }

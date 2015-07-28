@@ -31,6 +31,7 @@ public class ServerGame extends Game {
     private int mFps, mFpsCounter;
     private Clock mFpsClock;
     private PlayerList mPlayerList;
+    private Clock mTimePassedClock;
     
     /**
      * Construct the Game class.
@@ -62,6 +63,8 @@ public class ServerGame extends Game {
         
         // Initialize variables        
         mFpsClock       = new Clock();
+        
+        mTimePassedClock = new Clock();
         
         mAccumulator    = 0.0;
         mCurrentTime    = 0.0;
@@ -231,7 +234,8 @@ public class ServerGame extends Game {
         
         // Tick the scene logic
         if(mScene != null) {
-            mScene.tick(mCurrentTime);
+            mScene.tick(mTimePassedClock.getElapsedTime());
+            mTimePassedClock.restart();
         }
         
     }

@@ -8,132 +8,211 @@ package com.dinasgames.main.objects.entities.units.infantry;
 import com.dinasgames.lwjgl.util.CircleShape;
 import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.RectangleShape;
+import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.main.math.Point;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
 
 public class Flamethrower extends Infantry {
-  
-  CircleShape mShapeBody;
-  RectangleShape mShapeGun;
-  RectangleShape mShapeGunEnd;
-  RectangleShape mShapeBackpack;
-  Vector2f mGunSize;
-  float mGunRotation;
 
-  public Flamethrower(Scene scene){
-      
-    super(scene);
+    /**
+     * The soldiers body
+     */
+    protected CircleShape mShapeBody;
     
-    mShapeBody = null;
-    mShapeGun = null;
-    mShapeGunEnd = null;
-    mShapeBackpack = null;
-    mHealthMax = 100.f;
-    mHealth = mHealthMax;
-    mSpeed = 0.2f;
-    mGunRotation = 270.f;
+    /**
+     * Gun shape
+     */
+    protected RectangleShape mShapeGun;
     
-    addToScene();
+    /**
+     * The end of the gun shape
+     */
+    protected RectangleShape mShapeGunEnd;
     
-  }
+    /**
+     * The back pack.
+     */
+    protected RectangleShape mShapeBackpack;
+    
+    /**
+     * The current gun angle in degrees.
+     */
+    protected float mGunRotation;
+    
+    /**
+     * The default constructor.
+     * @param scene 
+     */
+    public Flamethrower(Scene scene) {
+        
+        super(scene);
+        
+        // Setup Rifleman attributes
+        this.mGunRotation = 270.f;
+        
+        // Setup Unit attributes
+        this.mHealthMax     = 100.f;
+        this.mHealth        = this.mHealthMax;
+        this.mSpeed         = 10.f;
+        this.mAttackTime    = Time.seconds(.1f);
+        this.mDamage        = 3.f;
+        this.mMaxAmmo       = 1;
+        this.mRange         = 50.f;
+        this.mReloadTime    = Time.seconds(.5f);
+        
+        // Setup Entity attributes
+        this.mWidth     = 10.f;
+        this.mHeight    = 10.f;
+        
+        // Setup listener events
+        Flamethrower self = this;
+        this.addListener(new Entity.Events(){
+
+            @Override
+            public void onHealthChange(float oldHealth, float newHealth) {
+                
+            }
+
+            @Override
+            public void onMaxHealthChange(float oldMaxHealth, float newMaxHealth) {
+                
+            }
+
+            @Override
+            public void onNewOwner(Player oldOwner, Player newOwner) {
+                if(newOwner != null) {
+                    self.setBodyColor( newOwner.getColor() );
+                }else{
+                    self.setBodyColor( Color.WHITE );
+                }
+            }
+
+            @Override
+            public void onDeath() {
+                
+            }
+
+            @Override
+            public void onSizeChange(Vector2f oldSize, Vector2f newSize) {
+                
+            }
+
+            @Override
+            public void onSelected() {
+                
+            }
+
+            @Override
+            public void onDeselected() {
+                
+            }
+
+
+        });
+        
+    }
+    
     
     @Override
-    public void onCreate() {
+    public void onSceneAdd(Scene scene) {
         
-        super.onCreate();
+        super.onSceneAdd(scene);
         
-        setSize(10.f, 10.f);
-        mGunSize = new Vector2f(2, 10);
         
-        mShapeBody = new CircleShape(mSize.x);
         
-        mShapeBody.setFillColor(Color.WHITE);
+    }
+    
+    @Override
+    public void onSceneRemove(Scene scene) {
+        super.onSceneRemove(scene);
+    }
+    
+    @Override
+    public void onRenderAdd(Renderer r) {
+        
+        super.onRenderAdd(r);
+        
+        // Create our render objects
+        mShapeBody = new CircleShape(mWidth / 2.f);
+        
+        mShapeBody.setFillColor(mOwnerColor);
         mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
-        mShapeBody.setScene(mScene);
-        mShapeBody.render(mRenderer);
         
-        mShapeGun = new RectangleShape(mGunSize);
+        mShapeGun = new RectangleShape(2.f, 10.f);
         
         mShapeGun.setFillColor(Color.BLACK);
         mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
-        mShapeGun.setScene(mScene);
-        mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
-        mShapeGun.render(mRenderer);
+        //mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
+        mShapeGun.setOrigin(0.f, mHeight / 2.f);
         
-        mShapeGunEnd = new RectangleShape(mGunSize.x*2, mGunSize.x*2);
+        mShapeGunEnd = new RectangleShape( 4.f, 4.f );
         
         mShapeGunEnd.setFillColor(Color.BLACK);
         mShapeGunEnd.setOutlineColor(Color.BLACK);
         mShapeGunEnd.setOutlineThickness(0.f);
-        mShapeGunEnd.setScene(mScene);
-        mShapeGunEnd.setOrigin(mShapeBody.getPosition().x+mGunSize.x/2, mShapeBody.getPosition().y/2-mGunSize.y+mGunSize.x*1.5f);
-        mShapeGunEnd.render(mRenderer);
+        //mShapeGunEnd.setOrigin(mShapeBody.getPosition().x+mGunSize.x/2, mShapeBody.getPosition().y/2-mGunSize.y+mGunSize.x*1.5f);
+        mShapeGunEnd.setOrigin( mWidth / 2.f, - mHeight + mWidth * 1.5f ); // WTF!?
         
-        mShapeBackpack = new RectangleShape(mSize.x/2, mSize.y);
+        mShapeBackpack = new RectangleShape( 1.f, 5.f );
         
         mShapeBackpack.setFillColor(Color.BLACK);
         mShapeBackpack.setOutlineColor(Color.BLACK);
         mShapeBackpack.setOutlineThickness(0.f);
-        mShapeBackpack.setScene(mScene);
-        mShapeBackpack.setOrigin(mSize.x-(mSize.x/3), mSize.y/2);
-        mShapeBackpack.render(mRenderer);
+        //mShapeBackpack.setOrigin(mSize.x-(mSize.x/3), mSize.y/2);
+        mShapeBackpack.setOrigin( mWidth - (mWidth / 3.f), mHeight / 2.f );
+        
+        // Add them to the renderer
+        r.add(mShapeBody);
+        r.add(mShapeGun);
+        r.add(mShapeGunEnd);
+        r.add(mShapeBackpack);
         
     }
     
     @Override
-    public void onNewOwner() {
+    public void onRenderUpdate(Renderer r) {
         
-        mShapeBody.setFillColor(mOwner.getColor());
+        super.onRenderUpdate(r);
         
-    }
-    
-    @Override
-    public void onTick(double time) {
-        
-        super.onTick(time);
-        setTarget(mScene.getObjectsList());
-        moveUnit();
-        
-    }
-    
-    @Override
-    public void onRender() {
-        
-        super.onRender();
-        
-        mShapeBody.setPosition(mPosition);
+        mShapeBody.setPosition(mX,mY);
         mShapeBody.setRotation(mRotation);
         
-        mShapeGun.setPosition(mPosition);
+        mShapeGun.setPosition(mX,mY);
         mShapeGun.setRotation(mRotation + mGunRotation);
         
-        mShapeGunEnd.setPosition(mPosition);
+        mShapeGunEnd.setPosition(mX,mY);
         mShapeGunEnd.setRotation(mRotation + mGunRotation);
         
-        mShapeBackpack.setPosition(mPosition);
+        mShapeBackpack.setPosition(mX,mY);
         mShapeBackpack.setRotation(mRotation);
-        
-        
-        
-//        Redundant Code?
-//        Vector2f gunPosition = new Vector2f(mPosition);
-//        gunPosition.add(Point.inDirection( mShapeGun.getWidth(), -mShapeGun.getRotation()));
-//        
-//        mShapeGun.setPosition(gunPosition);
         
     }
     
     @Override
-    public void onDestroy() {
-      mShapeBody.remove();
-      mShapeGun.remove();
-      mShapeGunEnd.remove();
-      mShapeBackpack.remove();
-      mHealthbar.remove();
+    public void onRenderRemove(Renderer r) {
+        
+        super.onRenderRemove(r);
+        
+        // Remove our render objects
+        r.remove(mShapeBody);
+        r.remove(mShapeGun);
+        r.remove(mShapeGunEnd);
+        r.remove(mShapeBackpack);
+        
+    }
+    
+    public void setBodyColor(Color color) {
+        if(mShapeBody != null) {
+            mShapeBody.setFillColor(color);
+        }
     }
     
     @Override

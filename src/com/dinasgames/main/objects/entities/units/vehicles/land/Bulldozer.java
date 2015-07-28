@@ -2,163 +2,222 @@ package com.dinasgames.main.objects.entities.units.vehicles.land;
 
 import com.dinasgames.lwjgl.util.Color;
 import com.dinasgames.lwjgl.util.RectangleShape;
+import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.RenderEvents;
+import com.dinasgames.main.objects.SceneEvents;
+import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
 
-public class Bulldozer extends LandVehicle {
+public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents {
   
-  RectangleShape mShapeBody;
-  RectangleShape mShapeCabin;
-  RectangleShape mShapeBucketConnector;
-  RectangleShape mShapeBucket;
-  RectangleShape mShapeTracks;
+    /**
+     * The main body for the bulldozer.
+     */
+    RectangleShape mShapeBody;
+
+    /**
+    * The bulldozer cabin
+    */
+    RectangleShape mShapeCabin;
+
+    /**
+    * Bucket connector.
+    */
+    RectangleShape mShapeBucketConnector;
+
+    /**
+    * The bucket shape.
+    */
+    RectangleShape mShapeBucket;
+
+    /**
+    * Tracks.
+    */
+    RectangleShape mShapeTracks;
   
-  
-  public Bulldozer(Scene scene){
+    /**
+     * The default constructor.
+     * @param scene 
+     */
+    public Bulldozer(Scene scene) {
+        
+        super(scene);
+        
+        // Setup Unit attributes
+        this.mHealthMax     = 100.f;
+        this.mHealth        = this.mHealthMax;
+        this.mSpeed         = 5.f;
+        this.mAttackTime    = Time.seconds(1.f);
+        this.mDamage        = 50.f;
+        this.mMaxAmmo       = 1;
+        this.mRange         = 100.f;
+        this.mReloadTime    = Time.seconds(1.f);
+        
+        // Setup Entity attributes
+        this.mWidth     = 20.f;
+        this.mHeight    = 10.f;
+        
+        // Setup listener events
+        Bulldozer self = this;
+        this.addListener(new Entity.Events(){
+
+            @Override
+            public void onHealthChange(float oldHealth, float newHealth) {
+                
+            }
+
+            @Override
+            public void onMaxHealthChange(float oldMaxHealth, float newMaxHealth) {
+                
+            }
+
+            @Override
+            public void onNewOwner(Player oldOwner, Player newOwner) {
+                if(newOwner != null) {
+                    self.setBodyColor( newOwner.getColor() );
+                }else{
+                    self.setBodyColor( Color.WHITE );
+                }
+            }
+
+            @Override
+            public void onDeath() {
+                
+            }
+
+            @Override
+            public void onSizeChange(Vector2f oldSize, Vector2f newSize) {
+                
+            }
+
+            @Override
+            public void onSelected() {
+                
+            }
+
+            @Override
+            public void onDeselected() {
+                
+            }
+
+
+        });
+        
+    }
     
-      super(scene);
-      
-    mShapeBody = null;
-    mShapeCabin = null;
-    mShapeBucketConnector = null;
-    mShapeBucket = null;
-    mShapeTracks = null;
+    public void setBodyColor(Color color) {
+        if(mShapeBody != null && mShapeCabin != null && mShapeBucket != null) {
+            mShapeBody.setFillColor(color);
+            mShapeCabin.setFillColor(color);
+            mShapeBucket.setFillColor(color);
+        }
+    }
     
-    mHealthMax = 100.f;
-    mHealth = mHealthMax;
-    mSpeed = 0.7f;
-    
-    addToScene();
-    
-  }
-
-  @Override
-  public void onCreate() {
-
-      super.onCreate();
-
-      setSize(20.f, 10.f);
-      //mTurretSize = new Vector2f(mSize.x/2-4, mSize.y-4);
-      
-      mShapeTracks = new RectangleShape(new Vector2f(mSize).divide(1.2f, 1.f).subtract(0.f,8.f));
-      
-      mShapeTracks.setFillColor(new Color(20, 20, 20));
-      mShapeTracks.setOutlineColor(Color.BLACK);
-      mShapeTracks.setOutlineThickness(2.f);
-      mShapeTracks.setRotation(0);
-      mShapeTracks.setScene(mScene);
-      mShapeTracks.setOriginCenter();
-      mShapeTracks.render(mRenderer);
-      
-      
-
-      mShapeBody = new RectangleShape(mSize);
-
-      mShapeBody.setFillColor(Color.WHITE);
-      mShapeBody.setOutlineColor(Color.BLACK);
-      mShapeBody.setOutlineThickness(2.f);
-      mShapeBody.setRotation(0);
-      mShapeBody.setScene(mScene);
-      mShapeBody.setOriginCenter();
-      mShapeBody.render(mRenderer);
-
-      mShapeCabin = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(2.f, 1.f).subtract(4.f));
-
-      mShapeCabin.setFillColor(Color.WHITE);
-      mShapeCabin.setOutlineColor(Color.BLACK);
-      mShapeCabin.setOutlineThickness(2.f);
-      mShapeCabin.setScene(mScene);
-      mShapeCabin.setOrigin(mSize.x/2-2, mShapeBody.getSize().y/2-2f);
-      mShapeCabin.render(mRenderer);
-      
-      mShapeBucketConnector = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(6.f, 2.f));
-      
-      mShapeBucketConnector.setFillColor(Color.BLACK);
-      mShapeBucketConnector.setOutlineColor(Color.BLACK);
-      mShapeBucketConnector.setOutlineThickness(2.f);
-      mShapeBucketConnector.setScene(mScene);
-      mShapeBucketConnector.setOrigin(-mSize.x/2, mSize.y/2-mShapeBody.getSize().y/4);
-      mShapeBucketConnector.render(mRenderer);
-
-      mShapeBucket = new RectangleShape(new Vector2f(mShapeBody.getSize().x/6, mShapeBody.getSize().y+6));
-
-      mShapeBucket.setFillColor(Color.WHITE);
-      mShapeBucket.setOutlineColor(Color.BLACK);
-      mShapeBucket.setOutlineThickness(2.f);
-      mShapeBucket.setScene(mScene);
-      mShapeBucket.setOrigin(-mSize.x/2-5, mSize.y/2+3);
-      mShapeBucket.render(mRenderer);
+    @Override
+    public void onSceneAdd(Scene scene) {
+        
+        super.onSceneAdd(scene);
+        
+        
         
     }
     
     @Override
-    public void onNewOwner() {
+    public void onSceneRemove(Scene scene) {
+        super.onSceneRemove(scene);
+    }
+    
+    @Override
+    public void onRenderAdd(Renderer r) {
         
-        // Apply new owner colours
-        mShapeBody.setFillColor(mOwner.getColor());
-        mShapeCabin.setFillColor(mOwner.getColor());
-        mShapeBucket.setFillColor(mOwner.getColor());
+        super.onRenderAdd(r);
+        
+        // Create our render objects
+        mShapeTracks = new RectangleShape( mWidth / 1.2f, mHeight - 8.f );
+
+        mShapeTracks.setFillColor(new Color(20, 20, 20));
+        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineThickness(2.f);
+        mShapeTracks.setOriginCenter();
+
+        mShapeBody = new RectangleShape(mWidth, mHeight);
+
+        mShapeBody.setFillColor(mOwnerColor);
+        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineThickness(2.f);
+        mShapeBody.setOriginCenter();
+
+        //mShapeCabin = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(2.f, 1.f).subtract(4.f));
+        mShapeCabin = new RectangleShape(mWidth / 2.f - 4.f, mHeight - 4.f);
+
+        mShapeCabin.setFillColor(mOwnerColor);
+        mShapeCabin.setOutlineColor(Color.BLACK);
+        mShapeCabin.setOutlineThickness(2.f);
+        mShapeCabin.setOrigin( mWidth / 2.f - 2.f , mHeight / 2.f - 2.f);
+
+        //mShapeBucketConnector = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(6.f, 2.f));
+        mShapeBucketConnector = new RectangleShape(mWidth / 6.f, mHeight / 2.f);
+
+        mShapeBucketConnector.setFillColor(Color.BLACK);
+        mShapeBucketConnector.setOutlineColor(Color.BLACK);
+        mShapeBucketConnector.setOutlineThickness(2.f);
+        mShapeBucketConnector.setOrigin(-(mWidth / 2.f), mHeight / 2.f - mHeight / 4.f);
+
+        //mShapeBucket = new RectangleShape(new Vector2f(mShapeBody.getSize().x/6, mShapeBody.getSize().y+6));
+        mShapeBucket = new RectangleShape( mWidth / 6.f, mHeight + 6.f );
+
+        mShapeBucket.setFillColor(mOwnerColor);
+        mShapeBucket.setOutlineColor(Color.BLACK);
+        mShapeBucket.setOutlineThickness(2.f);
+        mShapeBucket.setOrigin( -(mWidth / 2.f) - 5.f, mHeight / 2.f + 3.f);
+        
+        // Add to the renderer
+        r.add(mShapeTracks);
+        r.add(mShapeBody);
+        r.add(mShapeBucketConnector);
+        r.add(mShapeCabin);
+        r.add(mShapeBucket);
         
     }
     
     @Override
-    public void onTick(double time) {
+    public void onRenderUpdate(Renderer r) {
         
-        super.onTick(time);
-        moveUnit();
+        super.onRenderUpdate(r);
         
-    }
-    
-    @Override
-    public void onRender() {
-        
-        super.onRender();
-        
-        mShapeTracks.setPosition(mPosition);
+        mShapeTracks.setPosition(mX, mY);
         mShapeTracks.setRotation(mRotation);
         
-        mShapeBody.setPosition(mPosition);
+        mShapeBody.setPosition(mX, mY);
         mShapeBody.setRotation(mRotation);
         
-        mShapeCabin.setPosition(mPosition);
+        mShapeCabin.setPosition(mX, mY);
         mShapeCabin.setRotation(mRotation);
         
-        mShapeBucketConnector.setPosition(mPosition);
+        mShapeBucketConnector.setPosition(mX, mY);
         mShapeBucketConnector.setRotation(mRotation);
         
-        mShapeBucket.setPosition(mPosition);
+        mShapeBucket.setPosition(mX, mY);
         mShapeBucket.setRotation(mRotation);
         
-        
-        
-       
-        
-//        // Move the turret so that it is at the end of the 2nd body shape
-//        
-//        // First take the current position
-//        Vector2f turretPosition = new Vector2f(mPosition);
-//        
-//        // Then move it so that it is in front of our 2nd body shape
-//        turretPosition.add(Point.inDirection( mShapeBody2.getWidth() / 2.f, -mShapeBody2.getRotation()));
-//        
-//        // Finally apply the new position
-//        mShapeTurret.setPosition(turretPosition);
-//        mShapeTurret.setRotation(mShapeBody2.getRotation());
-//        
-//        // Move the turret back a bit
-//        //mShapeTurret.setPosition(Point.inDirection(-10.f, mRotation));
-//        
     }
     
     @Override
-    public void onDestroy() {
-      mShapeTracks.remove();
-      mShapeBody.remove();
-      mShapeCabin.remove();
-      mShapeBucketConnector.remove();
-      mShapeBucket.remove();
-      mHealthbar.remove();
+    public void onRenderRemove(Renderer r) {
+        
+        super.onRenderRemove(r);
+        
+        // Remove our render objects
+        r.remove(mShapeBody);
+        r.remove(mShapeCabin);
+        r.remove(mShapeBucketConnector);
+        r.remove(mShapeBucket);
+        r.remove(mShapeTracks);
+        
     }
     
     @Override

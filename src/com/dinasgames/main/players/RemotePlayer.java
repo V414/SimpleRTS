@@ -6,6 +6,9 @@
 package com.dinasgames.main.players;
 
 import com.dinasgames.main.controllers.RemoteController;
+import com.dinasgames.server.net.NonBlockingServer;
+import com.dinasgames.server.net.NonBlockingServer.Socket;
+import com.dinasgames.server.net.packets.PacketInput20;
 
 /**
  *
@@ -13,13 +16,26 @@ import com.dinasgames.main.controllers.RemoteController;
  */
 public class RemotePlayer extends Player {
     
-    public RemotePlayer() {
+    Socket mSocket;
+    
+    public RemotePlayer(Socket socket) {
+        
         mController = new RemoteController();
+        mSocket     = socket;
+        
     }
     
     @Override
     public void update() {
         super.update();
+    }
+    
+    public Socket getSocket() {
+        return mSocket;
+    }
+    
+    public void readInput(PacketInput20 p) {
+        
     }
     
 }

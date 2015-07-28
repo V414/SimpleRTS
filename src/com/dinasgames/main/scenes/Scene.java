@@ -6,8 +6,11 @@ import com.dinasgames.main.games.Game;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.games.WindowGame;
 import com.dinasgames.main.objects.GameObject;
-import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.LogicEvents;
+import com.dinasgames.main.objects.RenderEvents;
+import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.players.LocalPlayer;
+import com.dinasgames.main.system.Time;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -21,15 +24,18 @@ public class Scene {
     
     protected Renderer mRenderer;
     protected Game mGame;
-    protected GameObject[] mObjects;
+    protected GameObject[]  mObjects;
+    protected boolean[]     mObjectAddedFlag;
     
     protected Scene() {
         mRenderer = null;
         mGame = null;
         mObjects = new GameObject[MAX_OBJECTS];
+        mObjectAddedFlag = new boolean[MAX_OBJECTS];
         
         for(int i = 0; i < MAX_OBJECTS; i ++) {
             mObjects[i] = null;
+            mObjectAddedFlag[i] = true;
         }
         
     }
@@ -77,9 +83,21 @@ public class Scene {
     
     public Scene clear() {
         for(int i = 0; i < MAX_OBJECTS; i ++) {
-            if(mObjects[i] != null) {
-                mObjects[i].onDestroy();
+            GameObject obj = mObjects[i];
+            if(obj != null) {
+                
+                // Remove from scene
+                if(obj instanceof SceneEvents) {
+                    ((SceneEvents)obj).onSceneRemove(this);
+                }
+                
+                // Remove from renderer
+                if(obj instanceof RenderEvents) {
+                    ((RenderEvents)obj).onRenderRemove(mRenderer);
+                }
+                
                 mObjects[i] = null;
+                
             }
         }
         return this;
@@ -109,10 +127,16 @@ public class Scene {
             if(mObjects[i] == null) {
                 
                 mObjects[i] = obj;
+                mObjectAddedFlag[i] = false;
                 
-                obj.setScene(this);
+                // Give the object an ID
                 obj.setID(i);
-                obj.onCreate();
+                
+                
+                
+                //obj.setScene(this);
+                
+                //obj.onCreate();
                 
                 return i;
             }
@@ -125,9 +149,19 @@ public class Scene {
     public Scene remove(GameObject obj) {
         //mObjects.remove(obj);
         for(int i = 0; i < MAX_OBJECTS; i ++) {
-            if(mObjects[i] == obj) {
-                mObjects[i].onDestroy();
+            GameObject o = mObjects[i];
+            if(o.equals(obj)) {
+                
+                if(o instanceof SceneEvents) {
+                    ((SceneEvents)o).onSceneRemove(this);
+                }
+                
+                if(o instanceof RenderEvents) {
+                    ((RenderEvents)o).onRenderRemove(mRenderer);
+                }
+                
                 mObjects[i] = null;
+                
             }
         }
         return this;
@@ -138,8 +172,19 @@ public class Scene {
         if(idx < 0 || idx >= MAX_OBJECTS) {
             return this;
         }
-        if(mObjects[idx] != null) {
-            mObjects[idx].onDestroy();
+        GameObject obj = mObjects[idx];
+        if(obj != null) {
+            
+            // Remove from scene
+            if(obj instanceof SceneEvents) {
+                ((SceneEvents)obj).onSceneRemove(this);
+            }
+            
+            // Remove from renderer
+            if(obj instanceof RenderEvents) {
+                    ((RenderEvents)obj).onRenderRemove(mRenderer);
+                }
+            
         }
         mObjects[idx] = null;
         return this;
@@ -152,7 +197,29 @@ public class Scene {
         return mObjects[idx];
     }
     
-    public Scene tick(double time) {
+    public Scene render() {
+        
+        synchronized(mObjects) {
+            for(int i = 0; i < MAX_OBJECTS; i ++) {
+                
+                GameObject obj = mObjects[i];
+                if(obj != null) {
+                    
+                    // Render Objects
+                    if(obj instanceof RenderEvents) {
+                        ((RenderEvents)obj).onRenderUpdate(mRenderer);
+                    }
+                    
+                }
+                
+            }
+        }
+        
+        return this;
+        
+    }
+    
+    public Scene tick(Time timePassed) {
         
         // Update camera
         //mCamera.tick();
@@ -169,10 +236,34 @@ public class Scene {
         
         synchronized(mObjects) {
             for(int i = 0; i < MAX_OBJECTS; i ++) {
-                if(mObjects[i] != null) {
-                    mObjects[i].onTick(time);
-                    mObjects[i].onRender();
+                GameObject obj = mObjects[i];
+                
+                if(obj != null) {
+                    
+                    if(mObjectAddedFlag[i] == false) {
+                        
+                        // Spawn object
+                        // Assign this object to the scene
+                        if(obj instanceof SceneEvents) {
+                            ((SceneEvents)obj).onSceneAdd(this);
+                        }
+
+                        // Assign this object our renderer
+                        if(obj instanceof RenderEvents) {
+                            ((RenderEvents)obj).onRenderAdd(mRenderer);
+                        }
+                        
+                        mObjectAddedFlag[i] = true;
+                        
+                    }
+                    
+                    // Do logic
+                    if(obj instanceof LogicEvents) {
+                        ((LogicEvents)obj).onTick(timePassed);
+                    }
+                    
                 }
+                
             }
         }
         
