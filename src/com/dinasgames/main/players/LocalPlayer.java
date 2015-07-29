@@ -30,21 +30,7 @@ public class LocalPlayer extends Player {
         mSelectionShape.setOutlineColor(new Color(255,255,255,255));
         mSelectionShape.setOutlineThickness(2.f);
     }
-    
-    @Override
-    public Entity checkIfObject(Vector2f mousePosition){
-      
-      List<Entity> entityList = mScene.findObjects();
 
-      for(Entity entity : entityList) {
-          if(entity.getBoundingBox().contains(mousePosition) && entity.getOwner().getID() == mID) {
-              return entity;
-          }
-      }
-      
-      return null;
-    }
-    
     @Override
     public void onSelectObjects(BoundingBox selectionArea) {
         

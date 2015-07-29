@@ -6,10 +6,14 @@ import com.dinasgames.lwjgl.util.Renderer;
 import com.dinasgames.main.controllers.Controller;
 import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.commands.MoveCommand;
+import com.dinasgames.main.objects.commands.MoveToResourceCommand;
+import com.dinasgames.main.objects.entities.buildings.OilDerrick;
+import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.main.system.Time;
@@ -102,6 +106,14 @@ public class Player {
     }
     
     public Entity checkIfObject(Vector2f mousePosition){
+      List<Entity> entityList = mScene.findObjects();
+
+      for(Entity entity : entityList) {
+          if(entity.getBoundingBox().contains(mousePosition) && entity.getOwner().getID() == mID) {
+              return entity;
+          }
+      }
+      
       return null;
     }
     
@@ -176,8 +188,22 @@ public class Player {
       for (Entity selectedEntity : selectedEntities) {
         if (selectedEntity.hasType(GameObjectType.Unit)) {
           Unit unit = (Unit) selectedEntity;
-          //unit.setTargetPosition(mousePosition);
+          if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.OilDerrick)){
+            OilDerrick oilDerrick = (OilDerrick) checkIfObject(mousePosition);
+            if(unit.hasType(GameObjectType.SupplyTruck)){
+              for(GameObject object : mScene.getObjectsList()){
+                if(object.hasType(GameObjectType.Warehouse)){
+                  Warehouse warehouse = (Warehouse) object;
+                  if(warehouse.getOwner() == unit.getOwner()){
+                    unit.issueCommand(new MoveToResourceCommand(oilDerrick, warehouse));
+                    break;
+                  }
+                }
+              }
+            }
+          }else{
           unit.issueCommand(new MoveCommand(mousePosition));
+          }
         }
       }
     }

@@ -31,7 +31,10 @@ public enum GameObjectType {
     AirVehicle      (0x00010000),
     NetworkedObject (0x00020000),
     Barracks        (0x00040000),
-    Resource        (0x00080000);
+    Resource        (0x00080000),
+    OilDerrick      (0x00100000),
+    SupplyTruck     (0x00200000),
+    Warehouse       (0x00400000);
     
     // Constructor
     private final int mId;
