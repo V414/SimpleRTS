@@ -447,10 +447,6 @@ public class RenderTarget {
           applyBlendMode(states.blendMode);
       }
 
-      // Get the font texture
-      TrueTypeFont t = font.getFont(characterSize, style);
-      states.texture = new Texture(t.getTexture());
-
       // Apply the font texture
       int textureId = (states.texture != null ? states.texture.getTextureID() : 0);
       if(textureId != mCache.lastTextureId) {
@@ -458,7 +454,7 @@ public class RenderTarget {
       }
       
       // Draw the text
-      t.drawString( 0, 0, str, color.toSlickColor() );
+      font.getFont(characterSize, style).drawString( 0, 0, str, color.toSlickColor() );
       
     }
     

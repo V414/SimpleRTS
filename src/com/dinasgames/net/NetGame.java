@@ -217,7 +217,7 @@ public class NetGame extends WindowGame {
         x = new StateValue( 100.f );
         y = new StateValue( 100.f );
         
-        getWindow().setBackgroundColor(Color.BLACK);
+        //getWindow().setBackgroundColor(Color.BLACK);
         
         font = new Font();
         //font.loadFromSystem("Times New Roman", java.awt.Font.BOLD, 12);
@@ -227,14 +227,16 @@ public class NetGame extends WindowGame {
 //          System.out.println("Failed to load font.");
 //        }
         
-        shapeFuture.setTexture(new Texture(font.getFont(12, 0).getTexture()));
+        shapeFuture.setTexture(new Texture(font.getFont(24, 0).getTexture()));
         
         text = new Text();
-        text.setCharacterSize(12);
-        text.setText("Hello World");
+        text.setCharacterSize(24);
+        text.setText("Hello World!\nNew line!    spaces!");
         text.setColor(Color.BLACK);
         text.setFont(font);
         text.setPosition(10, 10);
+        text.setDepth(-100);
+        
         
        // getRenderer().clear();
         

@@ -1,5 +1,8 @@
 package org.newdawn.slick;
 
+import com.dinasgames.lwjgl.util.VertexCache;
+import com.dinasgames.main.math.BoundingBox;
+import com.dinasgames.main.math.Vector2f;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
@@ -359,8 +362,141 @@ public class TrueTypeFont implements org.newdawn.slick.Font {
 		drawString(x,y,whatchars,color,0,whatchars.length()-1);
 	}
 	
-//        public void createString(VertexArray verts) {
-//          TODO
+//        public void createString(VertexCache verts, String str, BoundingBox bounds) {
+//          createString( verts, str, bounds, 0, str.length() );
+//        }
+        
+        public void createString(VertexCache verts, String str, BoundingBox bounds ) {
+          
+          if(verts == null || bounds == null) {
+            return;
+          }
+          
+          bounds.x = 0;
+          bounds.y = 0;
+          bounds.width = 0;
+          bounds.height = 0;
+          
+          int lineHeight = 0;
+          int vertexCount = 0;
+          for(int i = 0; i < str.length(); i++) {
+            
+            int c = str.charAt(i);
+            
+            // Calculate the line height
+            if(c < 256) {
+              // Ascii character
+              lineHeight = Math.max( lineHeight, charArray[c].height );
+            }else{
+              lineHeight = Math.max( lineHeight, ((IntObject)customChars.get(new Character( (char)c ))).height );
+            }
+            
+            // Don't added verticies for new line characters
+            if( c != 10 ) {
+              vertexCount += 6;
+            }
+            
+          }
+          
+          bounds.height = lineHeight;
+          
+          // Ensure we have enough points
+          verts.resize( vertexCount );
+          
+          IntObject intObject;
+          int charCurrent;
+          
+          int x, y;
+          x = 0;
+          y = 0;
+          
+          for(int i = 0; i < str.length(); i++) {
+            
+            // Get the current character
+            charCurrent = str.charAt(i);
+            
+            // Handle new line character
+            if(charCurrent == 10) {
+              x = 0;
+              y += lineHeight;
+              bounds.height = Math.max(bounds.height, y);
+              continue;
+            }
+            
+            if(charCurrent < 256) {
+              intObject = charArray[charCurrent];
+            }else{
+              intObject = (IntObject)customChars.get(new Character( (char)charCurrent ));
+            }
+            
+            if(intObject == null) {
+              continue;
+            }
+            
+            createQuad(
+                        verts,
+                        new BoundingBox( x, y, intObject.width, intObject.height ),
+                        new BoundingBox( intObject.storedX, intObject.storedY, intObject.width, intObject.height ),
+                        i * 6
+                      );
+            
+            x += intObject.width;
+            
+            bounds.width = Math.max( bounds.width, x );
+            
+          }
+          
+        }
+        
+        public void createQuad( VertexCache verts, BoundingBox drawBox, BoundingBox sourceBox, int idx ) {
+          
+          BoundingBox texCoords = new BoundingBox (
+                                                    sourceBox.x,//       / textureWidth,
+                                                    sourceBox.y,//       / textureHeight,
+                                                    sourceBox.width,//   / textureWidth,
+                                                    sourceBox.height//  / textureHeight
+                                                  );
+          
+          // Top left triangle
+          verts.setPosition(idx, drawBox.x, drawBox.y);                       // Top left
+          verts.setPosition(idx + 1, drawBox.x + drawBox.width, drawBox.y);   // Top right
+          verts.setPosition(idx + 2, drawBox.x, drawBox.y + drawBox.height);  // Bottom left
+          
+          verts.setTexcoord(idx, texCoords.x, texCoords.y);                       // Top left
+          verts.setTexcoord(idx + 1, texCoords.x + texCoords.width, texCoords.y);   // Top right
+          verts.setTexcoord(idx + 2, texCoords.x, texCoords.y + texCoords.height);  // Bottom left
+          
+          // Bottom right triangle
+          verts.setPosition(idx + 3, drawBox.x, drawBox.y + drawBox.height);                  // Bottom left
+          verts.setPosition(idx + 4, drawBox.x + drawBox.width, drawBox.y);                   // Top right
+          verts.setPosition(idx + 5, drawBox.x + drawBox.width, drawBox.y + drawBox.height);  // Bottom right
+          
+          verts.setTexcoord(idx + 3, texCoords.x, texCoords.y + texCoords.height);                    // Bottom left
+          verts.setTexcoord(idx + 4, texCoords.x + texCoords.width, texCoords.y);                     // Top right
+          verts.setTexcoord(idx + 5, texCoords.x + texCoords.width, texCoords.y + texCoords.height);  // Bottom right
+          
+        }
+        
+//        public void createQuad( VertexCache verts, float drawX, float drawY, float drawX2, float drawY2,
+//                                float srcX, float srcY, float srcX2, float srcY2) {
+//          float DrawWidth = drawX2 - drawX;
+//          float DrawHeight = drawY2 - drawY;
+//          float TextureSrcX = srcX / textureWidth;
+//          float TextureSrcY = srcY / textureHeight;
+//          float SrcWidth = srcX2 - srcX;
+//          float SrcHeight = srcY2 - srcY;
+//          float RenderWidth = (SrcWidth / textureWidth);
+//          float RenderHeight = (SrcHeight / textureHeight);
+//
+//          GL.glTexCoord2f(TextureSrcX, TextureSrcY);
+//          GL.glVertex2f(drawX, drawY);
+//          GL.glTexCoord2f(TextureSrcX, TextureSrcY + RenderHeight);
+//          GL.glVertex2f(drawX, drawY + DrawHeight);
+//          GL.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY + RenderHeight);
+//          GL.glVertex2f(drawX + DrawWidth, drawY + DrawHeight);
+//          GL.glTexCoord2f(TextureSrcX + RenderWidth, TextureSrcY);
+//          GL.glVertex2f(drawX + DrawWidth, drawY);
+//                
 //        }
         
 	/**
