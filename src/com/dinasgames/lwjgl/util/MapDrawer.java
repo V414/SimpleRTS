@@ -59,6 +59,9 @@ public class MapDrawer extends Renderable {
             }
         }
         
+        // Clear the map to reduce memory usage
+        mMap.cleanup();
+        
     }
     
     @Override

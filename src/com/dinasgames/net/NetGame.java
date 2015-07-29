@@ -6,9 +6,12 @@
 package com.dinasgames.net;
 
 import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.Font;
 import com.dinasgames.lwjgl.util.GL;
 import com.dinasgames.lwjgl.util.Mouse;
 import com.dinasgames.lwjgl.util.RectangleShape;
+import com.dinasgames.lwjgl.util.Text;
+import com.dinasgames.lwjgl.util.Texture;
 import com.dinasgames.main.Version;
 import com.dinasgames.main.games.ClientServerGame;
 import com.dinasgames.main.games.WindowGame;
@@ -21,7 +24,6 @@ import com.dinasgames.server.net.Packet;
 import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import com.dinasgames.server.net.packets.PacketLogin10;
 import com.dinasgames.server.net.packets.PacketLoginFailed11;
-import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.newdawn.slick.TrueTypeFont;
@@ -38,6 +40,9 @@ public class NetGame extends WindowGame {
     
     StateValue x,y;
     RectangleShape shape, shapePast, shapeFuture;
+    
+    Text text;
+    Font font;
     
     @Override
     public void load() {
@@ -186,6 +191,8 @@ public class NetGame extends WindowGame {
             
         });
         
+        
+        
         shape = new RectangleShape( 32.f, 32.f );
         shape.setPosition(100.f, 100.f);
         shape.setFillColor(new Color(255, 0, 0, 128));
@@ -193,22 +200,45 @@ public class NetGame extends WindowGame {
         shape.setOutlineThickness(2.f);
         shape.render(getRenderer());
         
-        shapePast = new RectangleShape( 32.f, 32.f );
+        shapePast = new RectangleShape( 320.f, 320.f );
         shapePast.setPosition(100.f, 100.f);
         shapePast.setFillColor(new Color(0, 255, 0, 128));
         shapePast.setOutlineColor(Color.BLACK);
         shapePast.setOutlineThickness(2.f);
         shapePast.render(getRenderer());
         
-        shapeFuture = new RectangleShape( 32.f, 32.f );
+        shapeFuture = new RectangleShape( 320.f, 320.f );
         shapeFuture.setPosition(100.f, 100.f);
-        shapeFuture.setFillColor(new Color(0, 0, 255, 128));
+        //shapeFuture.setFillColor(new Color(0, 0, 255, 128));
         shapeFuture.setOutlineColor(Color.BLACK);
         shapeFuture.setOutlineThickness(2.f);
         shapeFuture.render(getRenderer());
         
         x = new StateValue( 100.f );
         y = new StateValue( 100.f );
+        
+        getWindow().setBackgroundColor(Color.BLACK);
+        
+        font = new Font();
+        //font.loadFromSystem("Times New Roman", java.awt.Font.BOLD, 12);
+        font.loadFromFile("com/dinasgames/main/resources/arial.ttf");
+//        
+//        if(!font.loadFromSystem("Times New Roman", java.awt.Font.BOLD ,12 )) {
+//          System.out.println("Failed to load font.");
+//        }
+        
+        shapeFuture.setTexture(new Texture(font.getFont(12, 0).getTexture()));
+        
+        text = new Text();
+        text.setCharacterSize(12);
+        text.setText("Hello World");
+        text.setColor(Color.BLACK);
+        text.setFont(font);
+        text.setPosition(10, 10);
+        
+       // getRenderer().clear();
+        
+        text.render(getRenderer());
         
 //        x.add( 400, 2000 );
 //        x.add( 200, 6000 );
@@ -233,10 +263,12 @@ public class NetGame extends WindowGame {
         shapeFuture.setPosition( x.getValue(future), y.getValue(future) );
         shape.setPosition( x.getValue(), y.getValue() );
         
+        
         if(Mouse.isButtonPressed(Mouse.Button.Left)) {
             Vector2f mouse = Mouse.getPosition();
             x.add(mouse.x, x.getCurrentTime() + 1000);
             y.add(mouse.y, y.getCurrentTime() + 1000);
+            
         }
         
         //System.out.println(shape.getPosition());

@@ -129,6 +129,14 @@ public class Map {
     }
     
     /**
+     * Remove the dynamic Image objects which were created in createChunks.
+     */
+    public void cleanup() {
+      mTileList = null;
+      mChunkList = null;
+    }
+    
+    /**
      * Generate a series of Buffered images which draw the generated tiles from mTileList.
      */
     protected void createChunks() {

@@ -84,5 +84,9 @@ public class Color {
     public boolean equals(Color other) {
         return (other.getRed() == r && other.getGreen() == g && other.getBlue() == b && other.getAlpha() == a);
     }
+
+    public org.newdawn.slick.Color toSlickColor() {
+      return new org.newdawn.slick.Color(r, g, b, a);
+    }
     
 }

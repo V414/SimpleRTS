@@ -108,7 +108,7 @@ public class TestScene extends Scene {
     
     @Override
     public Scene onCreate() {
-        
+      
         setupMap(new SymmetricalMap());
        
         Barracks barracks = new Barracks(this);
@@ -122,6 +122,7 @@ public class TestScene extends Scene {
         OilDerrick oilDerrick = new OilDerrick(this);
         oilDerrick.setPosition(500, 500);
         oilDerrick.setOwner(getLocalPlayer());
+        
         
         
 //      Map map = new SymmetricalMap();

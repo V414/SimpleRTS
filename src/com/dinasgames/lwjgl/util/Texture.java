@@ -55,6 +55,16 @@ public class Texture {
         }
     }
     
+    public Texture(org.newdawn.slick.opengl.Texture other) {
+      this();
+      this.mTexture = other.getTextureID();
+      this.mWidth = other.getImageHeight();
+      this.mHeight = other.getImageWidth();
+      this.mActualHeight = other.getTextureHeight();
+      this.mActualWidth = other.getTextureWidth();
+      this.mSmooth = true;
+    }
+    
     public void destruct() {
         if(mTexture > 0) {
             GL11.glDeleteTextures(mTexture);

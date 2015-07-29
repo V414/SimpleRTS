@@ -89,7 +89,7 @@ public class TrueTypeFont implements org.newdawn.slick.Font {
 	 *            Characters of font that will be used in addition of first 256 (by unicode).
 	 */
 	public TrueTypeFont(java.awt.Font font, boolean antiAlias, char[] additionalChars) {
-		GLUtils.checkGLContext();
+		//GLUtils.checkGLContext();
 		
 		this.font = font;
 		this.fontSize = font.getSize();
@@ -359,13 +359,17 @@ public class TrueTypeFont implements org.newdawn.slick.Font {
 		drawString(x,y,whatchars,color,0,whatchars.length()-1);
 	}
 	
+//        public void createString(VertexArray verts) {
+//          TODO
+//        }
+        
 	/**
 	 * @see Font#drawString(float, float, String, org.newdawn.slick.Color, int, int)
 	 */
 	public void drawString(float x, float y, String whatchars,
 			org.newdawn.slick.Color color, int startIndex, int endIndex) {
 		color.bind();
-		fontTexture.bind();
+		//fontTexture.bind();
 
 		IntObject intObject = null;
 		int charCurrent;

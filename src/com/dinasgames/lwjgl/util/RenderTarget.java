@@ -12,6 +12,7 @@ import java.nio.FloatBuffer;
 import org.lwjgl.BufferUtils;
 import org.lwjgl.opengl.GL11;
 import org.lwjgl.opengl.GL13;
+import org.newdawn.slick.TrueTypeFont;
 
 /**
  *
@@ -305,7 +306,7 @@ public class RenderTarget {
                 applyCurrentView();
             }
             
-            if(mCache.lastBlendMode != states.blendMode) {
+            if(!mCache.lastBlendMode.equals(states.blendMode)) {
                 applyBlendMode(states.blendMode);
             }
             
@@ -394,6 +395,73 @@ public class RenderTarget {
         
     }
     
+    public void draw(Text text, RenderStates states) {
+      
+      // Invalid text object?
+      if(text == null) {
+          return;
+      }
+
+      // Get some info from the text object
+      Font font = text.getFont();
+      String str = text.getText();
+      Color color = text.getColor();
+      int characterSize = text.getCharacterSize();
+      int style = java.awt.Font.BOLD;
+
+      // No font? can't draw.
+      if(font == null) {
+        return;
+      }
+
+      // No text to draw?
+      if(str.length() <= 0) {
+          return;
+      }
+
+      // Small text?
+      if(characterSize <= 0) {
+        return;
+      }
+
+      // Activate this context
+      if(!activate(true)) {
+          return;
+      }
+
+      // Reset the GL states if required
+      if(!mCache.glStatesSet) {
+          resetGLStates();
+      }
+
+      // Apply the text transform
+      applyTransform(states.transform);
+
+      // Ensure the view is up to date
+      if(mCache.viewChanged) {
+          applyCurrentView();
+      }
+
+      // Apply the blend mode
+      if(!mCache.lastBlendMode.equals(states.blendMode)) {
+          applyBlendMode(states.blendMode);
+      }
+
+      // Get the font texture
+      TrueTypeFont t = font.getFont(characterSize, style);
+      states.texture = new Texture(t.getTexture());
+
+      // Apply the font texture
+      int textureId = (states.texture != null ? states.texture.getTextureID() : 0);
+      if(textureId != mCache.lastTextureId) {
+          applyTexture(states.texture);
+      }
+      
+      // Draw the text
+      t.drawString( 0, 0, str, color.toSlickColor() );
+      
+    }
+    
     public void pushGLStates() {
         
         //if(true){return;}
@@ -430,6 +498,7 @@ public class RenderTarget {
         //if(true){return;}
         
         if(activate(true)) {
+            //GL11.glShadeModel(GL11.GL_SMOOTH);
             GL11.glDisable(GL11.GL_CULL_FACE);
             GL11.glDisable(GL11.GL_LIGHTING);
             GL11.glDisable(GL11.GL_DEPTH_TEST);

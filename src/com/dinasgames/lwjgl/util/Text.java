@@ -12,7 +12,7 @@ import com.dinasgames.main.math.Vector2f;
  *
  * @author Jack
  */
-public class Text extends Transformable implements Drawable {
+public class Text extends Renderable implements Drawable {
 
   public static class Style {
     public static int Regular       = 0;
@@ -141,30 +141,30 @@ public class Text extends Transformable implements Drawable {
   
   protected void ensureGeoUpdate() {
     
-    if(!mGeoNeedUpdate) {
-      return;
-    }
-    
-    mGeoNeedUpdate = false;
-    
-    mVerts.clear();
-    mBounds = new BoundingBox();
-    
-    if(mFont == null) {
-      return;
-    }
-    
-    if(mText.length() <= 0) {
-      return;
-    }
-    
-    boolean bold              = (mStyle & Style.Bold) != 0;
-    boolean underlined        = (mStyle & Style.Underlined) != 0;
-    boolean strikethrough     = (mStyle & Style.StrikeThrough) != 0;
-    boolean italic            = (mStyle & Style.Italic) != 0;
+//    if(!mGeoNeedUpdate) {
+//      return;
+//    }
+//    
+//    mGeoNeedUpdate = false;
+//    
+//    mVerts.clear();
+//    mBounds = new BoundingBox();
+//    
+//    if(mFont == null) {
+//      return;
+//    }
+//    
+//    if(mText.length() <= 0) {
+//      return;
+//    }
+//    
+//    boolean bold              = (mStyle & Style.Bold) != 0;
+//    boolean underlined        = (mStyle & Style.Underlined) != 0;
+//    boolean strikethrough     = (mStyle & Style.StrikeThrough) != 0;
+//    boolean italic            = (mStyle & Style.Italic) != 0;
 //    float underlineOffset     = mFont.getUnderlinePosition(mCharacterSize);
 //    float underlineThickness  = mFont.getUnderlineThickness(mCharacterSize);
-    
+//    
 //    // Compute the location of the strike through dynamically
 //    // We use the center point of the lowercase 'x' glyph as the reference
 //    // We reuse the underline thickness as the thickness of the strike through as well
@@ -301,10 +301,10 @@ public class Text extends Transformable implements Drawable {
 //    }
 //
 //    // Update the bounding rectangle
-//    m_bounds.left = minX;
-//    m_bounds.top = minY;
-//    m_bounds.width = maxX - minX;
-//    m_bounds.height = maxY - minY;
+//    mBounds.x = minX;
+//    mBounds.y = minY;
+//    mBounds.width = maxX - minX;
+//    mBounds.height = maxY - minY;
     
   }
   
@@ -316,8 +316,10 @@ public class Text extends Transformable implements Drawable {
       ensureGeoUpdate();
       
       states.transform.multiply(getTransform());
-      //states.texture = mFont.getTexture(mCharacterSize);
-      target.draw(mVerts, states);
+      //states.blendMode = new BlendMode(BlendMode.Factor.SrcAlpha, BlendMode.Factor.OneMinusSrcAlpha, BlendMode.Equation.Add);
+      target.draw(this, states);
+//      states.texture = mFont.getTexture(mCharacterSize);
+//      target.draw(mVerts, states);
       
     }
     
