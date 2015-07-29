@@ -1,8 +1,8 @@
 package org.newdawn.slick;
 
-import com.dinasgames.lwjgl.util.VertexCache;
-import com.dinasgames.main.math.BoundingBox;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.graphics.VertexCache;
+import com.dinasgames.engine.math.BoundingBox;
+import com.dinasgames.engine.math.Vector2f;
 import java.awt.Color;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;

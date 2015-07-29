@@ -1,6 +1,6 @@
 package org.newdawn.slick.opengl.renderer;
 
-import com.dinasgames.lwjgl.util.GL;
+import com.dinasgames.engine.graphics.GL;
 import java.nio.ByteBuffer;
 import java.nio.DoubleBuffer;
 import java.nio.FloatBuffer;

@@ -6,11 +6,11 @@
 package com.dinasgames.server.net.packets;
 
 import com.dinasgames.main.inputs.Input;
-import com.dinasgames.main.math.Vector2f;
-import com.dinasgames.server.net.Buffer;
-import com.dinasgames.server.net.NonBlockingClient;
-import com.dinasgames.server.net.NonBlockingServer;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.engine.network.Buffer;
+import com.dinasgames.engine.network.NonBlockingClient;
+import com.dinasgames.engine.network.NonBlockingServer;
+import com.dinasgames.engine.network.Packet;
 
 /**
  *

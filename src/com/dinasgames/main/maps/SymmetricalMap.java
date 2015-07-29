@@ -1,6 +1,6 @@
 package com.dinasgames.main.maps;
 
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Vector2f;
 
 public class SymmetricalMap extends Map{
   

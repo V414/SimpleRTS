@@ -2,7 +2,7 @@
 
 package com.dinasgames.main;
 
-import com.dinasgames.lwjgl.util.LWJGL;
+import com.dinasgames.engine.LWJGL;
 import com.dinasgames.main.games.TestGame;
 
 public class Main {

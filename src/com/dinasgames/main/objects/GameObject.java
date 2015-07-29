@@ -1,7 +1,7 @@
 package com.dinasgames.main.objects;
 
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Vector2f;
 import java.util.ArrayList;
 import java.util.List;
 

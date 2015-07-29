@@ -5,9 +5,9 @@
  */
 package com.dinasgames.net;
 
-import com.dinasgames.lwjgl.util.LWJGL;
-import com.dinasgames.main.system.Clock;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.LWJGL;
+import com.dinasgames.engine.system.Clock;
+import com.dinasgames.engine.system.Time;
 import java.awt.Font;
 import org.newdawn.slick.TrueTypeFont;
 

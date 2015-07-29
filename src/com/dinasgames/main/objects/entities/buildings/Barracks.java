@@ -1,9 +1,9 @@
 package com.dinasgames.main.objects.entities.buildings;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.RectangleShape;
-import com.dinasgames.lwjgl.util.Renderer;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.shapes.RectangleShape;
+import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.RenderEvents;
 import com.dinasgames.main.objects.entities.Entity;

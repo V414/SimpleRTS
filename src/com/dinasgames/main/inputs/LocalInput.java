@@ -5,8 +5,8 @@
  */
 package com.dinasgames.main.inputs;
 
-import com.dinasgames.lwjgl.util.Keyboard;
-import com.dinasgames.lwjgl.util.Mouse;
+import com.dinasgames.engine.system.Keyboard;
+import com.dinasgames.engine.system.Mouse;
 
 /**
  *

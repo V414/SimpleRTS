@@ -5,13 +5,13 @@
  */
 package com.dinasgames.main.games;
 
-import com.dinasgames.main.math.RandomNumber;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.math.RandomNumber;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
 import com.dinasgames.main.Version;
 import com.dinasgames.server.Main;
-import com.dinasgames.server.net.NonBlockingClient;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.network.NonBlockingClient;
+import com.dinasgames.engine.network.Packet;
 import com.dinasgames.server.net.packets.*;
 import java.io.IOException;
 import java.nio.channels.ClosedChannelException;

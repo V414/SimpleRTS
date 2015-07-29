@@ -1,12 +1,12 @@
 package com.dinasgames.main.scenes;
 
-import com.dinasgames.lwjgl.util.MapDrawer;
+import com.dinasgames.engine.graphics.MapDrawer;
 import com.dinasgames.main.games.Game;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.maps.FunkyMap;
 import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;

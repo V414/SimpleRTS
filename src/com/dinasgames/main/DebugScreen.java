@@ -5,10 +5,10 @@
  */
 package com.dinasgames.main;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.Font;
-import com.dinasgames.lwjgl.util.Renderer;
-import com.dinasgames.lwjgl.util.Text;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.Font;
+import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.graphics.Text;
 import java.util.ArrayList;
 import java.util.List;
 

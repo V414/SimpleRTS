@@ -1,7 +1,7 @@
 package com.dinasgames.main.scenes;
 
-import com.dinasgames.lwjgl.util.Renderer;
-import com.dinasgames.lwjgl.util.View;
+import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.graphics.View;
 import com.dinasgames.main.games.Game;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.games.WindowGame;
@@ -10,7 +10,7 @@ import com.dinasgames.main.objects.LogicEvents;
 import com.dinasgames.main.objects.RenderEvents;
 import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.players.LocalPlayer;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 import java.util.ArrayList;
 import java.util.List;
 

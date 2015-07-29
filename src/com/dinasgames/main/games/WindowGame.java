@@ -5,10 +5,10 @@
  */
 package com.dinasgames.main.games;
 
-import com.dinasgames.lwjgl.util.RenderWindow;
-import com.dinasgames.lwjgl.util.Renderer;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.graphics.RenderWindow;
+import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
 
 /**
  *

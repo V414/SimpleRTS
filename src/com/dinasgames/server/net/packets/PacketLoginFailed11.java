@@ -6,9 +6,9 @@
 package com.dinasgames.server.net.packets;
 
 import com.dinasgames.main.Version;
-import com.dinasgames.server.net.Buffer;
-import com.dinasgames.server.net.NonBlockingClient;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.network.Buffer;
+import com.dinasgames.engine.network.NonBlockingClient;
+import com.dinasgames.engine.network.Packet;
 
 /**
  *

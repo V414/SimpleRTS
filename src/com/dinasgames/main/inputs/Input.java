@@ -5,7 +5,7 @@
  */
 package com.dinasgames.main.inputs;
 
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Vector2f;
 
 /**
  *

@@ -5,22 +5,22 @@
  */
 package com.dinasgames.net;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.Font;
-import com.dinasgames.lwjgl.util.GL;
-import com.dinasgames.lwjgl.util.Mouse;
-import com.dinasgames.lwjgl.util.RectangleShape;
-import com.dinasgames.lwjgl.util.Text;
-import com.dinasgames.lwjgl.util.Texture;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.Font;
+import com.dinasgames.engine.graphics.GL;
+import com.dinasgames.engine.system.Mouse;
+import com.dinasgames.engine.graphics.shapes.RectangleShape;
+import com.dinasgames.engine.graphics.Text;
+import com.dinasgames.engine.graphics.Texture;
 import com.dinasgames.main.Version;
 import com.dinasgames.main.games.ClientServerGame;
 import com.dinasgames.main.games.WindowGame;
-import com.dinasgames.main.math.Vector2f;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
-import com.dinasgames.server.net.NonBlockingClient;
-import com.dinasgames.server.net.NonBlockingServer;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
+import com.dinasgames.engine.network.NonBlockingClient;
+import com.dinasgames.engine.network.NonBlockingServer;
+import com.dinasgames.engine.network.Packet;
 import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import com.dinasgames.server.net.packets.PacketLogin10;
 import com.dinasgames.server.net.packets.PacketLoginFailed11;

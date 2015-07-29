@@ -7,7 +7,7 @@ package com.dinasgames.net;
 
 import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.entities.units.Unit;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 
 /**
  *

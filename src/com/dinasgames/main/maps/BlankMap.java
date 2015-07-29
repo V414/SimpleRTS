@@ -5,7 +5,7 @@
  */
 package com.dinasgames.main.maps;
 
-import com.dinasgames.main.math.RandomNumber;
+import com.dinasgames.engine.math.RandomNumber;
 
 /**
  *

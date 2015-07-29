@@ -5,7 +5,7 @@
  */
 package com.dinasgames.net;
 
-import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.engine.graphics.Renderer;
 
 /**
  *

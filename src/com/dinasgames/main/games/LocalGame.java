@@ -1,13 +1,13 @@
 package com.dinasgames.main.games;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.Mouse;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.system.Mouse;
 import com.dinasgames.main.players.LocalPlayer;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Clock;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.system.Clock;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
 
 /**
  * The template for all games underneath

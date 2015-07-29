@@ -1,19 +1,19 @@
 package com.dinasgames.main.objects.entities.units.vehicles.land;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.RectangleShape;
-import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.shapes.RectangleShape;
+import com.dinasgames.engine.graphics.Renderer;
 import com.dinasgames.main.World;
-import com.dinasgames.main.math.Point;
-import com.dinasgames.main.math.RandomNumber;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Point;
+import com.dinasgames.engine.math.RandomNumber;
+import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.RenderEvents;
 import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 
 public class LightTank extends LandVehicle implements RenderEvents, SceneEvents {
   

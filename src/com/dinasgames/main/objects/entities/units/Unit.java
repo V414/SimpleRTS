@@ -1,15 +1,15 @@
 package com.dinasgames.main.objects.entities.units;
 
-import com.dinasgames.main.math.Point;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.Point;
+import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.LogicEvents;
-import com.dinasgames.main.objects.commands.Command;
+import com.dinasgames.main.commands.Command;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Clock;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Clock;
+import com.dinasgames.engine.system.Time;
 import java.util.ArrayList;
 import java.util.List;
 

@@ -5,8 +5,8 @@
  */
 package com.dinasgames.net;
 
-import com.dinasgames.main.system.Clock;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Clock;
+import com.dinasgames.engine.system.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

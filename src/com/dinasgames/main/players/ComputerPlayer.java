@@ -6,7 +6,7 @@
 package com.dinasgames.main.players;
 
 import com.dinasgames.main.controllers.ComputerController;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 
 /**
  *

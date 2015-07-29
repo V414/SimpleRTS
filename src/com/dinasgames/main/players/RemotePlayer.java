@@ -6,9 +6,9 @@
 package com.dinasgames.main.players;
 
 import com.dinasgames.main.controllers.RemoteController;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.server.net.NonBlockingServer;
-import com.dinasgames.server.net.NonBlockingServer.Socket;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.network.NonBlockingServer;
+import com.dinasgames.engine.network.NonBlockingServer.Socket;
 import com.dinasgames.server.net.packets.PacketInput20;
 
 /**

@@ -1,24 +1,24 @@
 package com.dinasgames.main.players;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.RectangleShape;
-import com.dinasgames.lwjgl.util.Renderer;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.shapes.RectangleShape;
+import com.dinasgames.engine.graphics.Renderer;
 import com.dinasgames.main.controllers.Controller;
-import com.dinasgames.main.math.BoundingBox;
-import com.dinasgames.main.math.Vector2f;
+import com.dinasgames.engine.math.BoundingBox;
+import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.GameObjectType;
-import com.dinasgames.main.objects.commands.BuildBuildingCommand;
-import com.dinasgames.main.objects.commands.MoveCommand;
-import com.dinasgames.main.objects.commands.MoveToResourceCommand;
+import com.dinasgames.main.commands.BuildBuildingCommand;
+import com.dinasgames.main.commands.MoveCommand;
+import com.dinasgames.main.commands.MoveToResourceCommand;
 import com.dinasgames.main.objects.entities.buildings.NewBuilding;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 import java.util.List;
 
 /**

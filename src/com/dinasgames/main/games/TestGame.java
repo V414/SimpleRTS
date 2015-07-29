@@ -4,8 +4,8 @@ import com.dinasgames.main.DebugScreen;
 import com.dinasgames.main.Version;
 import com.dinasgames.main.players.LocalPlayer;
 import com.dinasgames.main.scenes.TestScene;
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
 
 /**
  * An pretty empty test game

@@ -1,11 +1,11 @@
 package com.dinasgames.main.objects.entities;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.HealthbarShape;
-import com.dinasgames.lwjgl.util.Renderer;
-import com.dinasgames.main.math.BoundingBox;
-import com.dinasgames.main.math.Vector2f;
-import com.dinasgames.main.objects.behaviours.Behaviour;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.HealthbarShape;
+import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.math.BoundingBox;
+import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.main.behaviours.Behaviour;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.LogicEvents;
 import com.dinasgames.main.objects.NetworkedObject;
@@ -13,7 +13,7 @@ import com.dinasgames.main.objects.RenderEvents;
 import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 import java.util.ArrayList;
 import java.util.List;
 

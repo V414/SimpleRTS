@@ -5,13 +5,13 @@
  */
 package com.dinasgames.server.net.packets;
 
-import com.dinasgames.main.system.Time;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.system.Time;
+import com.dinasgames.engine.system.Timer;
 import com.dinasgames.main.Version;
-import com.dinasgames.server.net.Buffer;
-import com.dinasgames.server.net.NonBlockingClient;
-import com.dinasgames.server.net.NonBlockingServer;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.network.Buffer;
+import com.dinasgames.engine.network.NonBlockingClient;
+import com.dinasgames.engine.network.NonBlockingServer;
+import com.dinasgames.engine.network.Packet;
 import java.io.IOException;
 import java.util.logging.Level;
 import java.util.logging.Logger;

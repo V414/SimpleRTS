@@ -1,17 +1,17 @@
 package com.dinasgames.main.players;
 
-import com.dinasgames.lwjgl.util.Color;
-import com.dinasgames.lwjgl.util.View;
+import com.dinasgames.engine.graphics.Color;
+import com.dinasgames.engine.graphics.View;
 import com.dinasgames.main.controllers.LocalController;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.inputs.LocalInput;
-import com.dinasgames.main.math.BoundingBox;
-import com.dinasgames.main.math.Vector2f;
-import com.dinasgames.main.math.Vector2i;
+import com.dinasgames.engine.math.BoundingBox;
+import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.engine.math.Vector2i;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.buildings.NewBuilding;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;

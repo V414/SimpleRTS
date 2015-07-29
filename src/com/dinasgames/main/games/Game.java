@@ -1,7 +1,7 @@
 package com.dinasgames.main.games;
 
-import com.dinasgames.main.system.Clock;
-import com.dinasgames.main.system.Timer;
+import com.dinasgames.engine.system.Clock;
+import com.dinasgames.engine.system.Timer;
 
 /**
  * A class used to handle game logic and render a window.

@@ -5,7 +5,7 @@
  */
 package com.dinasgames.main.objects;
 
-import com.dinasgames.main.system.Time;
+import com.dinasgames.engine.system.Time;
 
 /**
  *

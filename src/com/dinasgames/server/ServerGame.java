@@ -6,13 +6,13 @@
 package com.dinasgames.server;
 
 import com.dinasgames.main.games.Game;
-import com.dinasgames.main.networking.Network;
+import com.dinasgames.engine.network.Network;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.scenes.Scene;
-import com.dinasgames.main.system.Clock;
+import com.dinasgames.engine.system.Clock;
 import com.dinasgames.main.Version;
-import com.dinasgames.server.net.NonBlockingServer;
-import com.dinasgames.server.net.Packet;
+import com.dinasgames.engine.network.NonBlockingServer;
+import com.dinasgames.engine.network.Packet;
 import com.dinasgames.server.net.packets.*;
 import java.util.logging.Level;
 import java.util.logging.Logger;
