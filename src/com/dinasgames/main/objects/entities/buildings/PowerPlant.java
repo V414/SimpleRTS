@@ -31,7 +31,7 @@ public class PowerPlant extends Building implements RenderEvents {
     /**
      * Cooling tower connector.
      */
-    protected CircleShape mCoolingTowerConnector;
+    protected RectangleShape mCoolingTowerConnector;
     
     /**
      * Default constructor.
@@ -103,12 +103,38 @@ public class PowerPlant extends Building implements RenderEvents {
         
         super.onRenderAdd(r);
         
+        mShapeBody = new RectangleShape(mWidth, mHeight);
+        
+        mShapeBody.setFillColor(mOwnerColor);
+        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineThickness(2.f);
+        mShapeBody.setOriginCenter();
+
+        mCoolingTowerLeft = new CircleShape(mHeight/4);
+        mCoolingTowerLeft.setFillColor(mOwnerColor);
+        mCoolingTowerLeft.setOutlineColor(Color.BLACK);
+        mCoolingTowerLeft.setOutlineThickness(4.f);
+        mCoolingTowerLeft.setOrigin(mWidth/2-mWidth/12, mHeight/4);
+
+        mCoolingTowerRight = new CircleShape(mHeight/4);
+        mCoolingTowerRight.setFillColor(mOwnerColor);
+        mCoolingTowerRight.setOutlineColor(Color.BLACK);
+        mCoolingTowerRight.setOutlineThickness(4.f);
+        mCoolingTowerRight.setOrigin(-mWidth/2+mHeight/2+mWidth/12, mHeight/4);
+
+        mCoolingTowerConnector = new RectangleShape(mWidth/6, mWidth/6);
+        mCoolingTowerConnector.setFillColor(mOwnerColor);
+        mCoolingTowerConnector.setOutlineColor(Color.BLACK);
+        mCoolingTowerConnector.setOutlineThickness(2.f);
+        mCoolingTowerConnector.setOrigin(mWidth/12, mWidth/12);
+        
         
         
         r.add(mShapeBody);
+        r.add(mCoolingTowerConnector);
         r.add(mCoolingTowerLeft);
         r.add(mCoolingTowerRight);
-        r.add(mCoolingTowerConnector);
+        
         
     }
     
@@ -116,6 +142,18 @@ public class PowerPlant extends Building implements RenderEvents {
     public void onRenderUpdate(Renderer r) {
         
         super.onRenderUpdate(r);
+        
+        mShapeBody.setPosition(mX, mY);
+        mShapeBody.setRotation(mRotation);
+
+        mCoolingTowerLeft.setPosition(mX, mY);
+        mCoolingTowerLeft.setRotation(mRotation);
+
+        mCoolingTowerRight.setPosition(mX, mY);
+        mCoolingTowerRight.setRotation(mRotation);
+
+        mCoolingTowerConnector.setPosition(mX, mY);
+        mCoolingTowerConnector.setRotation(mRotation);
         
     }
     

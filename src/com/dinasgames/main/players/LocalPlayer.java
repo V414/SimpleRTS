@@ -9,6 +9,8 @@ import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.math.Vector2i;
 import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.objects.entities.buildings.NewBuilding;
+import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.system.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -91,7 +93,12 @@ public class LocalPlayer extends Player {
         float speed = 800.f * timePassed.asSeconds();
         
         if(input.shift) {
-            speed *= 2.f;
+          speed *= 2.f;
+          if(input.keyP){
+            NewBuilding newBuilding = new NewBuilding(mScene, new PowerPlant(null));
+            newBuilding.setPosition(input.mousePosition.x, input.mousePosition.y);
+            newBuilding.setOwner(mScene.getLocalPlayer());
+          }
         }
         
         if(input.control){
