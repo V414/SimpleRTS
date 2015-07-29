@@ -117,11 +117,11 @@ public class Warehouse extends Building implements RenderEvents {
   
   @Override
   public int getTypeID() {
-      return super.getTypeID() | GameObjectType.PowerPlant.getID();
+      return super.getTypeID() | GameObjectType.Warehouse.getID();
   }
 
   @Override
   public String getTypeString() {
-      return "PowerPlant";
+      return "Warehouse";
   }
 }

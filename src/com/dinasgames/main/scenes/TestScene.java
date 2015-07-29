@@ -8,12 +8,14 @@ import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.objects.entities.buildings.Barracks;
+import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.entities.units.infantry.Bazooka;
 import com.dinasgames.main.objects.entities.units.infantry.Flamethrower;
 import com.dinasgames.main.objects.entities.units.infantry.Rifleman;
 import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
 import com.dinasgames.main.objects.entities.units.vehicles.land.LightTank;
+import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.players.PlayerList;
 import com.dinasgames.main.players.RemotePlayer;
@@ -111,6 +113,14 @@ public class TestScene extends Scene {
         Barracks barracks = new Barracks(this);
         barracks.setPosition(200, 200);
         barracks.setOwner(getLocalPlayer());
+        
+        SupplyTruck supplyTruck = new SupplyTruck(this);
+        supplyTruck.setPosition(100, 200);
+        supplyTruck.setOwner(getLocalPlayer());
+        
+        OilDerrick oilDerrick = new OilDerrick(this);
+        oilDerrick.setPosition(500, 500);
+        oilDerrick.setOwner(getLocalPlayer());
         
         
 //      Map map = new SymmetricalMap();
