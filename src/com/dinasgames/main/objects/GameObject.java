@@ -11,6 +11,8 @@ import java.util.List;
  */
 public class GameObject {
     
+    private boolean mMarkedForDestruction;
+    
     protected int mId;                  // << The unique ID given to this object by the scene. A negative ID means that this object hasn't been added to the scene yet
     protected float mX, mY;             // << The position of this object in the scene.
     protected float mRotation;          // << The rotation of this object in degrees
@@ -249,6 +251,21 @@ public class GameObject {
     
     public boolean equals(GameObject other) {
         return (other.getID() == mId);
+    }
+    
+    /**
+     * Mark this object to be destroyed upon the next game tick.
+     */
+    public void destroy() {
+      mMarkedForDestruction = true;
+    }
+    
+    /**
+     * Check if this object has been marked for deletion.
+     * @return 
+     */
+    public boolean isMarkedForDestruction() {
+      return mMarkedForDestruction;
     }
     
 }

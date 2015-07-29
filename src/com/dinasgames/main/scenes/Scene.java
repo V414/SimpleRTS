@@ -234,7 +234,11 @@ public class Scene {
 //            }
 //        }
         
+        
+      
+        // Update game logic
         synchronized(mObjects) {
+          
             for(int i = 0; i < MAX_OBJECTS; i ++) {
                 GameObject obj = mObjects[i];
                 
@@ -260,6 +264,10 @@ public class Scene {
                     // Do logic
                     if(obj instanceof LogicEvents) {
                         ((LogicEvents)obj).onTick(timePassed);
+                    }
+                    
+                    if(obj.isMarkedForDestruction()) {
+                      remove(i);
                     }
                     
                 }

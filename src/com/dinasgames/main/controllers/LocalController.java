@@ -10,6 +10,7 @@ public class LocalController extends Controller {
     
     public LocalController() {
         mInput = new LocalInput();
+        mPreviousInput = new LocalInput();
     }
     
     @Override
@@ -17,6 +18,7 @@ public class LocalController extends Controller {
         
         super.update();
         
+        mPreviousInput = new LocalInput((LocalInput)mInput);
         ((LocalInput)mInput).update();
         
     }

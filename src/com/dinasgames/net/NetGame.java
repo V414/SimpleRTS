@@ -6,6 +6,7 @@
 package com.dinasgames.net;
 
 import com.dinasgames.lwjgl.util.Color;
+import com.dinasgames.lwjgl.util.GL;
 import com.dinasgames.lwjgl.util.Mouse;
 import com.dinasgames.lwjgl.util.RectangleShape;
 import com.dinasgames.main.Version;
@@ -20,8 +21,10 @@ import com.dinasgames.server.net.Packet;
 import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import com.dinasgames.server.net.packets.PacketLogin10;
 import com.dinasgames.server.net.packets.PacketLoginFailed11;
+import java.awt.Font;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.newdawn.slick.TrueTypeFont;
 
 /**
  *
@@ -212,6 +215,7 @@ public class NetGame extends WindowGame {
 //        
 //        y.add( 200, 2000 );
 //        y.add( 300, 3000 );
+        
         
     }
     
