@@ -95,7 +95,7 @@ public class Window extends RenderTarget {
         // Make the window visible
         glfwShowWindow(mHandle);
         
-        GLContext.createFromCurrent();
+        GL.setContext(GLContext.createFromCurrent());
         
 //        GL11.glMatrixMode(GL11.GL_PROJECTION);
 //        GL11.glViewport(0, 0, 640, 480);

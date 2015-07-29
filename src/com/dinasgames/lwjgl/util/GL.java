@@ -13,6 +13,7 @@ import org.lwjgl.opengl.GL12;
 import org.lwjgl.opengl.GL14;
 import org.lwjgl.opengl.GL15;
 import org.lwjgl.opengl.GL20;
+import org.lwjgl.opengl.GLContext;
 
 /**
  *
@@ -21,6 +22,7 @@ import org.lwjgl.opengl.GL20;
 public class GL {
     
     public static final int version = 20;
+    public static GLContext currentContext;
     
     public enum MatrixMode {
         Projection,
@@ -269,6 +271,10 @@ public class GL {
         GL11.glDisableClientState(GL11.GL_VERTEX_ARRAY);
         GL11.glDisableClientState(GL11.GL_COLOR_ARRAY);
         
+    }
+    
+    public static void setContext(GLContext context) {
+      currentContext = context;
     }
     
 }
