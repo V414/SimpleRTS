@@ -69,6 +69,7 @@ public class BBuildBuilding extends Behaviour {
         PowerPlant powerPlant = new PowerPlant(scene);
         powerPlant.setPosition(newBuilding.getPosition());
         powerPlant.setOwner(newBuilding.getOwner());
+        newBuilding.destroy();
       }
     }
     
