@@ -9,6 +9,7 @@ import com.dinasgames.main.math.BoundingBox;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.math.Vector2i;
 import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.system.Time;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -70,9 +71,9 @@ public class LocalPlayer extends Player {
     }
     
     @Override
-    public void update() {
+    public void update(Time timePassed) {
         
-        super.update();
+        super.update(timePassed);
         
         // Handle local player input
         View currentView = mScene.getView();
@@ -86,7 +87,7 @@ public class LocalPlayer extends Player {
         }
         
         // Camera movement via keyboard keys
-        float speed = 10.f;
+        float speed = 800.f * timePassed.asSeconds();
         
         if(input.shift) {
             speed *= 2.f;
@@ -116,7 +117,7 @@ public class LocalPlayer extends Player {
         if(localGame != null && localGame.getWindow() != null) {
             
             float nearBorder    = 20.f; // <<< Pixels away from border that causes the view to move in this direction
-            float moveSpeed     = 20.f; // <<< Pixels that the camera will move when the mouse touches a border
+            float moveSpeed     = 1000.f * timePassed.asSeconds(); // <<< Pixels that the camera will move when the mouse touches a border
             Vector2i windowSize = localGame.getWindow().getSize();
             Vector2f uiMousePos = new Vector2f(input.mousePosition)
                                   .subtract(currentView.getPosition());

@@ -16,6 +16,7 @@ import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;
+import com.dinasgames.main.system.Time;
 import java.util.List;
 
 /**
@@ -154,7 +155,7 @@ public class Player {
         mID = id;
     }
     
-    public void update() {
+    public void update(Time timePassed) {
         
         // Update controller
         if(mController != null) {
