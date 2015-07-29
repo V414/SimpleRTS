@@ -77,6 +77,7 @@ public class LocalPlayer extends Player {
         
         // Handle local player input
         View currentView = mScene.getView();
+        LocalInput previousInput = new LocalInput(getPreviousLocalInput());
         LocalInput input = new LocalInput(getLocalInput());
         LocalGame localGame = null;
         
@@ -177,7 +178,7 @@ public class LocalPlayer extends Player {
             
         }
         
-        if(input.mousePressedR){
+        if(input.mousePressedR && !previousInput.mousePressedR){
           setNewTargetPosition(input.mousePosition);
         }
         
@@ -192,6 +193,10 @@ public class LocalPlayer extends Player {
     
     public LocalInput getLocalInput() {
         return (LocalInput)getLocalController().getInput();
+    }
+    
+    public LocalInput getPreviousLocalInput() {
+        return (LocalInput)getLocalController().getPreviousInput();
     }
     
 }

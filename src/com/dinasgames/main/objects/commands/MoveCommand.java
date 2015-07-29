@@ -5,10 +5,12 @@
  */
 package com.dinasgames.main.objects.commands;
 
+import com.dinasgames.main.math.Point;
 import com.dinasgames.main.math.Vector2f;
 import com.dinasgames.main.objects.behaviours.BMoveTo;
 import com.dinasgames.main.objects.behaviours.BMoveToWithAcceleration;
 import com.dinasgames.main.objects.entities.Entity;
+import com.dinasgames.main.system.Time;
 
 /**
  *
@@ -26,6 +28,34 @@ public class MoveCommand extends Command {
     public MoveCommand( Vector2f pos ) {
         this.x = pos.x;
         this.y = pos.y;
+    }
+    
+    @Override
+    public void update(Time timePassed) {
+      
+      super.update(timePassed);
+      
+      if(mCompleted) {
+        return;
+      }
+      
+      // Check whether the entity has arrived at its target
+      if(mSelf instanceof Entity) {
+        Entity e = (Entity)mSelf;
+        if(Point.distance(e.getPosition(), new Vector2f(x,y)) < 20.f) {
+          
+          // We have completed our task!
+          complete();
+          
+        }
+      }
+      
+    }
+    
+    @Override
+    public Command onCompleted() {
+      System.out.println("Move command finished!");
+      return null;
     }
     
     @Override

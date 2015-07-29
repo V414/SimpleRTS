@@ -5,13 +5,16 @@
  */
 package com.dinasgames.main.objects.commands;
 
+import com.dinasgames.main.system.Time;
+
 /**
  *
  * @author Jack
  */
 public class Command {
     
-    protected boolean mIssued;
+    protected Object mSelf;
+    protected boolean mIssued, mCompleted;
     
     public Command() {
         mIssued = false;
@@ -23,6 +26,27 @@ public class Command {
     
     public void issue(Object self) {
         mIssued = true;
+        mSelf = self;
+    }
+    
+    public boolean isCompleted() {
+      return mCompleted;
+    }
+    
+    public void update(Time timePassed) {
+      
+    }
+    
+    /**
+     * Optional event
+     * @return 
+     */
+    public Command onCompleted() {
+      return null;
+    }
+    
+    public void complete() {
+      mCompleted = true;
     }
     
 }

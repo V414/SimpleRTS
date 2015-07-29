@@ -148,6 +148,19 @@ public class Unit extends Entity implements LogicEvents {
                     // Issue the command
                     currentCommand.issue(this);
                     
+                }else{
+                  
+                  currentCommand.update(timePassed);
+                  
+                  // Check if the command has been completed
+                  if(currentCommand.isCompleted()) {
+                    Command newCommand = currentCommand.onCompleted();
+                    if(newCommand != null) {
+                      mCommands.add(newCommand);
+                    }
+                    mCommands.remove(0);
+                  }
+                  
                 }
                 
                 // Other command logic

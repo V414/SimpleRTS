@@ -13,10 +13,10 @@ import com.dinasgames.main.inputs.Input;
  */
 public class Controller {
     
-    protected Input mInput;
+    protected Input mInput, mPreviousInput;
     
     protected Controller() {
-        mInput = null;
+        mInput = mPreviousInput = null;
     }
     
     public void update() {
@@ -25,6 +25,10 @@ public class Controller {
     
     public Input getInput() {
         return mInput;
+    }
+    
+    public Input getPreviousInput() {
+      return mPreviousInput;
     }
     
 }
