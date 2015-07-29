@@ -94,7 +94,7 @@ public class LocalPlayer extends Player {
         
         if(input.shift) {
           speed *= 2.f;
-          if(input.keyP){
+          if(input.keyP && !previousInput.keyP){
             NewBuilding newBuilding = new NewBuilding(mScene, new PowerPlant(null));
             newBuilding.setPosition(input.mousePosition.x, input.mousePosition.y);
             newBuilding.setOwner(mScene.getLocalPlayer());
