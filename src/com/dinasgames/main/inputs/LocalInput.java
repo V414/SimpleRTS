@@ -33,7 +33,7 @@ public class LocalInput extends Input {
         control         = Keyboard.isKeyPressed(Keyboard.Key.LeftControl);
         shift           = Keyboard.isKeyPressed(Keyboard.Key.LeftShift);
         mousePosition   = Mouse.getPosition();
-        
+        keyP            = Keyboard.isKeyPressed(Keyboard.Key.P);
     }
     
 }

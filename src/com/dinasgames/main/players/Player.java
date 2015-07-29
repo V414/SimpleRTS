@@ -10,8 +10,10 @@ import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.GameObjectType;
+import com.dinasgames.main.objects.commands.BuildBuildingCommand;
 import com.dinasgames.main.objects.commands.MoveCommand;
 import com.dinasgames.main.objects.commands.MoveToResourceCommand;
+import com.dinasgames.main.objects.entities.buildings.NewBuilding;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.utils.EntitySelection;
@@ -188,9 +190,10 @@ public class Player {
       for (Entity selectedEntity : selectedEntities) {
         if (selectedEntity.hasType(GameObjectType.Unit)) {
           Unit unit = (Unit) selectedEntity;
-          if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.OilDerrick)){
+          
+          if(unit.hasType(GameObjectType.SupplyTruck)){
+            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.OilDerrick)){
             OilDerrick oilDerrick = (OilDerrick) checkIfObject(mousePosition);
-            if(unit.hasType(GameObjectType.SupplyTruck)){
               for(GameObject object : mScene.getObjectsList()){
                 if(object.hasType(GameObjectType.Warehouse)){
                   Warehouse warehouse = (Warehouse) object;
@@ -200,6 +203,18 @@ public class Player {
                   }
                 }
               }
+            }else{
+              unit.issueCommand(new MoveCommand(mousePosition));
+            }
+          }else if(unit.hasType(GameObjectType.Bulldozer)){
+            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.NewBuilding)){
+              NewBuilding newBuilding = (NewBuilding) checkIfObject(mousePosition);
+              if(newBuilding.getOwner() == unit.getOwner()){
+                unit.issueCommand(new BuildBuildingCommand(newBuilding, mScene));
+                break;
+              }
+            }else{
+            unit.issueCommand(new MoveCommand(mousePosition));
             }
           }else{
           unit.issueCommand(new MoveCommand(mousePosition));

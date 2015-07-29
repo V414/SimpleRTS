@@ -22,7 +22,7 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
   protected RectangleShape mWheelsBack;
   protected RectangleShape mWheelsFront;
   
-  protected int carryingAmount = 30;
+  protected int carryingAmount = 0;
   protected int carryingMax = 30;
   
   public SupplyTruck(Scene scene){
