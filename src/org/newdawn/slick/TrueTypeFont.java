@@ -392,9 +392,9 @@ public class TrueTypeFont implements org.newdawn.slick.Font {
             }
             
             // Don't added verticies for new line characters
-            if( c != 10 ) {
+            //if( c != 10 ) {
               vertexCount += 6;
-            }
+            //}
             
           }
           

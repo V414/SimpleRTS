@@ -27,6 +27,7 @@ public class ClientGame extends LocalGame {
     protected String mName;
     protected NonBlockingClient mClient;
     protected Timer mPingTimer;
+    protected int mPing;
     
     public ClientGame() {
         
@@ -115,7 +116,8 @@ public class ClientGame extends LocalGame {
                 }
             }
             
-            System.out.println("Client ping: " + mClient.getPing().asMilliseconds() + "ms");
+            //System.out.println("Client ping: " + mClient.getPing().asMilliseconds() + "ms");
+            mPing = (int)mClient.getPing().asMilliseconds();
             
         });
         

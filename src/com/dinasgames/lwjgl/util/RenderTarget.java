@@ -214,6 +214,16 @@ public class RenderTarget {
             resetGLStates();
         }
         
+        View oldView = null;
+        
+        if(states.gui) {
+          
+          oldView = mView;
+          
+          setView(new View( 0.f, 0.f, mView.mSizeX, mView.mSizeY ));
+          
+        }
+        
         applyTransform(states.transform);
         
         if(mCache.viewChanged) {
@@ -256,6 +266,10 @@ public class RenderTarget {
 
         // Draw the verticies
         GL11.glDrawArrays(mode, 0, verts.getSize());
+        
+        if(oldView != null) {
+          setView(oldView);
+        }
         
     }
     

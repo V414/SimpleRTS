@@ -18,6 +18,7 @@ public class RenderStates {
     public BlendMode    blendMode;
     public Transform    transform;
     public Texture      texture;
+    public boolean      gui;
     //public Shader       shader;
     
     ////////////////////////////////////////////////////////////
@@ -25,6 +26,7 @@ public class RenderStates {
         this.blendMode  = BlendMode.BlendAlpha;
         this.transform  = new Transform();
         this.texture    = null;
+        this.gui        = false;
     }
   
     public RenderStates(Transform transform) {

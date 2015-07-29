@@ -236,6 +236,7 @@ public class Shape extends Renderable {
         
         RenderStates copy = new RenderStates(states);
         
+        copy.gui = mGUI;
         copy.transform.multiply(getTransform());
         
         //target.draw(mVerts, states);

@@ -88,8 +88,8 @@ public class LocalGame extends WindowGame {
             mFps = mFpsCounter;
             mFpsCounter = 0;
             
-            System.out.println("FPS: " + mFps);
-            System.out.println("Step Count: " + mStepCount);
+//            System.out.println("FPS: " + mFps);
+//            System.out.println("Step Count: " + mStepCount);
             
             mStepCount = 0;
             

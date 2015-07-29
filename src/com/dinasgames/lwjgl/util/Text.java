@@ -180,6 +180,8 @@ public class Text extends Renderable implements Drawable {
       // Apply the texture
       states.texture = mTexture;
       
+      states.gui = mGUI;
+      
       // Render the text
       //target.draw(this, states);
       target.draw(mVerts, states);

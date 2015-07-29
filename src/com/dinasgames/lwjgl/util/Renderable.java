@@ -15,7 +15,7 @@ public class Renderable extends Transformable implements Drawable {
     
     protected Renderer mRenderer;
     protected Scene mScene;
-    protected boolean mVisible;
+    protected boolean mVisible, mGUI;
     protected int mDepth;
     protected int mID;
     
@@ -24,6 +24,12 @@ public class Renderable extends Transformable implements Drawable {
         mDepth = 0;
         mID = -1;
         mScene = null;
+        mGUI = false;
+    }
+    
+    public Renderable setGUI(boolean flag) {
+      mGUI = flag;
+      return this;
     }
     
     public Renderable setScene(Scene scene) {

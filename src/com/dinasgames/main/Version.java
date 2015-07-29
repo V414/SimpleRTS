@@ -12,6 +12,10 @@ package com.dinasgames.main;
 public class Version {
     
     public static final Version current = new Version(0, 0, 100, 0);
+
+  public static String getString() {
+    return current.toString();
+  }
     
     public int major, minor, build, release;
     
