@@ -92,7 +92,7 @@ public class LocalPlayer extends Player {
         // Camera movement via keyboard keys
         float speed = 800.f * timePassed.asSeconds();
         
-        if(input.shift) {
+        if(input.shift || input.rightShift) {
           speed *= 2.f;
           if(input.keyP && !previousInput.keyP){
             NewBuilding newBuilding = new NewBuilding(mScene, new PowerPlant(null));

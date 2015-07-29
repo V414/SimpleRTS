@@ -40,7 +40,6 @@ public class BuildBuildingCommand extends Command {
             // Make the object move to x,y
             
             e.addBehaviour(new BBuildBuilding(e, scene, newBuilding));
-            
         }
         
     }

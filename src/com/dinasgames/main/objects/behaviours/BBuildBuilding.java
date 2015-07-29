@@ -65,6 +65,7 @@ public class BBuildBuilding extends Behaviour {
 
 
           addBuilding();
+          mBuilt = true;
         }
       }
       
