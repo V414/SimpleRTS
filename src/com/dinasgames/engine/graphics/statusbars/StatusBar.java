@@ -24,7 +24,7 @@ public class StatusBar extends Shape {
     
     public StatusBar() {
         
-        mForegroundColor = Color.WHITE;
+        mForegroundColor = Color.WHITE();
         
         mWidth = 100.f;
         mHeight = 10.f;

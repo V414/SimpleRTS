@@ -135,10 +135,10 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         
         loadingProgress.setDepth(-100);
         loadingProgress.setHeight(3.f);
-        loadingProgress.setFillColor(Color.BLACK);
-        loadingProgress.setForegroundColor(Color.GREEN);
+        loadingProgress.setFillColor(Color.BLACK());
+        loadingProgress.setForegroundColor(Color.GREEN());
         loadingProgress.setOutlineThickness(1.f);
-        loadingProgress.setOutlineColor(Color.BLACK);
+        loadingProgress.setOutlineColor(Color.BLACK());
         loadingProgress.setCurrentValue(carryingAmount);
         loadingProgress.setMaxValue(carryingMax);
         

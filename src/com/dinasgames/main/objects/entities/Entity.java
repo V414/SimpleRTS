@@ -104,8 +104,8 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
         mHealthbar.setForegroundColor(Color.RED());
         mHealthbar.setOutlineThickness(1.f);
         mHealthbar.setOutlineColor(Color.BLACK());
-        mHealthbar.setHealth(mHealth);
-        mHealthbar.setMaxHealth(mHealthMax);
+        mHealthbar.setCurrentValue(mHealth);
+        mHealthbar.setMaxValue(mHealthMax);
         
         // We want to be in front!
         mHealthbar.setDepth(-100);
