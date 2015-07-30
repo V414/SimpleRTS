@@ -24,7 +24,7 @@ public interface Tile {
   
   /**
    * Whether to block sea units from passing this tile. I.e. a boat
-   * @return 
+   * @return interface
    */
   public boolean blockSea();
   

@@ -202,7 +202,7 @@ public class HealthbarShape extends Shape {
             // Don't divide by zero!
             foregroundSize.x = 0;
         }else{
-            foregroundSize.x = Math.max(0.f, Math.min(width, (mHealthMax / mHealth) * width));
+            foregroundSize.x = Math.max(0.f, Math.min(width, (mHealth / mHealthMax) * width));
         }
         foregroundSize.y = height;
         

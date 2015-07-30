@@ -519,6 +519,7 @@ public class RenderTarget {
             GL11.glEnableClientState(GL11.GL_VERTEX_ARRAY);
             GL11.glEnableClientState(GL11.GL_COLOR_ARRAY);
             GL11.glEnableClientState(GL11.GL_TEXTURE_COORD_ARRAY);
+            //GL11.glEnable(GL13.GL_MULTISAMPLE);
             mCache.glStatesSet = true;
 
             applyBlendMode(BlendMode.BlendAlpha);
