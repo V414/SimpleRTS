@@ -60,13 +60,13 @@ public class LightTank extends LandVehicle implements RenderEvents, SceneEvents 
         
         // Tank moves at 25mph
         // It gets to its top speed in around 12 seconds
-        this.mSpeed         = 30.f;
+        this.mSpeed         = 20.f;
         this.mAcceleration  = 34.7f;
         this.mDeceleration  = 30.f;
         
         // Setup Entity attributes
-        this.mWidth     = 35.f;
-        this.mHeight    = 15.f;
+        this.mWidth     = 30.f;
+        this.mHeight    = 12.f;
         
         // Setup listener events
         LightTank self = this;

@@ -137,7 +137,7 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         super.onRenderAdd(r);
         
         // Create our render objects
-        mShapeTracks = new RectangleShape( mWidth / 1.2f, mHeight - 8.f );
+        mShapeTracks = new RectangleShape( mWidth / 1.2f, mHeight + 8.f );
 
         mShapeTracks.setFillColor(new Color(20, 20, 20));
         mShapeTracks.setOutlineColor(Color.BLACK);

@@ -129,19 +129,19 @@ public class Bazooka extends Infantry implements RenderEvents, SceneEvents {
         super.onRenderAdd(r);
         
         // Create our render objects
-        mShapeBody = new CircleShape(mWidth / 2.f);
+        mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
         mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
         
-        mShapeGun = new RectangleShape(4.f, 12.f);
+        mShapeGun = new RectangleShape(4.f, 14.f);
         
         mShapeGun.setFillColor(Color.BLACK);
         mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
-        mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
+        mShapeGun.setOrigin(mShapeBody.getPosition().x+3.f, mShapeBody.getPosition().y/2+2.f);
         
         // Add them to the renderer
         r.add(mShapeBody);

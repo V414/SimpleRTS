@@ -15,7 +15,9 @@ import com.dinasgames.main.objects.entities.units.infantry.Bazooka;
 import com.dinasgames.main.objects.entities.units.infantry.Flamethrower;
 import com.dinasgames.main.objects.entities.units.infantry.Rifleman;
 import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
+import com.dinasgames.main.objects.entities.units.vehicles.land.HeavyTank;
 import com.dinasgames.main.objects.entities.units.vehicles.land.LightTank;
+import com.dinasgames.main.objects.entities.units.vehicles.land.MediumTank;
 import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.players.PlayerList;
@@ -122,6 +124,14 @@ public class TestScene extends Scene {
         OilDerrick oilDerrick = new OilDerrick(this);
         oilDerrick.setPosition(500, 500);
         oilDerrick.setOwner(getLocalPlayer());
+        
+        MediumTank mediumTank = new MediumTank(this);
+        mediumTank.setPosition(300, 300);
+        mediumTank.setOwner(getLocalPlayer());
+        
+        HeavyTank heavyTank = new HeavyTank(this);
+        heavyTank.setPosition(300, 200);
+        heavyTank.setOwner(getLocalPlayer());
         
         
         

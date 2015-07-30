@@ -35,7 +35,9 @@ public enum GameObjectType {
     OilDerrick      (0x00100000),
     SupplyTruck     (0x00200000),
     Warehouse       (0x00400000),
-    NewBuilding     (0x00800000);
+    NewBuilding     (0x00800000),
+    MediumTank      (0x01000000),
+    HeavyTank       (0x02000000);
     
     // Constructor
     private final int mId;

@@ -9,7 +9,6 @@ import com.dinasgames.engine.graphics.shapes.CircleShape;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
-import com.dinasgames.engine.math.Point;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.entities.Entity;
@@ -138,7 +137,7 @@ public class Flamethrower extends Infantry {
         super.onRenderAdd(r);
         
         // Create our render objects
-        mShapeBody = new CircleShape(mWidth / 2.f);
+        mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
         mShapeBody.setOutlineColor(Color.BLACK);
@@ -151,7 +150,7 @@ public class Flamethrower extends Infantry {
         mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
         //mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
-        mShapeGun.setOrigin(0.f, mHeight / 2.f);
+        mShapeGun.setOrigin(-mWidth/4, 0);
         
         mShapeGunEnd = new RectangleShape( 4.f, 4.f );
         
@@ -159,15 +158,15 @@ public class Flamethrower extends Infantry {
         mShapeGunEnd.setOutlineColor(Color.BLACK);
         mShapeGunEnd.setOutlineThickness(0.f);
         //mShapeGunEnd.setOrigin(mShapeBody.getPosition().x+mGunSize.x/2, mShapeBody.getPosition().y/2-mGunSize.y+mGunSize.x*1.5f);
-        mShapeGunEnd.setOrigin( mWidth / 2.f, - mHeight + mWidth * 1.5f ); // WTF!?
+        mShapeGunEnd.setOrigin( -mWidth/4+1.f, -10.f );
         
-        mShapeBackpack = new RectangleShape( 1.f, 5.f );
+        mShapeBackpack = new RectangleShape( 5.f, 8.f );
         
         mShapeBackpack.setFillColor(Color.BLACK);
         mShapeBackpack.setOutlineColor(Color.BLACK);
         mShapeBackpack.setOutlineThickness(0.f);
         //mShapeBackpack.setOrigin(mSize.x-(mSize.x/3), mSize.y/2);
-        mShapeBackpack.setOrigin( mWidth - (mWidth / 3.f), mHeight / 2.f );
+        mShapeBackpack.setOrigin( mWidth/2+2.5f, +4.f );
         
         // Add them to the renderer
         r.add(mShapeBody);

@@ -58,7 +58,7 @@ public class Rifleman extends Infantry implements RenderEvents, SceneEvents {
         this.mRange         = 50.f;
         this.mReloadTime    = Time.seconds(.5f);
         
-        mSpeed          = 12.f;
+        mSpeed          = 6.f;
         mAcceleration   = 1.f;
         mDeceleration   = 1.f;
         
@@ -134,19 +134,19 @@ public class Rifleman extends Infantry implements RenderEvents, SceneEvents {
         super.onRenderAdd(r);
         
         // Create our render objects
-        mShapeBody = new CircleShape(mWidth / 2.f);
+        mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
         mShapeBody.setOutlineColor(Color.BLACK);
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
         
-        mShapeGun = new RectangleShape(2.f, 10.f);
+        mShapeGun = new RectangleShape(2.5f, 10.f);
         
         mShapeGun.setFillColor(Color.BLACK);
         mShapeGun.setOutlineColor(Color.BLACK);
         mShapeGun.setOutlineThickness(0.f);
-        mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
+        mShapeGun.setOrigin(mShapeBody.getPosition().x+1.f, mShapeBody.getPosition().y/2);
         
         // Add them to the renderer
         r.add(mShapeBody);
