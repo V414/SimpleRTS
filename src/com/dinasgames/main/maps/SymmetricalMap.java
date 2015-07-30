@@ -1,6 +1,10 @@
 package com.dinasgames.main.maps;
 
+import com.dinasgames.main.maps.tiles.Tile;
 import com.dinasgames.engine.graphics.View;
+import com.dinasgames.main.maps.tiles.GrassTile;
+import com.dinasgames.main.maps.tiles.MountainTile;
+import com.dinasgames.main.maps.tiles.WaterTile;
 
 
 
@@ -12,7 +16,7 @@ public class SymmetricalMap extends Map {
   }
   
   @Override
-  public Tile[] generate() {
+  public Tile[] generateTiles() {
     
     // Create a blank map
     Tile[] tiles = newTiles();
@@ -65,17 +69,17 @@ public class SymmetricalMap extends Map {
         {
           
           // Change this tile to mountain
-          setTile( tiles, x, y, new Tile( Tile.Type.Mountain ));
+          setTile( tiles, x, y, new MountainTile());
           
         }else if(centreMountain.contains(x, y)) {
           
           // Change this tile to water
-          setTile( tiles, x, y, new Tile( Tile.Type.Water ));
+          setTile( tiles, x, y, new WaterTile());
           
         }else{
           
           // Change this tile to grass
-          setTile( tiles, x, y, new Tile( Tile.Type.Grassland ) );
+          setTile( tiles, x, y, new GrassTile());
           
         }
         

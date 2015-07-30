@@ -5,7 +5,11 @@
  */
 package com.dinasgames.main.maps;
 
+import com.dinasgames.main.maps.tiles.Tile;
 import com.dinasgames.engine.math.RandomNumber;
+import com.dinasgames.main.maps.tiles.GrassTile;
+import com.dinasgames.main.maps.tiles.MountainTile;
+import com.dinasgames.main.maps.tiles.WaterTile;
 
 /**
  *
@@ -19,7 +23,7 @@ public class FunkyMap extends Map {
   }
   
   @Override
-  public Tile[] generate() {
+  public Tile[] generateTiles() {
     
     // Create a blank map
     Tile[] tiles = newTiles();
@@ -29,7 +33,13 @@ public class FunkyMap extends Map {
       for(int y = 0; y < getHeightInTiles(); y++) {
         
         // Choose a tile at random
-        Tile thisTile = new Tile( RandomNumber.choose(new Tile.Type[]{ Tile.Type.Grassland, Tile.Type.Water, Tile.Type.Mountain }) );
+        Tile thisTile = null;
+        
+        switch( RandomNumber.choose(new Integer[]{ 0, 1, 2 }) ) {
+          case 0: thisTile = new GrassTile(); break;
+          case 1: thisTile = new WaterTile(); break;
+          case 2: thisTile = new MountainTile(); break;
+        }
         
         // Apply this tile
         setTile( tiles, x, y, thisTile );

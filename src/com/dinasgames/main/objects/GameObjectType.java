@@ -38,6 +38,9 @@ public enum GameObjectType {
     NewBuilding     (0x00800000),
     MediumTank      (0x01000000),
     HeavyTank       (0x02000000);
+    SeaInfantry     (0x01000000),
+    LandInfantry    (0x02000000),
+    AirInfantry     (0x04000000);
     
     // Constructor
     private final int mId;
