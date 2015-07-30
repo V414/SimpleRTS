@@ -17,27 +17,37 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
     /**
      * The main body for the bulldozer.
      */
-    RectangleShape mShapeBody;
+    protected RectangleShape mShapeBody;
 
     /**
     * The bulldozer cabin
     */
-    RectangleShape mShapeCabin;
+    protected RectangleShape mShapeCabin;
 
     /**
     * Bucket connector.
     */
-    RectangleShape mShapeBucketConnector;
+    protected RectangleShape mShapeBucketConnector;
 
     /**
     * The bucket shape.
     */
-    RectangleShape mShapeBucket;
+    protected RectangleShape mShapeBucket;
 
     /**
     * Tracks.
     */
-    RectangleShape mShapeTracks;
+    protected RectangleShape mShapeTracks;
+    
+    /**
+     * Amount of Time required before building amount added, in seconds
+     */
+    protected int buildingSpeed;
+    
+    /**
+     * Percentage added until completion
+     */
+    protected int buildingAmount;
   
     /**
      * The default constructor.
@@ -56,6 +66,8 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         this.mMaxAmmo       = 1;
         this.mRange         = 100.f;
         this.mReloadTime    = Time.seconds(1.f);
+        this.buildingAmount = 5;
+        this.buildingSpeed  = 1;
         
         // Setup Entity attributes
         this.mWidth     = 20.f;
@@ -218,6 +230,14 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         r.remove(mShapeBucket);
         r.remove(mShapeTracks);
         
+    }
+    
+    public int getBuildingAmount(){
+      return buildingAmount;
+    }
+    
+    public int getBuildingSpeed(){
+      return buildingSpeed;
     }
     
     @Override
