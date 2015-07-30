@@ -30,6 +30,7 @@ public class Path extends Renderable {
   public Path() {
     mVerts        = new VertexCache(PrimitiveType.LinesStrip);
     mUpdateNeeded = false;
+    mColor        = Color.WHITE();
   }
 
   /**

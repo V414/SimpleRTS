@@ -35,7 +35,7 @@ public class FunkyMap extends Map {
         // Choose a tile at random
         Tile thisTile = null;
         
-        switch( RandomNumber.choose(new Integer[]{ 0, 1, 2 }) ) {
+        switch( RandomNumber.choose(new Integer[]{ 0, 1, 2, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 2, 0, 0 }) ) {
           case 0: thisTile = new GrassTile(); break;
           case 1: thisTile = new WaterTile(); break;
           case 2: thisTile = new MountainTile(); break;

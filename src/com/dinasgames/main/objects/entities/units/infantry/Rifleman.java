@@ -18,8 +18,9 @@ import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.objects.entities.units.infantry.land.LandInfantry;
 
-public class Rifleman extends Infantry implements RenderEvents, SceneEvents {
+public class Rifleman extends LandInfantry implements RenderEvents, SceneEvents {
   
     /**
      * The soldiers body.

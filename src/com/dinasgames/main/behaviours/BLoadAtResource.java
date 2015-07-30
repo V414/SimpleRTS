@@ -8,7 +8,7 @@ import com.dinasgames.engine.system.Time;
 
 public class BLoadAtResource extends Behaviour {
     
-    public static int ID = 3;
+    public static int ID = 4;
     private SupplyTruck supplyTruck;
     private final Warehouse warehouse;
     private final OilDerrick oilDerrick;

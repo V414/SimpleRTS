@@ -1,20 +1,14 @@
 package com.dinasgames.main.behaviours;
 
-import com.dinasgames.main.World;
-import com.dinasgames.engine.math.Point;
-import com.dinasgames.main.objects.GameObject;
-import static com.dinasgames.main.behaviours.BLoadAtResource.ID;
 import com.dinasgames.main.commands.MoveToResourceCommand;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
-import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.engine.system.Time;
-import com.dinasgames.net.StateValue;
 
 public class BUnloadAtWarehouse extends Behaviour {
     
-    public static int ID = 2;
+    public static int ID = 4;
     private SupplyTruck supplyTruck;
     private final Warehouse warehouse;
     private final OilDerrick oilDerrick;

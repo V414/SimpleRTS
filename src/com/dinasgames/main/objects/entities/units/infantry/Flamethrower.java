@@ -15,8 +15,9 @@ import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.objects.entities.units.infantry.land.LandInfantry;
 
-public class Flamethrower extends Infantry {
+public class Flamethrower extends LandInfantry {
 
     /**
      * The soldiers body

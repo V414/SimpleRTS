@@ -11,7 +11,7 @@ import com.dinasgames.main.objects.entities.buildings.Barracks;
 
 public class BBuildBuilding extends Behaviour {
     
-    public static int ID = 2;
+    public static int ID = 3;
     
     protected Bulldozer bulldozer;
     protected NewBuilding newBuilding;

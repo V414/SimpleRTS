@@ -1,12 +1,14 @@
 package com.dinasgames.main.scenes;
 
 //import com.dinasgames.engine.graphics.MapDrawer;
+import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.main.games.Game;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.maps.FunkyMap;
 import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.engine.pathfinding.Path;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
@@ -112,14 +114,28 @@ public class TestScene extends Scene {
         // Render the map
         map.setDepth(1000);
         map.render(getRenderer());
-        map.getGridShape().render(getRenderer()).setDepth(-1000);
+        //map.getGridShape().render(getRenderer()).setDepth(-1000);
+        
+//        // Generate a test path
+//        Path path = map.findPathUsingPixels( new SupplyTruck(this), 100.f, 100.f, 700.f, 700.f );
+//        
+//        if(path != null) {
+//          path.setColor(Color.RED());
+//          path.setDepth(-1000);
+//          path.render(mRenderer);
+//        }else{
+//          System.out.println("Failed to create path.");
+//        }
+        
+        // Set the current map
+        mMap = map;
         
     }
     
     @Override
     public Scene onCreate() {
       
-        setupMap(new SymmetricalMap());
+        setupMap(new FunkyMap());
        
         Barracks barracks = new Barracks(this);
         barracks.setPosition(200, 200);

@@ -11,6 +11,7 @@ import com.dinasgames.main.objects.RenderEvents;
 import com.dinasgames.main.objects.SceneEvents;
 import com.dinasgames.main.players.LocalPlayer;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.maps.Map;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -22,6 +23,7 @@ public class Scene {
     
     public static final int MAX_OBJECTS = 1024;
     
+    protected Map mMap;
     protected Renderer mRenderer;
     protected Game mGame;
     protected GameObject[]  mObjects;
@@ -79,6 +81,14 @@ public class Scene {
     // Events
     public Scene onCreate() {
         return this;
+    }
+    
+    /**
+     * Get the current map. Note: This can return null.
+     * @return 
+     */
+    public Map getMap() {
+      return mMap;
     }
     
     public Scene clear() {

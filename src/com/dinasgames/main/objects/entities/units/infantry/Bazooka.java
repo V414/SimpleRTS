@@ -18,8 +18,9 @@ import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.objects.entities.units.infantry.land.LandInfantry;
 
-public class Bazooka extends Infantry implements RenderEvents, SceneEvents {
+public class Bazooka extends LandInfantry implements RenderEvents, SceneEvents {
   
     /**
      * The soldiers body.

@@ -1,5 +1,8 @@
 package com.dinasgames.main.objects.entities.units;
 
+import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.engine.pathfinding.Mover;
+import com.dinasgames.engine.pathfinding.Path;
 import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.LogicEvents;
@@ -7,10 +10,11 @@ import com.dinasgames.main.commands.Command;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Clock;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.maps.Map;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Unit extends Entity implements LogicEvents {
+public class Unit extends Entity implements LogicEvents, Mover {
     
     /**
      * Speed in meters per second.
@@ -333,6 +337,43 @@ public class Unit extends Entity implements LogicEvents {
     protected void recalculateBoundingBox() {
         super.recalculateBoundingBox();
         mBoundingBox.setSize(mWidth, mHeight);
+    }
+    
+    /**
+     * Find a path from our current position to the given target using the map from scene. Note: This function can return null.
+     * @param scene
+     * @param targetX
+     * @param targetY
+     * @return null when path not found. Path on success.
+     */
+    public Path findPath( Scene scene, float targetX, float targetY ) {
+      
+      // Check that we're in a scene
+      if(scene == null) {
+        return null;
+      }
+      
+      // Get the current map for the scene.
+      Map currentMap = scene.getMap();
+      
+      // Ensure the map is valid
+      if(currentMap == null) {
+        return null;
+      }
+      
+      // Attempt to find the path
+      return currentMap.findPathUsingPixels( this, mX, mY, targetX, targetY );
+      
+    }
+    
+    /**
+     * Shortcut function to findPath( ... )
+     * @param scene
+     * @param target
+     * @return 
+     */
+    public Path findPath( Scene scene, Vector2f target ) {
+      return findPath( scene, target.x, target.y );
     }
     
 //    public Vector2f getTargetPosition(){

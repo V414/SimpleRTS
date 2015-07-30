@@ -19,6 +19,7 @@ import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import com.dinasgames.main.objects.utils.EntitySelection;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.behaviours.BPathFindTo.Data;
 import java.util.List;
 
 /**
@@ -184,42 +185,49 @@ public class Player {
     }
     
     protected void setNewTargetPosition(Vector2f mousePosition) {
-      
-      List<Entity> selectedEntities = mEntitySelection.getSelections();
-      
-      for (Entity selectedEntity : selectedEntities) {
-        if (selectedEntity.hasType(GameObjectType.Unit)) {
-          Unit unit = (Unit) selectedEntity;
-          
-          if(unit.hasType(GameObjectType.SupplyTruck)){
-            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.OilDerrick)){
-            OilDerrick oilDerrick = (OilDerrick) checkIfObject(mousePosition);
-              for(GameObject object : mScene.getObjectsList()){
-                if(object.hasType(GameObjectType.Warehouse)){
-                  Warehouse warehouse = (Warehouse) object;
-                  if(warehouse.getOwner() == unit.getOwner()){
-                    unit.issueCommand(new MoveToResourceCommand(oilDerrick, warehouse));
-                    break;
-                  }
-                }
-              }
-            }else{
-              unit.issueCommand(new MoveCommand(mousePosition));
-            }
-          }else if(unit.hasType(GameObjectType.Bulldozer)){
-            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.NewBuilding)){
-              NewBuilding newBuilding = (NewBuilding) checkIfObject(mousePosition);
-              if(newBuilding.getOwner() == unit.getOwner()){
-                unit.issueCommand(new BuildBuildingCommand(newBuilding, mScene));
-              }
-            }else{
-            unit.issueCommand(new MoveCommand(mousePosition));
-            }
-          }else{
-          unit.issueCommand(new MoveCommand(mousePosition));
-          }
+
+      for( Entity e : mEntitySelection.getSelections()) {
+        if( e instanceof Unit ) {
+          Unit unit = (Unit)e;
+          unit.issueCommand(new MoveCommand( mScene, mousePosition.x, mousePosition.y ));
         }
       }
+      
+//      List<Entity> selectedEntities = mEntitySelection.getSelections();
+//      
+//      for (Entity selectedEntity : selectedEntities) {
+//        if (selectedEntity.hasType(GameObjectType.Unit)) {
+//          Unit unit = (Unit) selectedEntity;
+//          
+//          if(unit.hasType(GameObjectType.SupplyTruck)){
+//            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.OilDerrick)){
+//            OilDerrick oilDerrick = (OilDerrick) checkIfObject(mousePosition);
+//              for(GameObject object : mScene.getObjectsList()){
+//                if(object.hasType(GameObjectType.Warehouse)){
+//                  Warehouse warehouse = (Warehouse) object;
+//                  if(warehouse.getOwner() == unit.getOwner()){
+//                    unit.issueCommand(new MoveToResourceCommand(oilDerrick, warehouse));
+//                    break;
+//                  }
+//                }
+//              }
+//            }else{
+//              unit.issueCommand(new MoveCommand(mousePosition));
+//            }
+//          }else if(unit.hasType(GameObjectType.Bulldozer)){
+//            if(checkIfObject(mousePosition) != null && checkIfObject(mousePosition).hasType(GameObjectType.NewBuilding)){
+//              NewBuilding newBuilding = (NewBuilding) checkIfObject(mousePosition);
+//              if(newBuilding.getOwner() == unit.getOwner()){
+//                unit.issueCommand(new BuildBuildingCommand(newBuilding, mScene));
+//              }
+//            }else{
+//            unit.issueCommand(new MoveCommand(mousePosition));
+//            }
+//          }else{
+//          unit.issueCommand(new MoveCommand(mousePosition));
+//          }
+//        }
+//      }
     }
     
     protected void startSelection(Vector2f mousePosition) {

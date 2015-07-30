@@ -9,14 +9,19 @@ import com.dinasgames.engine.graphics.shapes.GridShape;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.engine.math.Vector2i;
+import com.dinasgames.engine.pathfinding.AStarPathFinder;
 import com.dinasgames.engine.pathfinding.Mover;
+import com.dinasgames.engine.pathfinding.Path;
+import com.dinasgames.engine.pathfinding.Path.Step;
+import com.dinasgames.engine.pathfinding.PathFinder;
 import com.dinasgames.engine.pathfinding.TileBasedMap;
 import com.dinasgames.main.maps.tiles.PathTile;
+import com.dinasgames.main.objects.GameObject;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Map extends Renderable implements TileBasedMap {
-
+  
   /**
    * A data structure to store map chunk data.
    */
@@ -55,6 +60,27 @@ public class Map extends Renderable implements TileBasedMap {
   }
   
   /**
+   * A class to represent a blockage on the map. This will be used for buildings that can be created and destroyed after the path finding generation.
+   */
+  protected class Blockage {
+    
+    int top, left, bottom, right;
+    
+    public Blockage( int top, int left, int bottom, int right ) {
+      this.top = top;
+      this.left = left;
+      this.bottom = bottom;
+      this.right = right;
+    }
+    
+  }
+  
+  /**
+   * A Path Finder for this map.
+   */
+  private final PathFinder mPathFinder;
+  
+  /**
    * A grid used to debug the path finding grid,
    */
   private GridShape mGridShape;
@@ -80,10 +106,17 @@ public class Map extends Renderable implements TileBasedMap {
   private RectangleShape[] mShapes;
   
   /**
+   * Keep track of blockages.
+   */
+  protected Blockage[] mBlockages;
+  
+  /**
    * Default constructor
    */
   public Map() {
-    
+    // AStarPathFinder( Map, Max Search Distance, Allow Diagonal Movement )
+    mPathFinder = new AStarPathFinder(this, 500, true);
+    //mBlockages = new Blockage[GameObject.MAX_OBJECTS];
   }
   
   /**
@@ -560,8 +593,20 @@ public class Map extends Renderable implements TileBasedMap {
    * Check whether a certain tile is blocked for a particular Mover.
    */
   public boolean blocked(Mover mover, int x, int y) {
-    // TODO: implement this!
-    return false;
+    
+    // Check we have generated path grid
+    if(mPathTiles == null) {
+      return true;
+    }
+    
+    // Check bounds
+    if( x < 0 || y < 0 || x >= getActualWidthInTiles() || y >= getActualHeightInTiles()) {
+      return true;
+    }
+    
+    // Check whether this tile blocks the unit
+    return mPathTiles[ (y * getActualWidthInTiles()) + x].isBlocking(mover);
+    
   }
 
   @Override
@@ -741,6 +786,99 @@ public class Map extends Renderable implements TileBasedMap {
     }
     
     return mGridShape;
+  }
+  
+  /**
+   * Generate a path from sx,sy to tx,ty for mover. Note: sx,sy,tx and ty are based on tiles NOT pixels.
+   * @param mover
+   * @param sx
+   * @param sy
+   * @param tx
+   * @param ty
+   * @return 
+   */
+  public Path findPath( Mover mover, int sx, int sy, int tx, int ty ) {
+    return mPathFinder.findPath( mover, sx, sy, tx, ty );
+  }
+  
+  /**
+   * Shortcut function to findPath( ... )
+   * @param mover
+   * @param start
+   * @param end
+   * @return 
+   */
+  public Path findPath( Mover mover, Vector2i start, Vector2i end ) {
+    return findPath( mover, start.x, start.y, end.x, end.y );
+  }
+  
+  /**
+   * Generate a path from sx,sy to tx,ty using mover as the target unit. Note: sx,sy,tx and ty are in pixels NOT tiles.
+   * @param mover
+   * @param sx
+   * @param sy
+   * @param tx
+   * @param ty
+   * @return 
+   */
+  public Path findPathUsingPixels( Mover mover, float sx, float sy, float tx, float ty ) {
+    
+    // Convert the pixel coordinates into tile coordinates
+    int startX, startY, endX, endY;
+    startX = ((int)Math.round(sx)) / getActualTileWidth();
+    startY = ((int)Math.round(sy)) / getActualTileHeight();
+    endX = ((int)Math.round(tx)) / getActualTileWidth();
+    endY = ((int)Math.round(ty)) / getActualTileHeight();
+    
+    // Ensure the start position is within bounds
+    if(sx < 0.f || sy < 0.f || sx >= getWidth() || sy >= getHeight()) {
+      return null;
+    }
+    
+    // Ensure the target position is within bounds.
+    if(tx < 0.f || ty < 0.f || tx >= getWidth() || ty >= getHeight()) {
+      return null;
+    }
+    
+    // Generate a path
+    Path path = findPath( mover, startX, startY, endX, endY );
+    
+    if(path != null) {
+      
+      Path newPath = new Path();
+      
+      // Convert the path into pixels
+      for(int i = 0; i < path.getLength(); i++) {
+        
+        Step thisStep = path.getStep(i);
+        
+        float newX, newY;
+        newX = (thisStep.getX() * getActualTileWidth()) + (getActualTileWidth() / 2);
+        newY = (thisStep.getY() * getActualTileHeight())  + (getActualTileHeight() / 2);
+        
+        // Append the step to the new map
+        newPath.appendStep( (int)newX, (int)newY );
+        
+      }
+      
+      return newPath;
+      
+    }
+    
+    // Couldn't find a route
+    return null;
+    
+  }
+  
+  /**
+   * Shortcut function to findPathUsingPixels( ... )
+   * @param mover
+   * @param start
+   * @param end
+   * @return 
+   */
+  public Path findPathUsingPixels( Mover mover, Vector2f start, Vector2f end ) {
+    return findPathUsingPixels( mover, start.x, start.y, end.x, end.y );
   }
     
     
