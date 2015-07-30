@@ -16,8 +16,11 @@ import com.dinasgames.main.objects.entities.units.infantry.Flamethrower;
 import com.dinasgames.main.objects.entities.units.infantry.Rifleman;
 import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
 import com.dinasgames.main.objects.entities.units.vehicles.land.HeavyTank;
+import com.dinasgames.main.objects.entities.units.vehicles.land.IFV;
 import com.dinasgames.main.objects.entities.units.vehicles.land.LightTank;
 import com.dinasgames.main.objects.entities.units.vehicles.land.MediumTank;
+import com.dinasgames.main.objects.entities.units.vehicles.land.MissileBattery;
+import com.dinasgames.main.objects.entities.units.vehicles.land.SPArtillery;
 import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.main.players.Player;
 import com.dinasgames.main.players.PlayerList;
@@ -136,6 +139,17 @@ public class TestScene extends Scene {
         heavyTank.setPosition(300, 200);
         heavyTank.setOwner(getLocalPlayer());
         
+        SPArtillery spArt = new SPArtillery(this);
+        spArt.setPosition(300, 100);
+        spArt.setOwner(getLocalPlayer());
+        
+        IFV ifv = new IFV(this);
+        ifv.setPosition(400, 100);
+        ifv.setOwner(getLocalPlayer());
+        
+        MissileBattery missileBattery = new MissileBattery(this);
+        missileBattery.setPosition(200, 100);
+        missileBattery.setOwner(getLocalPlayer());
         
         
 //      Map map = new SymmetricalMap();
