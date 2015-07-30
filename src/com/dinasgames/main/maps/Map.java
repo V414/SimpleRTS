@@ -10,6 +10,7 @@ import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.engine.math.Vector2i;
 import com.dinasgames.engine.pathfinding.Mover;
 import com.dinasgames.engine.pathfinding.TileBasedMap;
+import com.dinasgames.main.maps.tiles.PathTile;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -39,13 +40,6 @@ public class Map extends Renderable implements TileBasedMap {
   };
   
   /**
-   * A data structure with information about a tile for path finding.
-   */
-  private class PathfindingTile {
-    
-  }
-  
-  /**
    * A class to represent a player start location.
    */
   public class PlayerStart {
@@ -62,7 +56,7 @@ public class Map extends Renderable implements TileBasedMap {
   /**
    * A list of Path finding tiles used to check whether certain units can pass parts of the map.
    */
-  private PathfindingTile[] mPathFindingTiles;
+  private PathTile[] mPathTiles;
   
   /**
    * A list of starting positions for players.
@@ -111,13 +105,80 @@ public class Map extends Renderable implements TileBasedMap {
    */
   protected void calculatePathfindingGrid(Tile[] tiles) {
     
-    // Ensure the map is generated first
     if(tiles == null) {
-      calculatePathfindingGrid(generate());
       return;
     }
     
-    // Generate path finding tiles
+    /**
+     * Problem:
+     * Because the tile size used by the path finding engine will most likely be
+     * different from that of the visual effect size, we have to
+     * look at all the visual tiles and judge whether they are blocking of
+     * particular kinds of unit.
+     * 
+     * Algorithm:
+     * For land, air and sea take a look at the number of blocking/non-blocking
+     * tiles there are and if there is over 50% either way then that will be the
+     * PathTiles result.
+     */
+    
+    // First get the size of the map in PathTile(s)
+    int rows = getActualHeightInTiles();
+    int cols = getActualWidthInTiles();
+    
+    // Calculate the number of tiles to a PathTile
+    int tilesPerActualTilesX = getActualTileWidth() / getTileWidth();
+    int tilesPerActualTilesY = getActualTileHeight() / getTileHeight();
+    int tileCount = tilesPerActualTilesX * tilesPerActualTilesY;
+    
+    int tileCols = getWidthInTiles();
+    
+    // Create an array
+    mPathTiles = new PathTile[ rows * cols ];
+    
+    // Iterate through these tiles
+    for(int x = 0; x < cols ; x++) {
+      for(int y = 0; y < rows; y++) {
+        
+        // Setup some variables
+        int blockSea, blockAir, blockLand;
+        blockAir = blockLand = blockSea = 0;
+        
+        // Figure out the percentage of each block
+        for(int tx = 0; tx < tilesPerActualTilesX; tx++) {
+          for(int ty = 0; ty < tilesPerActualTilesY; ty++) {
+            
+            int tileX = (x * tilesPerActualTilesX) + tx;
+            int tileY = (y * tilesPerActualTilesY) + ty;
+            
+            Tile thisTile = tiles[ (tileY * tileCols) + tileX ];
+            
+            if(thisTile.blockAir()) {
+              blockAir++;
+            }
+            
+            if(thisTile.blockLand()) {
+              blockLand++;
+            }
+            
+            if(thisTile.blockSea()) {
+              blockSea++;
+            }
+            
+          }
+        }
+        
+        // Calculate percentage
+        float a,b,c;
+        a = (float)blockAir / (float)tileCount;
+        b = (float)blockLand / (float)tileCount;
+        c = (float)blockSea / (float)tileCount;
+        
+        // Set the new tile
+        mPathTiles[ (y * cols) + x ] = new PathTile( (a >= .5f), (b >= .5f), (c >= .5f) );
+        
+      }
+    }
     
   }
   
@@ -207,10 +268,20 @@ public class Map extends Renderable implements TileBasedMap {
   }
   
   /**
-   * Generate the map tiles. Note: These tiles are used for rendering.
+   * Generate the whole map including path finding tiles and player locations.
    * @return 
    */
   public Tile[] generate() {
+    Tile[] tiles = generateTiles();
+    calculatePathfindingGrid(tiles);
+    return tiles;
+  }
+  
+  /**
+   * Generate the map tiles. Note: These tiles are used for rendering.
+   * @return 
+   */
+  public Tile[] generateTiles() {
     return null;
   }
   
@@ -333,6 +404,30 @@ public class Map extends Renderable implements TileBasedMap {
    */
   public int getWidthInChunks() {
     return (int)Math.ceil((double)getWidth()  / (double)getChunkWidth());
+  }
+  
+  /**
+   * Get the width of the map in PathTile(s)
+   * @return 
+   */
+  public int getActualWidthInTiles() {
+    return getWidth() / getActualTileWidth();
+  }
+  
+  /**
+   * Get the height of the map in PathTile(s)
+   * @return 
+   */
+  public int getActualHeightInTiles() {
+    return getHeight() / getActualTileHeight();
+  }
+  
+  /**
+   * Get the size of the map in PathTile(s)
+   * @return 
+   */
+  public Vector2i getActualSizeInTiles() {
+    return new Vector2i(getActualWidthInTiles(), getActualHeightInTiles());
   }
   
   /**
@@ -521,7 +616,6 @@ public class Map extends Renderable implements TileBasedMap {
         
         // Apply some settings
         r.setTexture(t);
-        r.setDepth(1000);
         r.setPosition( x * chunkWidth, y * chunkHeight );
         
         // Add this shape to the renderer
@@ -569,7 +663,39 @@ public class Map extends Renderable implements TileBasedMap {
     
   }
   
+  @Override
+  public void onDepthChange(int oldValue, int newValue) {
+
+    if(mShapes != null) {
+      
+      for(int i = 0; i < mShapes.length; i++) {
+        mShapes[i].setDepth(newValue);
+      }
+
+    }
+    
+  }
+
+  @Override
+  public void onVisibilityChange(boolean oldValue, boolean newValue) {
+
+    if(mShapes != null) {
+      
+      for(int i = 0; i < mShapes.length; i++) {
+        mShapes[i].setVisible(newValue);
+      }
+
+    }
+    
+  }
   
+  /**
+   * Generate a Renderable GridShape to draw path grid.
+   * @return 
+   */
+//  public GridShape getDebugGrid() {
+//    
+//  }
     
     
     

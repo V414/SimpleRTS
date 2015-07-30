@@ -16,7 +16,7 @@ public class SymmetricalMap extends Map {
   }
   
   @Override
-  public Tile[] generate() {
+  public Tile[] generateTiles() {
     
     // Create a blank map
     Tile[] tiles = newTiles();
