@@ -21,6 +21,7 @@ import com.dinasgames.engine.system.Timer;
 import com.dinasgames.engine.network.NonBlockingClient;
 import com.dinasgames.engine.network.NonBlockingServer;
 import com.dinasgames.engine.network.Packet;
+import com.dinasgames.engine.pathfinding.Path;
 import com.dinasgames.server.net.packets.PacketKeepAlive244;
 import com.dinasgames.server.net.packets.PacketLogin10;
 import com.dinasgames.server.net.packets.PacketLoginFailed11;
@@ -43,6 +44,8 @@ public class NetGame extends WindowGame {
     
     Text text;
     Font font;
+    
+    Path path;
     
     @Override
     public void load() {
@@ -217,7 +220,7 @@ public class NetGame extends WindowGame {
         x = new StateValue( 100.f );
         y = new StateValue( 100.f );
         
-        //getWindow().setBackgroundColor(Color.BLACK);
+        getWindow().setBackgroundColor(Color.BLACK);
         
         font = new Font();
         //font.loadFromSystem("Times New Roman", java.awt.Font.BOLD, 12);
@@ -232,7 +235,7 @@ public class NetGame extends WindowGame {
         text = new Text();
         text.setCharacterSize(24);
         text.setText("Hello World!\nNew line!    spaces!");
-        text.setColor(Color.BLACK);
+        text.setColor(Color.YELLOW);
         text.setFont(font);
         text.setPosition(10, 10);
         text.setDepth(-100);
@@ -247,6 +250,18 @@ public class NetGame extends WindowGame {
 //        
 //        y.add( 200, 2000 );
 //        y.add( 300, 3000 );
+        
+        // Create a path
+        path = new Path();
+        
+        path.appendStep(100, 100);
+        path.appendStep(200, 100);
+        path.appendStep(250, 200);
+        path.appendStep(100, 300);
+        
+        path.setColor(Color.RED);
+        
+        path.render(getRenderer());
         
         
     }
