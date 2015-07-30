@@ -28,9 +28,9 @@ public class GUI {
       
       topBar = new RectangleShape(mWindowWidth, 40);
       topBar.setPosition(0, 0);
-      topBar.setFillColor(new Color(150, 200, 200, 220));
+      topBar.setFillColor(new Color(150, 200, 200));
       topBar.setOutlineColor(Color.BLACK());
-      topBar.setOutlineThickness(0.f);
+      topBar.setOutlineThickness(2.f);
       topBar.setOrigin(0, 0);
       topBar.setDepth(-999);
       topBar.setGUI(true);
