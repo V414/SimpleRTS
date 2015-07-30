@@ -39,7 +39,7 @@ public class OilDerrick extends Building implements RenderEvents{
         if(newOwner != null) {
           self.setBodyColor( newOwner.getColor() );
         }else{
-          self.setBodyColor( Color.WHITE );
+          self.setBodyColor( Color.WHITE() );
         }
       }
 
@@ -67,19 +67,19 @@ public class OilDerrick extends Building implements RenderEvents{
 
       mShapeBody = new RectangleShape(mWidth, mHeight);
       mShapeBody.setFillColor(new Color(60, 60, 60, 255));
-      mShapeBody.setOutlineColor(Color.BLACK);
+      mShapeBody.setOutlineColor(Color.BLACK());
       mShapeBody.setOutlineThickness(2.f);
       mShapeBody.setOriginCenter();
 
       mTower = new RectangleShape(mWidth/3, mHeight/1.4f);
       mTower.setFillColor(new Color(20, 20, 20, 255));
-      mTower.setOutlineColor(Color.BLACK);
+      mTower.setOutlineColor(Color.BLACK());
       mTower.setOutlineThickness(2.f);
       mTower.setOrigin(+mWidth/2-mWidth+mWidth/2.5f, mHeight/2-mHeight/7);
 
       mLine = new RectangleShape(mWidth/2, mHeight/8);
       mLine.setFillColor(new Color(20, 20, 20, 255));
-      mLine.setOutlineColor(Color.BLACK);
+      mLine.setOutlineColor(Color.BLACK());
       mLine.setOutlineThickness(2.f);
       mLine.setOrigin(mWidth/2-mWidth/6, +mHeight/16);
 

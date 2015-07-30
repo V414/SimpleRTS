@@ -80,7 +80,7 @@ public class Bazooka extends Infantry implements RenderEvents, SceneEvents {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -132,14 +132,14 @@ public class Bazooka extends Infantry implements RenderEvents, SceneEvents {
         mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
         
         mShapeGun = new RectangleShape(4.f, 14.f);
         
-        mShapeGun.setFillColor(Color.BLACK);
-        mShapeGun.setOutlineColor(Color.BLACK);
+        mShapeGun.setFillColor(Color.BLACK());
+        mShapeGun.setOutlineColor(Color.BLACK());
         mShapeGun.setOutlineThickness(0.f);
         mShapeGun.setOrigin(mShapeBody.getPosition().x+3.f, mShapeBody.getPosition().y/2+2.f);
         

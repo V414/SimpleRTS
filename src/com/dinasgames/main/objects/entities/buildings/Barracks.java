@@ -45,7 +45,7 @@ public class Barracks extends Building implements RenderEvents{
         if(newOwner != null) {
           self.setBodyColor( newOwner.getColor() );
         }else{
-          self.setBodyColor( Color.WHITE );
+          self.setBodyColor( Color.WHITE() );
         }
       }
 
@@ -83,31 +83,31 @@ public class Barracks extends Building implements RenderEvents{
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
 
         mTower1 = new RectangleShape(mWidth/6, mWidth/6);
         mTower1.setFillColor(mOwnerColor);
-        mTower1.setOutlineColor(Color.BLACK);
+        mTower1.setOutlineColor(Color.BLACK());
         mTower1.setOutlineThickness(2.f);
         mTower1.setOrigin(mWidth/2-3, mHeight/2-3);
 
         mTower2 = new RectangleShape(mWidth/6, mWidth/6);
         mTower2.setFillColor(mOwnerColor);
-        mTower2.setOutlineColor(Color.BLACK);
+        mTower2.setOutlineColor(Color.BLACK());
         mTower2.setOutlineThickness(2.f);
         mTower2.setOrigin(-mWidth/2+mWidth/6+3, mHeight/2-3);
 
         mTower3 = new RectangleShape(mWidth/6, mWidth/6);
         mTower3.setFillColor(mOwnerColor);
-        mTower3.setOutlineColor(Color.BLACK);
+        mTower3.setOutlineColor(Color.BLACK());
         mTower3.setOutlineThickness(2.f);
         mTower3.setOrigin(mWidth/2-3, -mHeight/2+mWidth/6+3);
 
         mTower4 = new RectangleShape(mWidth/6, mWidth/6);
         mTower4.setFillColor(mOwnerColor);
-        mTower4.setOutlineColor(Color.BLACK);
+        mTower4.setOutlineColor(Color.BLACK());
         mTower4.setOutlineThickness(2.f);
         mTower4.setOrigin(-mWidth/2+3+mWidth/6, -mHeight/2+mWidth/6+3);
         

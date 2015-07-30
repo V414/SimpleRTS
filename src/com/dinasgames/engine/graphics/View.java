@@ -21,6 +21,13 @@ public class View {
     protected boolean       mTransformUpdated;
     protected boolean       mInverseTransformUpdated;
     
+    public boolean equals(View other) {
+      if(other == null) {
+        return false;
+      }
+      return (other.getCenter().x == mCenterX && other.getCenter().y == mCenterY && other.getSize().x == mSizeX && other.getSize().y == mSizeY && other.getRotation() == mRotation);
+    }
+    
     public View() {
         mCenterX = mCenterY = mSizeX = mSizeY = mRotation = 0;
         mViewport = new BoundingBox(0.f, 0.f, 1.f, 1.f);

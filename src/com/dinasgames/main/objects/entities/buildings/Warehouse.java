@@ -45,7 +45,7 @@ public class Warehouse extends Building implements RenderEvents {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -88,7 +88,7 @@ public class Warehouse extends Building implements RenderEvents {
         mShapeBody = new RectangleShape(mWidth, mHeight);
 
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(4.f);
         mShapeBody.setOriginCenter();
         

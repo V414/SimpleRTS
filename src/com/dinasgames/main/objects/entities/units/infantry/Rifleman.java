@@ -9,7 +9,6 @@ import com.dinasgames.engine.graphics.shapes.CircleShape;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
-import com.dinasgames.main.World;
 import com.dinasgames.engine.math.Point;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
@@ -85,7 +84,7 @@ public class Rifleman extends Infantry implements RenderEvents, SceneEvents {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -137,14 +136,14 @@ public class Rifleman extends Infantry implements RenderEvents, SceneEvents {
         mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
         
         mShapeGun = new RectangleShape(2.5f, 10.f);
         
-        mShapeGun.setFillColor(Color.BLACK);
-        mShapeGun.setOutlineColor(Color.BLACK);
+        mShapeGun.setFillColor(Color.BLACK());
+        mShapeGun.setOutlineColor(Color.BLACK());
         mShapeGun.setOutlineThickness(0.f);
         mShapeGun.setOrigin(mShapeBody.getPosition().x+1.f, mShapeBody.getPosition().y/2);
         

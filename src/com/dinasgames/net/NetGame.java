@@ -199,28 +199,28 @@ public class NetGame extends WindowGame {
         shape = new RectangleShape( 32.f, 32.f );
         shape.setPosition(100.f, 100.f);
         shape.setFillColor(new Color(255, 0, 0, 128));
-        shape.setOutlineColor(Color.BLACK);
+        shape.setOutlineColor(Color.BLACK());
         shape.setOutlineThickness(2.f);
         shape.render(getRenderer());
         
         shapePast = new RectangleShape( 320.f, 320.f );
         shapePast.setPosition(100.f, 100.f);
         shapePast.setFillColor(new Color(0, 255, 0, 128));
-        shapePast.setOutlineColor(Color.BLACK);
+        shapePast.setOutlineColor(Color.BLACK());
         shapePast.setOutlineThickness(2.f);
         shapePast.render(getRenderer());
         
         shapeFuture = new RectangleShape( 320.f, 320.f );
         shapeFuture.setPosition(100.f, 100.f);
         //shapeFuture.setFillColor(new Color(0, 0, 255, 128));
-        shapeFuture.setOutlineColor(Color.BLACK);
+        shapeFuture.setOutlineColor(Color.BLACK());
         shapeFuture.setOutlineThickness(2.f);
         shapeFuture.render(getRenderer());
         
         x = new StateValue( 100.f );
         y = new StateValue( 100.f );
         
-        getWindow().setBackgroundColor(Color.BLACK);
+        getWindow().setBackgroundColor(Color.BLACK());
         
         font = new Font();
         //font.loadFromSystem("Times New Roman", java.awt.Font.BOLD, 12);
@@ -235,7 +235,7 @@ public class NetGame extends WindowGame {
         text = new Text();
         text.setCharacterSize(24);
         text.setText("Hello World!\nNew line!    spaces!");
-        text.setColor(Color.YELLOW);
+        text.setColor(Color.YELLOW());
         text.setFont(font);
         text.setPosition(10, 10);
         text.setDepth(-100);
@@ -259,7 +259,7 @@ public class NetGame extends WindowGame {
         path.appendStep(250, 200);
         path.appendStep(100, 300);
         
-        path.setColor(Color.RED);
+        path.setColor(Color.RED());
         
         path.render(getRenderer());
         

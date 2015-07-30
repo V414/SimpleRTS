@@ -21,7 +21,7 @@ public class RenderWindow extends Window {
     
     public RenderWindow() {
         mRenderer = new Renderer();
-        mBackgroundColor = Color.WHITE;
+        mBackgroundColor = Color.WHITE();
     }
     
     public Renderer getRenderer() {

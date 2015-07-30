@@ -2,31 +2,19 @@
 
 package com.dinasgames.engine;
 
-import com.dinasgames.engine.graphics.shapes.CircleShape;
 import com.dinasgames.engine.graphics.Color;
-import com.dinasgames.engine.graphics.shapes.ConvexShape;
 import com.dinasgames.engine.graphics.Image;
-import com.dinasgames.engine.system.Mouse;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
-import com.dinasgames.engine.graphics.RenderStates;
 import com.dinasgames.engine.graphics.RenderWindow;
-import com.dinasgames.engine.graphics.Renderable;
-import com.dinasgames.engine.graphics.Renderer;
 import com.dinasgames.engine.graphics.Texture;
-import com.dinasgames.engine.graphics.View;
-import com.dinasgames.engine.window.Window;
 import com.dinasgames.engine.math.RandomNumber;
-import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.engine.system.Time;
 import com.dinasgames.engine.system.Timer;
-import java.awt.Font;
 import org.lwjgl.Sys;
 import org.lwjgl.glfw.*;
 import org.lwjgl.opengl.*;
  
 import java.nio.ByteBuffer;
-import java.nio.FloatBuffer;
-import org.lwjgl.BufferUtils;
  
 import static org.lwjgl.glfw.Callbacks.*;
 import static org.lwjgl.glfw.GLFW.*;
@@ -173,7 +161,7 @@ public class Main {
             
             Image image3 = new Image();
             
-            image3.create(ww, hh, Color.ORANGE);
+            image3.create(ww, hh, Color.ORANGE());
             
             for(int x = 0; x < ww; x++) {
                 for(int y = 0; y < hh; y++) {

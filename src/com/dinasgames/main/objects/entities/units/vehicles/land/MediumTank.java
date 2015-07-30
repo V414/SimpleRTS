@@ -91,7 +91,7 @@ public class MediumTank extends LandVehicle implements RenderEvents, SceneEvents
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -143,14 +143,14 @@ public class MediumTank extends LandVehicle implements RenderEvents, SceneEvents
         mShapeTracks = new RectangleShape(mWidth/1.1f, mHeight*1.5f);
         
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineColor(Color.BLACK());
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
@@ -159,14 +159,14 @@ public class MediumTank extends LandVehicle implements RenderEvents, SceneEvents
         //new Vector2f(mShapeBody.getSize()).divide(2.f,1.f).subtract(0.f,4.f));
         
         mShapeBody2.setFillColor(mOwnerColor);
-        mShapeBody2.setOutlineColor(Color.BLACK);
+        mShapeBody2.setOutlineColor(Color.BLACK());
         mShapeBody2.setOutlineThickness(2.f);
         mShapeBody2.setOrigin((mWidth/4)+(mWidth/10), (mHeight-4)/2);
         
         mShapeEngine = new RectangleShape( mWidth / 8.f, mHeight - 8.f );
 
-        mShapeEngine.setFillColor(Color.BLACK);
-        mShapeEngine.setOutlineColor(Color.BLACK);
+        mShapeEngine.setFillColor(Color.BLACK());
+        mShapeEngine.setOutlineColor(Color.BLACK());
         mShapeEngine.setOutlineThickness(2.f);
         mShapeEngine.setOrigin(mWidth/8.f+mWidth/4+(mWidth/10), (mHeight-8)/2);
         
@@ -174,8 +174,8 @@ public class MediumTank extends LandVehicle implements RenderEvents, SceneEvents
         
         mShapeTurret = new RectangleShape(mShapeBody.getWidth() / 2.f, mShapeBody2.getHeight() / 4.f);
         
-        mShapeTurret.setFillColor(Color.BLACK);
-        mShapeTurret.setOutlineColor(Color.BLACK);
+        mShapeTurret.setFillColor(Color.BLACK());
+        mShapeTurret.setOutlineColor(Color.BLACK());
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setOrigin(0.f+(mWidth/10), mShapeTurret.getHeight() / 2.f);
         

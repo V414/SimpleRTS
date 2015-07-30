@@ -20,7 +20,7 @@ public class Vertex {
     public Vertex() {
         this.x = this.y = 0;
         this.tx = this.ty = 0;
-        this.color = Color.WHITE;
+        this.color = Color.WHITE();
     }
     
     public Vertex(Vector2f position) {

@@ -107,7 +107,9 @@ public class TestScene extends Scene {
         spawnPlayerBases( playerList, spawnLocations );
         
         // Render the map
+        map.setDepth(1000);
         map.render(getRenderer());
+        map.getGridShape().render(getRenderer());
         
     }
     
