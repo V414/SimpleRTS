@@ -139,4 +139,12 @@ public class Renderable extends Transformable implements Drawable {
         // Base object doesn't render
     }
     
+    /**
+     * Check whether this is a GUI element.
+     * @return 
+     */
+    public boolean getGUI() {
+      return mGUI;
+    }
+    
 }
