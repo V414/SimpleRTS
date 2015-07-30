@@ -62,7 +62,7 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         if(newOwner != null) {
           self.setBodyColor( newOwner.getColor() );
         }else{
-          self.setBodyColor( Color.WHITE );
+          self.setBodyColor( Color.WHITE() );
         }
       }
 
@@ -103,31 +103,31 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         // Create our render objects
         mMainBody = new RectangleShape(mWidth, mHeight);
         mMainBody.setFillColor(mOwnerColor);
-        mMainBody.setOutlineColor(Color.BLACK);
+        mMainBody.setOutlineColor(Color.BLACK());
         mMainBody.setOutlineThickness(2.f);
         mMainBody.setOriginCenter();
         
         mTruck = new RectangleShape(mWidth/2f, mHeight-(mHeight/5));
         mTruck.setFillColor(mOwnerColor);
-        mTruck.setOutlineColor(Color.BLACK);
+        mTruck.setOutlineColor(Color.BLACK());
         mTruck.setOutlineThickness(2.f);
         mTruck.setOrigin(mWidth/2-mWidth/10, mHeight/2-mHeight/10);
         
         mCabin = new RectangleShape(mWidth/4, mHeight-(mHeight/5));
         mCabin.setFillColor(mOwnerColor);
-        mCabin.setOutlineColor(Color.BLACK);
+        mCabin.setOutlineColor(Color.BLACK());
         mCabin.setOutlineThickness(2.f);
         mCabin.setOrigin(mWidth/2-mWidth + mWidth/3, mHeight/2-mHeight/10);
         
         mWheelsFront = new RectangleShape(mWidth/6, mHeight*1.4f);
-        mWheelsFront.setFillColor(Color.BLACK);
-        mWheelsFront.setOutlineColor(Color.BLACK);
+        mWheelsFront.setFillColor(Color.BLACK());
+        mWheelsFront.setOutlineColor(Color.BLACK());
         mWheelsFront.setOutlineThickness(2.f);
         mWheelsFront.setOrigin(mWidth/2-mWidth/10, mHeight/2+mHeight/5);
         
         mWheelsBack = new RectangleShape(mWidth/6, mHeight*1.4f);
-        mWheelsBack.setFillColor(Color.BLACK);
-        mWheelsBack.setOutlineColor(Color.BLACK);
+        mWheelsBack.setFillColor(Color.BLACK());
+        mWheelsBack.setOutlineColor(Color.BLACK());
         mWheelsBack.setOutlineThickness(2.f);
         mWheelsBack.setOrigin(mWidth/2-mWidth+mWidth/6+mWidth/10, mHeight/2+mHeight/5);
         

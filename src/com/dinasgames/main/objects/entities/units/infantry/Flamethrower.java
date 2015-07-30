@@ -87,7 +87,7 @@ public class Flamethrower extends Infantry {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -140,30 +140,30 @@ public class Flamethrower extends Infantry {
         mShapeBody = new CircleShape(mWidth/2);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
         
         mShapeGun = new RectangleShape(2.f, 10.f);
         
-        mShapeGun.setFillColor(Color.BLACK);
-        mShapeGun.setOutlineColor(Color.BLACK);
+        mShapeGun.setFillColor(Color.BLACK());
+        mShapeGun.setOutlineColor(Color.BLACK());
         mShapeGun.setOutlineThickness(0.f);
         //mShapeGun.setOrigin(mShapeBody.getPosition().x, mShapeBody.getPosition().y/2);
         mShapeGun.setOrigin(-mWidth/4, 0);
         
         mShapeGunEnd = new RectangleShape( 4.f, 4.f );
         
-        mShapeGunEnd.setFillColor(Color.BLACK);
-        mShapeGunEnd.setOutlineColor(Color.BLACK);
+        mShapeGunEnd.setFillColor(Color.BLACK());
+        mShapeGunEnd.setOutlineColor(Color.BLACK());
         mShapeGunEnd.setOutlineThickness(0.f);
         //mShapeGunEnd.setOrigin(mShapeBody.getPosition().x+mGunSize.x/2, mShapeBody.getPosition().y/2-mGunSize.y+mGunSize.x*1.5f);
         mShapeGunEnd.setOrigin( -mWidth/4+1.f, -10.f );
         
         mShapeBackpack = new RectangleShape( 5.f, 8.f );
         
-        mShapeBackpack.setFillColor(Color.BLACK);
-        mShapeBackpack.setOutlineColor(Color.BLACK);
+        mShapeBackpack.setFillColor(Color.BLACK());
+        mShapeBackpack.setOutlineColor(Color.BLACK());
         mShapeBackpack.setOutlineThickness(0.f);
         //mShapeBackpack.setOrigin(mSize.x-(mSize.x/3), mSize.y/2);
         mShapeBackpack.setOrigin( mWidth/2+2.5f, +4.f );

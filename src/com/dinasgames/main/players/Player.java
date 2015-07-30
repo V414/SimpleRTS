@@ -34,13 +34,13 @@ public class Player {
         
         //Color.RED,
         new Color(140, 0, 0, 255),
-        Color.BLUE,
-        Color.YELLOW,
-        Color.PINK,
-        Color.CYAN,
-        Color.ORANGE,
-        Color.GREEN,
-        Color.MEGENTA
+        Color.BLUE(),
+        Color.YELLOW(),
+        Color.PINK(),
+        Color.CYAN(),
+        Color.ORANGE(),
+        Color.GREEN(),
+        Color.MEGENTA()
         
     };
     
@@ -144,7 +144,7 @@ public class Player {
     
     public Color getColor() {
         if(mID < 0) {
-            return Color.WHITE;
+            return Color.WHITE();
         }
         return PLAYER_COLORS[mID];
     }

@@ -65,7 +65,7 @@ public class PowerPlant extends Building implements RenderEvents {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -106,25 +106,25 @@ public class PowerPlant extends Building implements RenderEvents {
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
 
         mCoolingTowerLeft = new CircleShape(mHeight/4);
         mCoolingTowerLeft.setFillColor(mOwnerColor);
-        mCoolingTowerLeft.setOutlineColor(Color.BLACK);
+        mCoolingTowerLeft.setOutlineColor(Color.BLACK());
         mCoolingTowerLeft.setOutlineThickness(4.f);
         mCoolingTowerLeft.setOrigin(mWidth/2-mWidth/12, mHeight/4);
 
         mCoolingTowerRight = new CircleShape(mHeight/4);
         mCoolingTowerRight.setFillColor(mOwnerColor);
-        mCoolingTowerRight.setOutlineColor(Color.BLACK);
+        mCoolingTowerRight.setOutlineColor(Color.BLACK());
         mCoolingTowerRight.setOutlineThickness(4.f);
         mCoolingTowerRight.setOrigin(-mWidth/2+mHeight/2+mWidth/12, mHeight/4);
 
         mCoolingTowerConnector = new RectangleShape(mWidth/6, mWidth/6);
         mCoolingTowerConnector.setFillColor(mOwnerColor);
-        mCoolingTowerConnector.setOutlineColor(Color.BLACK);
+        mCoolingTowerConnector.setOutlineColor(Color.BLACK());
         mCoolingTowerConnector.setOutlineThickness(2.f);
         mCoolingTowerConnector.setOrigin(mWidth/12, mWidth/12);
         

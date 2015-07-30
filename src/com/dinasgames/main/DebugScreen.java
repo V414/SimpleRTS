@@ -41,7 +41,7 @@ public class DebugScreen {
     
     mText = new Text();
     mText.setCharacterSize(12);
-    mText.setColor(Color.WHITE);
+    mText.setColor(Color.WHITE());
     mText.setFont(font);
     mText.setPosition(10.f, 10.f);
     mText.setGUI(true);

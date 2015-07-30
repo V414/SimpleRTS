@@ -5,6 +5,7 @@ import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.Image;
 import com.dinasgames.engine.graphics.Renderable;
 import com.dinasgames.engine.graphics.Texture;
+import com.dinasgames.engine.graphics.shapes.GridShape;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.engine.math.Vector2i;
@@ -25,7 +26,7 @@ public class Map extends Renderable implements TileBasedMap {
     
       public MapChunk( int width, int height ) {
         image = new Image();
-        image.create(width, height, Color.BLACK);
+        image.create(width, height, Color.BLACK());
       }
       
 //      public int mChunkX, mChunkY;
@@ -52,6 +53,11 @@ public class Map extends Renderable implements TileBasedMap {
     }
     
   }
+  
+  /**
+   * A grid used to debug the path finding grid,
+   */
+  private GridShape mGridShape;
   
   /**
    * A list of Path finding tiles used to check whether certain units can pass parts of the map.
@@ -176,6 +182,8 @@ public class Map extends Renderable implements TileBasedMap {
         
         // Set the new tile
         mPathTiles[ (y * cols) + x ] = new PathTile( (a >= .5f), (b >= .5f), (c >= .5f) );
+        
+        // System.out.println("Grid " + ((y * cols) + x) + " (" + x + ", " + y + ") Air: " + a + " Land: " + b + " Sea: " + c);
         
       }
     }
@@ -353,7 +361,7 @@ public class Map extends Renderable implements TileBasedMap {
         // Find the chunk
         MapChunk chunk = chunks[ (chunkY * chunkCols) + chunkX ];
         
-        System.out.println(" Tile " + ((y * tileCols) + x) +  " (" + x + ", " + y + ") Tile Position " + (x * getTileWidth()) + ", " + (y * getTileHeight()) + "  is in Chunk " + chunkX + ", " + chunkY + " which is at index " + ((chunkY * chunkCols) + chunkX));
+        // System.out.println(" Tile " + ((y * tileCols) + x) +  " (" + x + ", " + y + ") Tile Position " + (x * getTileWidth()) + ", " + (y * getTileHeight()) + "  is in Chunk " + chunkX + ", " + chunkY + " which is at index " + ((chunkY * chunkCols) + chunkX));
         
         // Ensure this chunk has been created
         if(chunk == null) {
@@ -690,12 +698,48 @@ public class Map extends Renderable implements TileBasedMap {
   }
   
   /**
-   * Generate a Renderable GridShape to draw path grid.
+   * Get a renderable version of the path finding grid. Note: The GridShape is generated the first call to this function and will not update when cell size has changed.
    * @return 
    */
-//  public GridShape getDebugGrid() {
-//    
-//  }
+  public GridShape getGridShape() {
+    
+    // Ensure that we have a grid shape
+    if(mGridShape == null) {
+      
+      // Create a grid shape
+      mGridShape = new GridShape();
+      
+      // Ensure the grid is the correct size
+      mGridShape.resize( getActualWidthInTiles(), getActualHeightInTiles() );
+      mGridShape.setCellSize( getActualTileWidth(), getActualTileHeight() );
+      
+      // Update the color information
+      for(int x = 0; x < getActualWidthInTiles(); x++) {
+        for(int y = 0; y < getActualHeightInTiles(); y++) {
+          
+          PathTile tile = mPathTiles[ (y * getActualWidthInTiles()) + x];
+          Color col;
+          
+          if(tile.blockAir() && tile.blockLand() && tile.blockSea()) {
+            col = Color.BLACK();
+          }else if(tile.blockAir())   { col = Color.BLUE(); }
+          else if(tile.blockLand())  { col = Color.RED(); }
+          else if(tile.blockSea())   { col = Color.GREEN(); }
+          else {
+            col = Color.WHITE();
+          }
+          
+          col.setAlpha( 128 );
+          
+          mGridShape.setColor(x, y, col);
+          
+        }
+      }
+      
+    }
+    
+    return mGridShape;
+  }
     
     
     

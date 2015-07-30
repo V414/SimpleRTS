@@ -15,16 +15,17 @@ public class Color {
     
     protected int r,g,b,a;
     
-    public static final Color WHITE = new Color( 255, 255, 255 );
-    public static final Color BLACK = new Color( 0, 0, 0 );
-    public static final Color RED = new Color( 255, 0, 0 );
-    public static final Color GREEN = new Color( 0, 255, 0 );
-    public static final Color BLUE = new Color( 0, 0, 255 );
-    public static final Color YELLOW = new Color( 255, 255, 0 );
-    public static final Color PINK = new Color( 255,192,203 );
-    public static final Color CYAN = new Color( 0,255,255 );
-    public static final Color ORANGE = new Color( 255,165,0 );
-    public static final Color MEGENTA = new Color( 255,0,255 );
+    public static final Color WHITE() { return new Color( 255, 255, 255 ); }
+    public static final Color BLACK() { return new Color( 0, 0, 0 ); }
+    public static final Color RED() { return new Color( 255, 0, 0 ); }
+    public static final Color GREEN() { return new Color( 0, 255, 0 ); }
+    public static final Color BLUE() { return new Color( 0, 0, 255 ); }
+    public static final Color YELLOW() { return new Color( 255, 255, 0 ); }
+    public static final Color PINK() { return new Color( 255,192,203 ); }
+    public static final Color CYAN() { return new Color( 0,255,255 ); }
+    public static final Color ORANGE() { return new Color( 255,165,0 ); }
+    public static final Color MEGENTA() { return new Color( 255,0,255 ); }
+    public static final Color TRANSPARENT() { return new Color( 0, 0, 0, 0 ); }
     
     public Color() {
         r = g = b = a = 0;
@@ -46,6 +47,26 @@ public class Color {
     
     public Color(Color other) {
         this(other.getRed(), other.getGreen(), other.getBlue(), other.getAlpha());
+    }
+    
+    public Color setAlpha(int a) {
+      this.a = a;
+      return this;
+    }
+    
+    public Color setRed(int r) {
+      this.r = r;
+      return this;
+    }
+    
+    public Color setGreen(int g) {
+      this.g = g;
+      return this;
+    }
+    
+    public Color setBlue(int b) {
+      this.b = b;
+      return this;
     }
     
     public int getRed() {

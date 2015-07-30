@@ -3,7 +3,6 @@ package com.dinasgames.main.objects.entities.units.vehicles.land;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
-import com.dinasgames.engine.math.Point;
 import com.dinasgames.engine.math.RandomNumber;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
@@ -91,7 +90,7 @@ public class SPArtillery extends LandVehicle implements RenderEvents, SceneEvent
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -143,14 +142,14 @@ public class SPArtillery extends LandVehicle implements RenderEvents, SceneEvent
         mShapeTracks = new RectangleShape(mWidth/1.1f, mHeight*1.5f);
         
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineColor(Color.BLACK());
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
@@ -158,21 +157,21 @@ public class SPArtillery extends LandVehicle implements RenderEvents, SceneEvent
         mShapeBody2 = new RectangleShape( mWidth/4, mHeight-(mHeight/6) );
         
         mShapeBody2.setFillColor(mOwnerColor);
-        mShapeBody2.setOutlineColor(Color.BLACK);
+        mShapeBody2.setOutlineColor(Color.BLACK());
         mShapeBody2.setOutlineThickness(2.f);
         mShapeBody2.setOrigin((mWidth/2)-(mWidth/15), 0+(mShapeBody2.getHeight()/2));
 
         mShapeGun = new RectangleShape(mWidth/1.3f, mHeight/8);
         
-        mShapeGun.setFillColor(Color.BLACK);
-        mShapeGun.setOutlineColor(Color.BLACK);
+        mShapeGun.setFillColor(Color.BLACK());
+        mShapeGun.setOutlineColor(Color.BLACK());
         mShapeGun.setOutlineThickness(2.f);
         mShapeGun.setOrigin(0.f+(mWidth/10), mShapeGun.getHeight() / 2.f);
         
         mShapeGunEnd = new RectangleShape(mHeight/5, mHeight/4);
         
-        mShapeGunEnd.setFillColor(Color.BLACK);
-        mShapeGunEnd.setOutlineColor(Color.BLACK);
+        mShapeGunEnd.setFillColor(Color.BLACK());
+        mShapeGunEnd.setOutlineColor(Color.BLACK());
         mShapeGunEnd.setOutlineThickness(2.f);
         mShapeGunEnd.setOrigin(0.f+(mWidth/10)-mWidth/1.3f, mShapeGunEnd.getHeight() / 2.f);
         

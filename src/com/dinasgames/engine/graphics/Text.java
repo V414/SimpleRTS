@@ -39,7 +39,7 @@ public class Text extends Renderable implements Drawable {
     mFont           = null;
     mCharacterSize  = 30;
     mStyle          = Style.Regular;
-    mColor          = Color.WHITE;
+    mColor          = Color.WHITE();
     mVerts          = new VertexCache(PrimitiveType.Triangles);
     mBounds         = new BoundingBox();
     mGeoNeedUpdate  = false;

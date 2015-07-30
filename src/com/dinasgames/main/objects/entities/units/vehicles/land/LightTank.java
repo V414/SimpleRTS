@@ -3,7 +3,6 @@ package com.dinasgames.main.objects.entities.units.vehicles.land;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
-import com.dinasgames.main.World;
 import com.dinasgames.engine.math.Point;
 import com.dinasgames.engine.math.RandomNumber;
 import com.dinasgames.engine.math.Vector2f;
@@ -87,7 +86,7 @@ public class LightTank extends LandVehicle implements RenderEvents, SceneEvents 
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -139,14 +138,14 @@ public class LightTank extends LandVehicle implements RenderEvents, SceneEvents 
         mShapeTracks = new RectangleShape(mWidth/1.1f, mHeight*1.5f);
         
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineColor(Color.BLACK());
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
@@ -155,14 +154,14 @@ public class LightTank extends LandVehicle implements RenderEvents, SceneEvents 
         //new Vector2f(mShapeBody.getSize()).divide(2.f,1.f).subtract(0.f,4.f));
         
         mShapeBody2.setFillColor(mOwnerColor);
-        mShapeBody2.setOutlineColor(Color.BLACK);
+        mShapeBody2.setOutlineColor(Color.BLACK());
         mShapeBody2.setOutlineThickness(2.f);
         mShapeBody2.setOriginCenter();
         
         mShapeTurret = new RectangleShape(mShapeBody.getWidth() / 2.f, mShapeBody2.getHeight() / 4.f);
         
-        mShapeTurret.setFillColor(Color.BLACK);
-        mShapeTurret.setOutlineColor(Color.BLACK);
+        mShapeTurret.setFillColor(Color.BLACK());
+        mShapeTurret.setOutlineColor(Color.BLACK());
         mShapeTurret.setOutlineThickness(2.f);
         mShapeTurret.setOrigin(0.f, mShapeTurret.getHeight() / 2.f);
         

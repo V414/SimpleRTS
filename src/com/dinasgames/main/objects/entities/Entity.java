@@ -63,7 +63,7 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
         mWidth          = 0.f;
         mHeight         = 0.f;
         mBehaviours     = new ArrayList();
-        mOwnerColor     = Color.WHITE;
+        mOwnerColor     = Color.WHITE();
         
     }
     
@@ -100,12 +100,12 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
         mHealthbar = new StatusBar();
         
         mHealthbar.setHeight(5.f);
-        mHealthbar.setFillColor(Color.BLACK);
-        mHealthbar.setForegroundColor(Color.RED);
+        mHealthbar.setFillColor(Color.BLACK());
+        mHealthbar.setForegroundColor(Color.RED());
         mHealthbar.setOutlineThickness(1.f);
-        mHealthbar.setOutlineColor(Color.BLACK);
-        mHealthbar.setCurrentValue(mHealth);
-        mHealthbar.setMaxValue(mHealthMax);
+        mHealthbar.setOutlineColor(Color.BLACK());
+        mHealthbar.setHealth(mHealth);
+        mHealthbar.setMaxHealth(mHealthMax);
         
         // We want to be in front!
         mHealthbar.setDepth(-100);
@@ -200,7 +200,7 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
         if(mOwner != null) {
             mOwnerColor = mOwner.getColor();
         }else{
-            mOwnerColor = Color.WHITE;
+            mOwnerColor = Color.WHITE();
         }
 
     }

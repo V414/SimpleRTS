@@ -80,7 +80,7 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -140,14 +140,14 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         mShapeTracks = new RectangleShape( mWidth / 1.2f, mHeight + 8.f );
 
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineColor(Color.BLACK());
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setOriginCenter();
 
         mShapeBody = new RectangleShape(mWidth, mHeight);
 
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setOriginCenter();
 
@@ -155,15 +155,15 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         mShapeCabin = new RectangleShape(mWidth / 2.f - 4.f, mHeight - 4.f);
 
         mShapeCabin.setFillColor(mOwnerColor);
-        mShapeCabin.setOutlineColor(Color.BLACK);
+        mShapeCabin.setOutlineColor(Color.BLACK());
         mShapeCabin.setOutlineThickness(2.f);
         mShapeCabin.setOrigin( mWidth / 2.f - 2.f , mHeight / 2.f - 2.f);
 
         //mShapeBucketConnector = new RectangleShape(new Vector2f(mShapeBody.getSize()).divide(6.f, 2.f));
         mShapeBucketConnector = new RectangleShape(mWidth / 6.f, mHeight / 2.f);
 
-        mShapeBucketConnector.setFillColor(Color.BLACK);
-        mShapeBucketConnector.setOutlineColor(Color.BLACK);
+        mShapeBucketConnector.setFillColor(Color.BLACK());
+        mShapeBucketConnector.setOutlineColor(Color.BLACK());
         mShapeBucketConnector.setOutlineThickness(2.f);
         mShapeBucketConnector.setOrigin(-(mWidth / 2.f), mHeight / 2.f - mHeight / 4.f);
 
@@ -171,7 +171,7 @@ public class Bulldozer extends LandVehicle implements SceneEvents, RenderEvents 
         mShapeBucket = new RectangleShape( mWidth / 6.f, mHeight + 6.f );
 
         mShapeBucket.setFillColor(mOwnerColor);
-        mShapeBucket.setOutlineColor(Color.BLACK);
+        mShapeBucket.setOutlineColor(Color.BLACK());
         mShapeBucket.setOutlineThickness(2.f);
         mShapeBucket.setOrigin( -(mWidth / 2.f) - 5.f, mHeight / 2.f + 3.f);
         
