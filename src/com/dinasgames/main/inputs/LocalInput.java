@@ -35,6 +35,8 @@ public class LocalInput extends Input {
         rightShift      = Keyboard.isKeyPressed(Keyboard.Key.RightShift);
         mousePosition   = Mouse.getPosition();
         keyP            = Keyboard.isKeyPressed(Keyboard.Key.P);
+        keyB            = Keyboard.isKeyPressed(Keyboard.Key.B);
+        keyW            = Keyboard.isKeyPressed(Keyboard.Key.W);
     }
     
 }

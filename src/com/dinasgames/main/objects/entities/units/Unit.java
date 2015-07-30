@@ -1,9 +1,6 @@
 package com.dinasgames.main.objects.entities.units;
 
-import com.dinasgames.engine.math.Point;
-import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.entities.Entity;
-import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.LogicEvents;
 import com.dinasgames.main.commands.Command;
