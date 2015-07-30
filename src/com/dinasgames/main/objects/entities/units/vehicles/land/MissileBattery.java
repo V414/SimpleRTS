@@ -58,7 +58,7 @@ public class MissileBattery extends LandVehicle implements RenderEvents, SceneEv
         if(newOwner != null) {
           self.setBodyColor( newOwner.getColor() );
         }else{
-          self.setBodyColor( Color.WHITE );
+          self.setBodyColor( Color.WHITE() );
         }
       }
 
@@ -99,50 +99,50 @@ public class MissileBattery extends LandVehicle implements RenderEvents, SceneEv
         // Create our render objects
         mMainBody = new RectangleShape(mWidth, mHeight);
         mMainBody.setFillColor(mOwnerColor);
-        mMainBody.setOutlineColor(Color.BLACK);
+        mMainBody.setOutlineColor(Color.BLACK());
         mMainBody.setOutlineThickness(2.f);
         mMainBody.setOriginCenter();
         
         mTruck = new RectangleShape(mWidth/2f, mHeight-(mHeight/2.5f));
         mTruck.setFillColor(mOwnerColor);
-        mTruck.setOutlineColor(Color.BLACK);
+        mTruck.setOutlineColor(Color.BLACK());
         mTruck.setOutlineThickness(2.f);
         mTruck.setOrigin(mWidth/2-1.f, mHeight/2-mHeight/5);
         
         mCabin = new RectangleShape(mWidth/4, mHeight-(mHeight/5));
         mCabin.setFillColor(mOwnerColor);
-        mCabin.setOutlineColor(Color.BLACK);
+        mCabin.setOutlineColor(Color.BLACK());
         mCabin.setOutlineThickness(2.f);
         mCabin.setOrigin(-mWidth/2 + mWidth/4 + 1.f, mHeight/2-mHeight/10);
         
         mWheelsFront = new RectangleShape(mWidth/8, mHeight*1.4f);
-        mWheelsFront.setFillColor(Color.BLACK);
-        mWheelsFront.setOutlineColor(Color.BLACK);
+        mWheelsFront.setFillColor(Color.BLACK());
+        mWheelsFront.setOutlineColor(Color.BLACK());
         mWheelsFront.setOutlineThickness(2.f);
         mWheelsFront.setOrigin(mWidth/2-mWidth/15, mHeight/2+mHeight/5);
         
         mWheelsMiddle1 = new RectangleShape(mWidth/8, mHeight*1.4f);
-        mWheelsMiddle1.setFillColor(Color.BLACK);
-        mWheelsMiddle1.setOutlineColor(Color.BLACK);
+        mWheelsMiddle1.setFillColor(Color.BLACK());
+        mWheelsMiddle1.setOutlineColor(Color.BLACK());
         mWheelsMiddle1.setOutlineThickness(2.f);
         mWheelsMiddle1.setOrigin(-mWidth/20, mHeight/2+mHeight/5);
         
         mWheelsMiddle2 = new RectangleShape(mWidth/8, mHeight*1.4f);
-        mWheelsMiddle2.setFillColor(Color.BLACK);
-        mWheelsMiddle2.setOutlineColor(Color.BLACK);
+        mWheelsMiddle2.setFillColor(Color.BLACK());
+        mWheelsMiddle2.setOutlineColor(Color.BLACK());
         mWheelsMiddle2.setOutlineThickness(2.f);
         mWheelsMiddle2.setOrigin(mWidth/5, mHeight/2+mHeight/5);
         
         mWheelsBack = new RectangleShape(mWidth/8, mHeight*1.4f);
-        mWheelsBack.setFillColor(Color.BLACK);
-        mWheelsBack.setOutlineColor(Color.BLACK);
+        mWheelsBack.setFillColor(Color.BLACK());
+        mWheelsBack.setOutlineColor(Color.BLACK());
         mWheelsBack.setOutlineThickness(2.f);
         mWheelsBack.setOrigin(mWidth/2-mWidth+mWidth/6+mWidth/15, mHeight/2+mHeight/5);
         
         mMissile = new CircleShape(mHeight/6);
         mMissile.setPointCount(3);
-        mMissile.setFillColor(Color.BLACK);
-        mMissile.setOutlineColor(Color.BLACK);
+        mMissile.setFillColor(Color.BLACK());
+        mMissile.setOutlineColor(Color.BLACK());
         mMissile.setOutlineThickness(2.f);
         mMissile.setOrigin(mHeight/12+1.f, mHeight/12+6.f);
         

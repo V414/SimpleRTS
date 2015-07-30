@@ -90,7 +90,7 @@ public class IFV extends LandVehicle implements RenderEvents, SceneEvents {
                 if(newOwner != null) {
                     self.setBodyColor( newOwner.getColor() );
                 }else{
-                    self.setBodyColor( Color.WHITE );
+                    self.setBodyColor( Color.WHITE() );
                 }
             }
 
@@ -142,14 +142,14 @@ public class IFV extends LandVehicle implements RenderEvents, SceneEvents {
         mShapeTracks = new RectangleShape(mWidth/1.1f, mHeight*1.5f);
         
         mShapeTracks.setFillColor(new Color(20, 20, 20));
-        mShapeTracks.setOutlineColor(Color.BLACK);
+        mShapeTracks.setOutlineColor(Color.BLACK());
         mShapeTracks.setOutlineThickness(2.f);
         mShapeTracks.setOriginCenter();
         
         mShapeBody = new RectangleShape(mWidth, mHeight);
         
         mShapeBody.setFillColor(mOwnerColor);
-        mShapeBody.setOutlineColor(Color.BLACK);
+        mShapeBody.setOutlineColor(Color.BLACK());
         mShapeBody.setOutlineThickness(2.f);
         mShapeBody.setRotation(RandomNumber.between(0.f, 360.f));
         mShapeBody.setOriginCenter();
@@ -157,21 +157,21 @@ public class IFV extends LandVehicle implements RenderEvents, SceneEvents {
         mShapeBody2 = new RectangleShape( mWidth/3, mHeight/1.5f );
         
         mShapeBody2.setFillColor(mOwnerColor);
-        mShapeBody2.setOutlineColor(Color.BLACK);
+        mShapeBody2.setOutlineColor(Color.BLACK());
         mShapeBody2.setOutlineThickness(2.f);
         mShapeBody2.setOrigin(mWidth/6-mWidth/6, mHeight/3);
 
         mShapeGun = new RectangleShape(mWidth/4, mHeight/14);
         
-        mShapeGun.setFillColor(Color.BLACK);
-        mShapeGun.setOutlineColor(Color.BLACK);
+        mShapeGun.setFillColor(Color.BLACK());
+        mShapeGun.setOutlineColor(Color.BLACK());
         mShapeGun.setOutlineThickness(2.f);
         mShapeGun.setOrigin(-mWidth/3, mShapeGun.getHeight() / 2.f);
         
         mShapeDoors = new RectangleShape(mWidth/3, mHeight/1.5f);
         
         mShapeDoors.setFillColor(mOwnerColor);
-        mShapeDoors.setOutlineColor(Color.BLACK);
+        mShapeDoors.setOutlineColor(Color.BLACK());
         mShapeDoors.setOutlineThickness(1.f);
         mShapeDoors.setOrigin(mWidth/2-1.f, mShapeDoors.getHeight() / 2.f);
         
