@@ -1,5 +1,6 @@
 package com.dinasgames.main.maps;
 
+import com.dinasgames.main.maps.tiles.Tile;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.Image;
 import com.dinasgames.engine.graphics.Renderable;
