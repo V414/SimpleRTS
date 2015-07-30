@@ -7,6 +7,7 @@ import com.dinasgames.main.maps.FunkyMap;
 import com.dinasgames.main.maps.Map;
 import com.dinasgames.main.maps.SymmetricalMap;
 import com.dinasgames.engine.math.Vector2f;
+import com.dinasgames.main.GUI;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
@@ -33,6 +34,8 @@ import java.util.List;
  * @author Jack
  */
 public class TestScene extends Scene {
+  
+  protected GUI gui;
     
     public TestScene(Game game) {
         super(game);
@@ -120,6 +123,8 @@ public class TestScene extends Scene {
     public Scene onCreate() {
       
         setupMap(new SymmetricalMap());
+        gui = new GUI(mRenderer, this);
+        
        
         Barracks barracks = new Barracks(this);
         barracks.setPosition(200, 200);

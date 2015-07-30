@@ -6,6 +6,7 @@ import com.dinasgames.main.players.LocalPlayer;
 import com.dinasgames.main.scenes.TestScene;
 import com.dinasgames.engine.system.Time;
 import com.dinasgames.engine.system.Timer;
+import com.dinasgames.main.GUI;
 
 /**
  * An pretty empty test game
@@ -15,7 +16,7 @@ public class TestGame extends ClientServerGame {
     
     DebugScreen debug;
     DebugScreen.DebugInfo fps, ping, drawcount;
-  
+    
     public TestGame() {
       
       
@@ -26,7 +27,7 @@ public class TestGame extends ClientServerGame {
     public void load() {
         
         super.load();
-        
+
         fps = new DebugScreen.DebugInfo("FPS", "Unknown");
         ping = new DebugScreen.DebugInfo("Ping", "Unknown");
         drawcount = new DebugScreen.DebugInfo("Draw Count: ", "Unknown");
@@ -45,7 +46,6 @@ public class TestGame extends ClientServerGame {
           drawcount.value = Long.toString(getRenderer().getDrawCount());
           
           debug.update();
-
         });
         
         mPlayer = new LocalPlayer();
