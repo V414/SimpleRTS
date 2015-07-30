@@ -560,6 +560,7 @@ public class Map extends Renderable implements TileBasedMap {
    * Check whether a certain tile is blocked for a particular Mover.
    */
   public boolean blocked(Mover mover, int x, int y) {
+    // TODO: implement this!
     return false;
   }
 
@@ -568,6 +569,7 @@ public class Map extends Renderable implements TileBasedMap {
    * Check the cost of a path for a particular mover.
    */
   public float getCost(Mover mover, int sx, int sy, int tx, int ty) {
+    // TODO: implement cost dependant on elevation in Tile
     return 0.f;
   }
   

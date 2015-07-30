@@ -68,7 +68,7 @@ public class Renderer {
                 }
                 
                 // Make sure it is within the view specified
-                if( (view != null && !mRenderObjects[i].inView(view) ) ) {
+                if( (view != null && (!mRenderObjects[i].inView(view) || mRenderObjects[i].getGUI()) ) ) {
                     continue;
                 }
                 

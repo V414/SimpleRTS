@@ -115,7 +115,7 @@ public class TestScene extends Scene {
         // Render the map
         map.setDepth(1000);
         map.render(getRenderer());
-        map.getGridShape().render(getRenderer());
+        map.getGridShape().render(getRenderer()).setDepth(-1000);
         
     }
     
