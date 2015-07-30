@@ -3,6 +3,7 @@ package com.dinasgames.main.objects.entities.units.vehicles.land;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.graphics.statusbars.StatusBar;
 import com.dinasgames.engine.math.RandomNumber;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
@@ -21,9 +22,13 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
   protected RectangleShape mTruck;
   protected RectangleShape mWheelsBack;
   protected RectangleShape mWheelsFront;
+  protected StatusBar loadingProgress;
   
   protected int carryingAmount = 0;
   protected int carryingMax = 30;
+  
+  //In seconds
+  protected int loadingTime = 1;
   
   public SupplyTruck(Scene scene){
     super(scene);
@@ -38,8 +43,8 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
     this.mDeceleration  = 30.f;
 
     // Setup Entity attributes
-    this.mWidth     = 35.f;
-    this.mHeight    = 15.f;
+    this.mWidth     = 30.f;
+    this.mHeight    = 13.f;
 
     // Setup listener events
     SupplyTruck self = this;
@@ -126,13 +131,26 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         mWheelsBack.setOutlineThickness(2.f);
         mWheelsBack.setOrigin(mWidth/2-mWidth+mWidth/6+mWidth/10, mHeight/2+mHeight/5);
         
+        loadingProgress = new StatusBar();
+        
+        loadingProgress.setDepth(-100);
+        loadingProgress.setHeight(3.f);
+        loadingProgress.setFillColor(Color.BLACK());
+        loadingProgress.setForegroundColor(Color.GREEN());
+        loadingProgress.setOutlineThickness(1.f);
+        loadingProgress.setOutlineColor(Color.BLACK());
+        loadingProgress.setCurrentValue(carryingAmount);
+        loadingProgress.setMaxValue(carryingMax);
+        
         
         // Add them to the renderer
+        
         r.add(mWheelsFront);
         r.add(mWheelsBack);
         r.add(mMainBody);
         r.add(mTruck);
         r.add(mCabin);
+        r.add(loadingProgress);
         
         
         
@@ -158,6 +176,24 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         mWheelsBack.setPosition(mX, mY);
         mWheelsBack.setRotation(mRotation);
         
+        if(mSelected) {
+          loadingProgress.setPosition(mBoundingBox.x, mBoundingBox.y-17);
+
+          // Update the healthbar health
+          loadingProgress.setCurrentValue(carryingAmount);
+
+          // Update the healthbar size
+          loadingProgress.setSize(mBoundingBox.width, loadingProgress.getSize().y);
+
+          // Make sure the healthbar is visible
+          if(!loadingProgress.isVisible()) {
+            loadingProgress.show();
+          }
+        }else{
+          if(loadingProgress.isVisible()) {
+              loadingProgress.hide();
+          }
+        }
     }
     
     @Override
@@ -170,6 +206,7 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         r.remove(mCabin);
         r.remove(mWheelsFront);
         r.remove(mWheelsBack);
+        r.remove(loadingProgress);
     }
     
     public void setBodyColor(Color color) {
@@ -190,6 +227,10 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
         return "SupplyTruck";
     }
     
+    public int getLoadingTime(){
+      return loadingTime;
+    }
+    
     public int getCarryingAmount(){
       return carryingAmount;
     }
@@ -200,6 +241,10 @@ public class SupplyTruck extends LandVehicle implements RenderEvents, SceneEvent
     
     public void setCarryingAmount(int carryingAmount){
       this.carryingAmount = carryingAmount;
+    }
+    
+    public void setLoadingTime(int loadingTime){
+      this.loadingTime = loadingTime;
     }
   
 }

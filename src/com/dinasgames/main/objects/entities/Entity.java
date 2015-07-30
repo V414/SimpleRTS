@@ -1,8 +1,8 @@
 package com.dinasgames.main.objects.entities;
 
 import com.dinasgames.engine.graphics.Color;
-import com.dinasgames.engine.graphics.HealthbarShape;
 import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.graphics.statusbars.StatusBar;
 import com.dinasgames.engine.math.BoundingBox;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.behaviours.Behaviour;
@@ -27,7 +27,7 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
     protected boolean mSelected;            // << Whether this object is selected or not.
     protected float mHealth;                // << How many health points this Entity has.
     protected float mHealthMax;             // << The maximum amount of health points this Entity can have.
-    protected HealthbarShape mHealthbar;    // << The healthbar shape used by this Entity.
+    protected StatusBar mHealthbar;    // << The healthbar shape used by this Entity.
     protected float mWidth, mHeight;        // << The size of this Entity.
     protected BoundingBox mBoundingBox;     // << The Bounding Box surrounding this Entity.
     protected boolean mDead;                // << Whether this object is dead.
@@ -97,15 +97,15 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
     public void onRenderAdd( Renderer r ) {
 
         // Setup our healthbar
-        mHealthbar = new HealthbarShape();
+        mHealthbar = new StatusBar();
         
         mHealthbar.setHeight(5.f);
         mHealthbar.setFillColor(Color.BLACK());
         mHealthbar.setForegroundColor(Color.RED());
         mHealthbar.setOutlineThickness(1.f);
         mHealthbar.setOutlineColor(Color.BLACK());
-        mHealthbar.setHealth(mHealth);
-        mHealthbar.setMaxHealth(mHealthMax);
+        mHealthbar.setCurrentValue(mHealth);
+        mHealthbar.setMaxValue(mHealthMax);
         
         // We want to be in front!
         mHealthbar.setDepth(-100);
@@ -146,7 +146,7 @@ public class Entity extends NetworkedObject implements SceneEvents, RenderEvents
             mHealthbar.setPosition(mBoundingBox.x, mBoundingBox.y-10);
             
             // Update the healthbar health
-            mHealthbar.setHealth(mHealth);
+            mHealthbar.setCurrentValue(mHealth);
             
             // Update the healthbar size
             mHealthbar.setSize(mBoundingBox.width, mHealthbar.getSize().y);

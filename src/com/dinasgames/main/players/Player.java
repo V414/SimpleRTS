@@ -211,7 +211,6 @@ public class Player {
               NewBuilding newBuilding = (NewBuilding) checkIfObject(mousePosition);
               if(newBuilding.getOwner() == unit.getOwner()){
                 unit.issueCommand(new BuildBuildingCommand(newBuilding, mScene));
-                break;
               }
             }else{
             unit.issueCommand(new MoveCommand(mousePosition));

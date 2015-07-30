@@ -1,15 +1,10 @@
 package com.dinasgames.main.behaviours;
 
-import com.dinasgames.main.World;
-import com.dinasgames.engine.math.Point;
-import com.dinasgames.main.objects.GameObject;
 import com.dinasgames.main.commands.MoveToResourceCommand;
 import com.dinasgames.main.objects.entities.buildings.OilDerrick;
 import com.dinasgames.main.objects.entities.buildings.Warehouse;
-import com.dinasgames.main.objects.entities.units.Unit;
 import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.engine.system.Time;
-import com.dinasgames.net.StateValue;
 
 public class BLoadAtResource extends Behaviour {
     
@@ -17,6 +12,7 @@ public class BLoadAtResource extends Behaviour {
     private SupplyTruck supplyTruck;
     private final Warehouse warehouse;
     private final OilDerrick oilDerrick;
+    float mTimePassed;
     
   /**
    * Default constructor.
@@ -34,13 +30,31 @@ public class BLoadAtResource extends Behaviour {
 
         supplyTruck = (SupplyTruck) self;
 
-        supplyTruck.addBehaviour(new BMoveTo(self, oilDerrick.getX(), oilDerrick.getY()));
+        if(isAtTarget() == false){  
+          supplyTruck.addBehaviour(new BMoveTo(self, oilDerrick.getX(), oilDerrick.getY()));
+        }
       }
         
     }
     
     @Override
     public void update(Time timePassed) {
+      
+      if(isAtTarget() == true){ 
+        mTimePassed += timePassed.asSeconds();
+        
+        if(mTimePassed >= supplyTruck.getLoadingTime()){
+          supplyTruck.setCarryingAmount(supplyTruck.getCarryingAmount()+1);
+          mTimePassed = 0;
+        }
+        
+        if(supplyTruck.getCarryingAmount() >= supplyTruck.getCarryingMax()){
+          supplyTruck.issueCommand(new MoveToResourceCommand(oilDerrick, warehouse));
+        }
+      }
+    }
+    
+    private boolean isAtTarget(){
       int radius = 40;
       float truckX = supplyTruck.getX();
       float truckY = supplyTruck.getY();
@@ -50,10 +64,10 @@ public class BLoadAtResource extends Behaviour {
 
       if(truckX > targetX-radius && truckX < targetX+radius &&
               truckY > targetY-radius && truckY < targetY+radius){
-        supplyTruck.setCarryingAmount(supplyTruck.getCarryingMax());
-        
-        supplyTruck.issueCommand(new MoveToResourceCommand(oilDerrick, warehouse));
-      }
+        return true;
+      }else{
+        return false;
+}
     }
     
     @Override

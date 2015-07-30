@@ -4,6 +4,7 @@ import com.dinasgames.engine.graphics.shapes.CircleShape;
 import com.dinasgames.engine.graphics.Color;
 import com.dinasgames.engine.graphics.shapes.RectangleShape;
 import com.dinasgames.engine.graphics.Renderer;
+import com.dinasgames.engine.graphics.statusbars.StatusBar;
 import com.dinasgames.engine.math.Vector2f;
 import com.dinasgames.main.objects.GameObjectType;
 import com.dinasgames.main.objects.RenderEvents;
@@ -18,6 +19,8 @@ public class NewBuilding extends Building implements RenderEvents {
      */
     protected RectangleShape mShapeBody;
     protected Building finishedBuilding;
+    protected int buildingProgressPercent;
+    protected StatusBar buildingProgress;
     
     /**
      * Default constructor.
@@ -100,6 +103,18 @@ public class NewBuilding extends Building implements RenderEvents {
         mShapeBody.setOutlineThickness(5.f);
         mShapeBody.setOriginCenter();
         
+        buildingProgress = new StatusBar();
+        
+        buildingProgress.setDepth(-100);
+        buildingProgress.setHeight(3.f);
+        buildingProgress.setFillColor(Color.BLACK());
+        buildingProgress.setForegroundColor(Color.GREEN());
+        buildingProgress.setOutlineThickness(1.f);
+        buildingProgress.setOutlineColor(Color.BLACK());
+        buildingProgress.setCurrentValue(buildingProgressPercent);
+        buildingProgress.setMaxValue(100);
+        
+        r.add(buildingProgress);
         r.add(mShapeBody);
         
     }
@@ -112,6 +127,14 @@ public class NewBuilding extends Building implements RenderEvents {
         mShapeBody.setPosition(mX, mY);
         mShapeBody.setRotation(mRotation);
         
+        buildingProgress.setCurrentValue(buildingProgressPercent);
+        buildingProgress.setSize(mBoundingBox.width, buildingProgress.getSize().y);
+        
+        if(mSelected) {
+          buildingProgress.setPosition(mBoundingBox.x, mBoundingBox.y-17);
+        }else{
+          buildingProgress.setPosition(mBoundingBox.x, mBoundingBox.y-7);
+        }
     }
     
     @Override
@@ -120,11 +143,20 @@ public class NewBuilding extends Building implements RenderEvents {
         super.onRenderRemove(r);
         
         r.remove(mShapeBody);
+        r.remove(buildingProgress);
         
     }
     
     public Building getFinishedBuilding(){
       return finishedBuilding;
+    }
+    
+    public int getBuildingProgressPercent(){
+      return buildingProgressPercent;
+    }
+    
+    public void setBuildingProgressPercent(int buildingProgressPercent){
+      this.buildingProgressPercent = buildingProgressPercent;
     }
     
     public void setFinishedBuilding(Building finishedBuilding){

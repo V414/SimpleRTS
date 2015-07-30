@@ -153,6 +153,10 @@ public class TestScene extends Scene {
         missileBattery.setPosition(200, 100);
         missileBattery.setOwner(getLocalPlayer());
         
+        Bulldozer b = new Bulldozer(this);
+        b.setPosition(100, 500);
+        b.setOwner(getLocalPlayer());
+        
         
 //      Map map = new SymmetricalMap();
 //      map.createMap();
