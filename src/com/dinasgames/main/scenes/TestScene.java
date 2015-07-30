@@ -1,6 +1,6 @@
 package com.dinasgames.main.scenes;
 
-import com.dinasgames.engine.graphics.MapDrawer;
+//import com.dinasgames.engine.graphics.MapDrawer;
 import com.dinasgames.main.games.Game;
 import com.dinasgames.main.games.LocalGame;
 import com.dinasgames.main.maps.FunkyMap;
@@ -86,15 +86,15 @@ public class TestScene extends Scene {
         }
         
         // Generate the map
-        map.createMap();
+        //map.createMap();
         
-        List<Vector2f> spawnLocations = map.getPlayerStart();
+        List<Vector2f> spawnLocations = map.getPlayerStartPositions();
         PlayerList playerList = ((LocalGame)mGame).getPlayerList();
         
         // Render the map
-        MapDrawer mapDrawer = new MapDrawer(map);
-        mapDrawer.setScene(this);
-        mapDrawer.render(mRenderer);
+//        MapDrawer mapDrawer = new MapDrawer(map);
+//        mapDrawer.setScene(this);
+//        mapDrawer.render(mRenderer);
         
         // Add some fake players
         for(int i = 0; i < spawnLocations.size() - 1; i++) {
@@ -103,6 +103,9 @@ public class TestScene extends Scene {
         
         // Spawn the players
         spawnPlayerBases( playerList, spawnLocations );
+        
+        // Render the map
+        map.render(getRenderer());
         
     }
     
