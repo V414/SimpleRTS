@@ -16,6 +16,7 @@ import com.dinasgames.main.objects.entities.units.vehicles.land.Bulldozer;
 import com.dinasgames.main.objects.entities.units.vehicles.land.SupplyTruck;
 import com.dinasgames.main.scenes.Scene;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.objects.entities.buildings.Barracks;
 import com.dinasgames.net.StateValue;
 
 public class BBuildBuilding extends Behaviour {
@@ -73,9 +74,19 @@ public class BBuildBuilding extends Behaviour {
     
     private void addBuilding(){
       if(newBuilding.getFinishedBuilding().hasType(GameObjectType.PowerPlant)){
-        PowerPlant powerPlant = new PowerPlant(scene);
-        powerPlant.setPosition(newBuilding.getPosition());
-        powerPlant.setOwner(newBuilding.getOwner());
+        PowerPlant building = new PowerPlant(scene);
+        building.setPosition(newBuilding.getPosition());
+        building.setOwner(newBuilding.getOwner());
+        newBuilding.destroy();
+      }else if(newBuilding.getFinishedBuilding().hasType(GameObjectType.Barracks)){
+        Barracks building = new Barracks(scene);
+        building.setPosition(newBuilding.getPosition());
+        building.setOwner(newBuilding.getOwner());
+        newBuilding.destroy();
+      }else if(newBuilding.getFinishedBuilding().hasType(GameObjectType.Warehouse)){
+        Warehouse building = new Warehouse(scene);
+        building.setPosition(newBuilding.getPosition());
+        building.setOwner(newBuilding.getOwner());
         newBuilding.destroy();
       }
     }

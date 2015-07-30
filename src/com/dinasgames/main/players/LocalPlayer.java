@@ -12,6 +12,8 @@ import com.dinasgames.main.objects.entities.Entity;
 import com.dinasgames.main.objects.entities.buildings.NewBuilding;
 import com.dinasgames.main.objects.entities.buildings.PowerPlant;
 import com.dinasgames.engine.system.Time;
+import com.dinasgames.main.objects.entities.buildings.Barracks;
+import com.dinasgames.main.objects.entities.buildings.Warehouse;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -96,6 +98,16 @@ public class LocalPlayer extends Player {
           speed *= 2.f;
           if(input.keyP && !previousInput.keyP){
             NewBuilding newBuilding = new NewBuilding(mScene, new PowerPlant(null));
+            newBuilding.setPosition(input.mousePosition.x, input.mousePosition.y);
+            newBuilding.setOwner(mScene.getLocalPlayer());
+          }
+          if(input.keyB && !previousInput.keyB){
+            NewBuilding newBuilding = new NewBuilding(mScene, new Barracks(null));
+            newBuilding.setPosition(input.mousePosition.x, input.mousePosition.y);
+            newBuilding.setOwner(mScene.getLocalPlayer());
+          }
+          if(input.keyW && !previousInput.keyW){
+            NewBuilding newBuilding = new NewBuilding(mScene, new Warehouse(null));
             newBuilding.setPosition(input.mousePosition.x, input.mousePosition.y);
             newBuilding.setOwner(mScene.getLocalPlayer());
           }
