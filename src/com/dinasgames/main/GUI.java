@@ -13,6 +13,12 @@ public class GUI {
   protected static Font font = Font.get("com/dinasgames/main/resources/arial.ttf");
   
   protected RectangleShape topBar;
+  protected RectangleShape topBarCenter;
+  
+  protected RectangleShape bottomBar;
+  protected RectangleShape minimap;
+  
+  
   protected Scene mScene;
   protected float mWindowWidth;
   protected float mWindowHeight;
@@ -35,7 +41,37 @@ public class GUI {
       topBar.setDepth(-999);
       topBar.setGUI(true);
       
+      topBarCenter = new RectangleShape(200, 70);
+      topBarCenter.setPosition(mWindowWidth/2-100, 0);
+      topBarCenter.setFillColor(new Color(150, 200, 200));
+      topBarCenter.setOutlineColor(Color.BLACK());
+      topBarCenter.setOutlineThickness(2.f);
+      topBarCenter.setOrigin(0, 0);
+      topBarCenter.setDepth(-999);
+      topBarCenter.setGUI(true);
+      
+      bottomBar = new RectangleShape(mWindowWidth, 30);
+      bottomBar.setPosition(0, mWindowHeight-bottomBar.getHeight());
+      bottomBar.setFillColor(new Color(150, 200, 200));
+      bottomBar.setOutlineColor(Color.BLACK());
+      bottomBar.setOutlineThickness(2.f);
+      bottomBar.setOrigin(0, 0);
+      bottomBar.setDepth(-999);
+      bottomBar.setGUI(true);
+      
+      minimap = new RectangleShape(200, 200);
+      minimap.setPosition(mWindowWidth - minimap.getWidth(), mWindowHeight-minimap.getHeight()-bottomBar.getHeight()-2);
+      minimap.setFillColor(new Color(150, 200, 200));
+      minimap.setOutlineColor(Color.BLACK());
+      minimap.setOutlineThickness(2.f);
+      minimap.setOrigin(0, 0);
+      minimap.setDepth(-999);
+      minimap.setGUI(true);
+      
+      r.add(bottomBar);
       r.add(topBar);
+      r.add(topBarCenter);
+      r.add(minimap);
     }
     
   }
